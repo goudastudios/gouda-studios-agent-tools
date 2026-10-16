@@ -1,0 +1,162 @@
+{
+  "title": "SAM.gov Contract Opportunities Feed",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "keywords": {
+      "title": "Keywords",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Optional free-text search over SAM.gov notice titles and text, e.g. \"cybersecurity\" or \"janitorial services\". Leave empty to return all notices that match the other filters.",
+      "prefill": "software"
+    },
+    "naicsCodes": {
+      "title": "NAICS codes",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional list of 6-digit NAICS industry codes (strings), e.g. [\"541511\",\"541512\"]. A notice matches if it has any of them. Empty = all industries.",
+      "default": []
+    },
+    "noticeTypes": {
+      "title": "Notice types",
+      "type": "array",
+      "editor": "select",
+      "description": "Optional list of notice type codes: o=Solicitation, k=Combined Synopsis/Solicitation, p=Presolicitation, r=Sources Sought, s=Special Notice, a=Award Notice, u=Justification, i=Intent to Bundle, g=Surplus sale. Empty = all types.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "o",
+          "k",
+          "p",
+          "r",
+          "s",
+          "a",
+          "u",
+          "i",
+          "g"
+        ],
+        "enumTitles": [
+          "Solicitation",
+          "Combined Synopsis/Solicitation",
+          "Presolicitation",
+          "Sources Sought",
+          "Special Notice",
+          "Award Notice",
+          "Justification (J&A)",
+          "Intent to Bundle",
+          "Sale of Surplus Property"
+        ]
+      },
+      "default": []
+    },
+    "setAsides": {
+      "title": "Set-asides",
+      "type": "array",
+      "editor": "select",
+      "description": "Optional small-business set-aside codes, e.g. [\"SBA\",\"8A\",\"SDVOSBC\",\"WOSB\",\"HZC\"]. Empty = any set-aside or none.",
+      "items": {
+        "type": "string",
+        "enum": [
+          "SBA",
+          "SBP",
+          "8A",
+          "8AN",
+          "HZC",
+          "HZS",
+          "SDVOSBC",
+          "SDVOSBS",
+          "WOSB",
+          "WOSBSS",
+          "EDWOSB",
+          "EDWOSBSS",
+          "VSA",
+          "VSS"
+        ],
+        "enumTitles": [
+          "Total Small Business",
+          "Partial Small Business",
+          "8(a) Competed",
+          "8(a) Sole Source",
+          "HUBZone",
+          "HUBZone Sole Source",
+          "SDVOSB",
+          "SDVOSB Sole Source",
+          "WOSB",
+          "WOSB Sole Source",
+          "EDWOSB",
+          "EDWOSB Sole Source",
+          "Veteran-Owned",
+          "Veteran-Owned Sole Source"
+        ]
+      },
+      "default": []
+    },
+    "states": {
+      "title": "Place of performance (state codes)",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional 2-letter US state codes for the place of performance, e.g. [\"VA\",\"MD\"]. Requires includeDetails=true. Empty = all locations.",
+      "default": []
+    },
+    "agencyContains": {
+      "title": "Agency contains",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Optional case-insensitive text the agency path must contain, e.g. \"Navy\" or \"Veterans Affairs\"."
+    },
+    "postedWithinDays": {
+      "title": "Posted/updated within (days)",
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Only notices posted or updated in the last N days. 0 = no date limit. Use 1-7 for daily/weekly monitoring."
+    },
+    "minDaysUntilResponse": {
+      "title": "Minimum days until response deadline",
+      "type": "integer",
+      "minimum": 0,
+      "description": "Optional. Skip notices whose response deadline is fewer than N days away, so you only get ones you can still bid on."
+    },
+    "activeOnly": {
+      "title": "Active notices only",
+      "type": "boolean",
+      "default": true,
+      "description": "true (default) = skip archived/inactive notices."
+    },
+    "includeDetails": {
+      "title": "Fetch full details",
+      "type": "boolean",
+      "default": true,
+      "description": "true (default) = fetch each notice for NAICS, PSC, set-aside, place of performance, full description and contacts. false = faster, fewer fields."
+    },
+    "includeContacts": {
+      "title": "Include contracting officer contacts",
+      "type": "boolean",
+      "default": true,
+      "description": "true (default) = include the contracting officer work name, email and phone published on the notice."
+    },
+    "onlyNew": {
+      "title": "Only new since last run (monitor mode)",
+      "type": "boolean",
+      "default": false,
+      "description": "true = return only notices not delivered in an earlier run with the same filters (state is kept between runs). Use with a schedule for an alert feed."
+    },
+    "maxResults": {
+      "title": "Max results",
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 10000,
+      "default": 100,
+      "description": "Maximum rows to return (1-10000). You are charged per row returned, so this caps the cost: 100 rows = $0.20 at $0.002/row."
+    },
+    "apiKey": {
+      "title": "SAM.gov API key (optional)",
+      "type": "string",
+      "editor": "textfield",
+      "isSecret": true,
+      "description": "Optional. Your own free api.sam.gov public API key; when set, the Actor reads the official SAM.gov Opportunities API instead of the public search feed."
+    }
+  },
+  "required": [],
+  "description": "Returns U.S. federal contract opportunities (RFPs, RFQs, sources sought, award notices) from SAM.gov as one JSON row per notice. All inputs are optional; a good default is {\"keywords\":\"software\",\"postedWithinDays\":7,\"maxResults\":50}. Pricing: pay per event, $0.002 per opportunity row returned."
+}

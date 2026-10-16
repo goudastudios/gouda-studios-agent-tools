@@ -1,0 +1,117 @@
+{
+  "actorSpecification": 1,
+  "views": {
+    "overview": {
+      "title": "Filings",
+      "transformation": {
+        "fields": [
+          "companyName",
+          "cik",
+          "form",
+          "filingDate",
+          "acceptedAt",
+          "items",
+          "indexUrl",
+          "documentUrl"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "companyName": {
+            "label": "companyName"
+          },
+          "cik": {
+            "label": "cik"
+          },
+          "form": {
+            "label": "form"
+          },
+          "filingDate": {
+            "label": "filingDate"
+          },
+          "acceptedAt": {
+            "label": "acceptedAt"
+          },
+          "items": {
+            "label": "items"
+          },
+          "indexUrl": {
+            "label": "indexUrl",
+            "format": "link"
+          },
+          "documentUrl": {
+            "label": "documentUrl",
+            "format": "link"
+          }
+        }
+      }
+    }
+  },
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "companyName": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "cik": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "filerRole": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "form": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "filingDate": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "acceptedAt": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "accessionNumber": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "items": {
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "indexUrl": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "documentUrl": {
+        "type": [
+          "null"
+        ]
+      }
+    },
+    "additionalProperties": true
+  }
+}

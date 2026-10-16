@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Companies output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Companies",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
+  }
+}

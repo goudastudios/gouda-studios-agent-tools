@@ -1,0 +1,248 @@
+{
+  "actorSpecification": 1,
+  "views": {
+    "overview": {
+      "title": "Opportunities",
+      "transformation": {
+        "fields": [
+          "title",
+          "noticeType",
+          "agencyPath",
+          "naicsCodes",
+          "setAside",
+          "placeOfPerformanceState",
+          "postedDate",
+          "responseDeadline",
+          "daysUntilResponse",
+          "url"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "title": {
+            "label": "Title"
+          },
+          "noticeType": {
+            "label": "Type"
+          },
+          "agencyPath": {
+            "label": "Agency"
+          },
+          "naicsCodes": {
+            "label": "NAICS"
+          },
+          "setAside": {
+            "label": "Set-aside"
+          },
+          "placeOfPerformanceState": {
+            "label": "State"
+          },
+          "postedDate": {
+            "label": "Posted",
+            "format": "date"
+          },
+          "responseDeadline": {
+            "label": "Responses due",
+            "format": "date"
+          },
+          "daysUntilResponse": {
+            "label": "Days left",
+            "format": "number"
+          },
+          "url": {
+            "label": "Link",
+            "format": "link"
+          }
+        }
+      }
+    }
+  },
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "noticeId": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "title": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "solicitationNumber": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "noticeType": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "noticeTypeCode": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "department": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "subTier": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "office": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "agencyPath": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "postedDate": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "modifiedDate": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "responseDeadline": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "daysUntilResponse": {
+        "type": [
+          "null",
+          "number"
+        ]
+      },
+      "naicsCodes": {
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "pscCode": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "setAside": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "placeOfPerformanceCity": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "placeOfPerformanceState": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "placeOfPerformanceCountry": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "awardee": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "awardAmount": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "awardDate": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "isActive": {
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "isCanceled": {
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "description": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "contacts": {
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "url": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "detailFetched": {
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "source": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "scrapedAt": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": true
+  }
+}

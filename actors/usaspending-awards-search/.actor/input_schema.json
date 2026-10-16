@@ -1,0 +1,96 @@
+{
+  "title": "USAspending Federal Awards Search: Contracts, Grants, Recipients",
+  "type": "object",
+  "schemaVersion": 1,
+  "description": "Returns U.S. federal spending awards (contracts, IDVs, grants, loans) from the official USAspending.gov API, one JSON row per award, largest first. Example: {\"keywords\":[\"cybersecurity\"],\"awardType\":\"contracts\",\"startDate\":\"2026-01-01\",\"maxResults\":50}. Pricing: $0.0015 per award row.",
+  "properties": {
+    "keywords": {
+      "title": "Keywords",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional words to match in award descriptions, e.g. [\"cybersecurity\"].",
+      "prefill": [
+        "cybersecurity"
+      ],
+      "default": []
+    },
+    "recipientNames": {
+      "title": "Recipient names",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional company or organization names (or UEIs), e.g. [\"Booz Allen Hamilton\"]. Find a competitor's federal wins.",
+      "default": []
+    },
+    "awardingAgencies": {
+      "title": "Awarding agencies",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional top-tier agency names exactly as USAspending lists them, e.g. [\"Department of Defense\",\"Department of Veterans Affairs\"].",
+      "default": []
+    },
+    "naicsCodes": {
+      "title": "NAICS codes",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional NAICS codes (contracts only), e.g. [\"541512\"].",
+      "default": []
+    },
+    "states": {
+      "title": "Place of performance states",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional 2-letter state codes, e.g. [\"VA\",\"TX\"].",
+      "default": []
+    },
+    "awardType": {
+      "title": "Award type",
+      "type": "string",
+      "description": "contracts (default), idvs, grants, loans, direct_payments or other.",
+      "enum": [
+        "contracts",
+        "idvs",
+        "grants",
+        "loans",
+        "direct_payments",
+        "other"
+      ],
+      "default": "contracts"
+    },
+    "startDate": {
+      "title": "Start date",
+      "type": "string",
+      "description": "YYYY-MM-DD. Defaults to 90 days ago. USAspending data starts 2007-10-01.",
+      "editor": "textfield"
+    },
+    "endDate": {
+      "title": "End date",
+      "type": "string",
+      "description": "YYYY-MM-DD. Defaults to today.",
+      "editor": "textfield"
+    },
+    "minAmount": {
+      "title": "Minimum amount (USD)",
+      "type": "integer",
+      "description": "Optional lower bound on award amount."
+    },
+    "maxAmount": {
+      "title": "Maximum amount (USD)",
+      "type": "integer",
+      "description": "Optional upper bound on award amount."
+    },
+    "onlyNew": {
+      "title": "Only new since last run",
+      "type": "boolean",
+      "description": "true = skip awards delivered by an earlier run with the same filters.",
+      "default": false
+    },
+    "maxResults": {
+      "title": "Max results",
+      "type": "integer",
+      "description": "Maximum rows (1-10000). You pay per row: 100 rows = $0.15.",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 10000
+    }
+  }
+}

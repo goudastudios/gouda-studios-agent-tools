@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Opportunities output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Opportunities",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
+  }
+}

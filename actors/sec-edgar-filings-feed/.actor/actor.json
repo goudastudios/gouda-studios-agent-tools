@@ -1,0 +1,16 @@
+{
+  "actorSpecification": 1,
+  "name": "sec-edgar-filings-feed",
+  "title": "SEC EDGAR Filings Feed: 8-K, 10-K, 10-Q, Form 4, Form D, S-1",
+  "description": "New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "./Dockerfile",
+  "minMemoryMbytes": 256,
+  "maxMemoryMbytes": 1024,
+  "output": "./output_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  }
+}

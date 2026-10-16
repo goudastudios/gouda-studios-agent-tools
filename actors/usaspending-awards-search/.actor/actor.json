@@ -1,0 +1,16 @@
+{
+  "actorSpecification": 1,
+  "name": "usaspending-awards-search",
+  "title": "USAspending Federal Awards: Contracts, Grants, Recipients",
+  "description": "Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "./Dockerfile",
+  "minMemoryMbytes": 256,
+  "maxMemoryMbytes": 1024,
+  "output": "./output_schema.json",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  }
+}

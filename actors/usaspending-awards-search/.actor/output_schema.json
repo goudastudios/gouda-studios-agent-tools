@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Awards output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Awards",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
+  }
+}

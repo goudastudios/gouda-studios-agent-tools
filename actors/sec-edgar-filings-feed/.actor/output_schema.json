@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Filings output",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Filings",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
+  }
+}

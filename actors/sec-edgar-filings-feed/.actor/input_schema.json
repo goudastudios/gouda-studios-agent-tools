@@ -1,0 +1,63 @@
+{
+  "title": "SEC EDGAR Filings Feed: 8-K, 10-K, 10-Q, Form 4, Form D, S-1",
+  "type": "object",
+  "schemaVersion": 1,
+  "description": "Returns SEC EDGAR filings as one JSON row per filing, from official sec.gov / data.sec.gov endpoints. With tickers or CIKs it reads each company's filing history; with neither it returns the latest market-wide filings of the chosen form types. Example: {\"tickers\":[\"AAPL\",\"TSLA\"],\"formTypes\":[\"8-K\",\"10-Q\"],\"filedWithinDays\":30}. Pricing: $0.002 per filing row.",
+  "properties": {
+    "tickers": {
+      "title": "Tickers",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional stock tickers, e.g. [\"AAPL\",\"NVDA\"]. Resolved to CIKs with the SEC ticker file.",
+      "prefill": [
+        "AAPL",
+        "TSLA"
+      ],
+      "default": []
+    },
+    "ciks": {
+      "title": "CIK numbers",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional SEC Central Index Keys, e.g. [\"320193\"]. Leave tickers and CIKs empty to get latest filings across all companies.",
+      "default": []
+    },
+    "formTypes": {
+      "title": "Form types",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Form types to include, e.g. [\"8-K\",\"10-K\",\"10-Q\",\"4\",\"D\",\"S-1\",\"13F-HR\",\"SC 13D\"]. Empty = all forms (company mode only; market-wide mode needs at least one).",
+      "prefill": [
+        "8-K"
+      ],
+      "default": []
+    },
+    "filedWithinDays": {
+      "title": "Filed within (days)",
+      "type": "integer",
+      "description": "Only filings from the last N days. 0 = no limit (company mode returns the ~1000 most recent).",
+      "default": 7,
+      "minimum": 0
+    },
+    "onlyNew": {
+      "title": "Only new since last run",
+      "type": "boolean",
+      "description": "true = skip filings delivered by an earlier run with the same tickers/CIKs/forms. Use with a schedule for an alert feed.",
+      "default": false
+    },
+    "maxResults": {
+      "title": "Max results",
+      "type": "integer",
+      "description": "Maximum rows (1-5000). You pay per row, so this caps cost: 100 rows = $0.20.",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 5000
+    },
+    "contactEmail": {
+      "title": "Contact email for SEC User-Agent",
+      "type": "string",
+      "description": "Optional. SEC asks automated clients to identify themselves; this email is sent in the User-Agent header to sec.gov only.",
+      "editor": "textfield"
+    }
+  }
+}

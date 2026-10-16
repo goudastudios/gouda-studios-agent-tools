@@ -1,0 +1,14 @@
+{
+  "actorSpecification": 1,
+  "name": "sam-gov-opportunities-feed",
+  "title": "SAM.gov Contract Opportunities: RFPs, Set-Asides, Deadlines",
+  "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "./Dockerfile",
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "output": "./output_schema.json"
+}

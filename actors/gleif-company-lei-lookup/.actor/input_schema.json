@@ -1,0 +1,66 @@
+{
+  "title": "Company Lookup by Name or LEI: Legal Entity, Address, Parent (GLEIF)",
+  "type": "object",
+  "schemaVersion": 1,
+  "description": "Looks up legal entities worldwide in the official GLEIF Legal Entity Identifier (LEI) database and returns one JSON row per matched company with legal name, status, address, registration number and parent companies. Example: {\"companyNames\":[\"Apple Inc.\"],\"country\":\"US\"} or {\"leis\":[\"HWUPKR0MPOU8FGXBT394\"]}. Pricing: $0.003 per company row.",
+  "properties": {
+    "companyNames": {
+      "title": "Company names",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Legal names to look up, e.g. [\"Apple Inc.\",\"Siemens AG\"]. Exact legal name match first, then fuzzy full-text.",
+      "prefill": [
+        "Apple Inc."
+      ],
+      "default": []
+    },
+    "leis": {
+      "title": "LEI codes",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional 20-character LEIs to fetch directly.",
+      "default": []
+    },
+    "registrationNumbers": {
+      "title": "Registration numbers",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Optional company-registry numbers as reported to GLEIF (registeredAs), e.g. a UK Companies House number.",
+      "default": []
+    },
+    "country": {
+      "title": "Country",
+      "type": "string",
+      "description": "Optional ISO 2-letter country of the legal address, e.g. US, GB, DE. Improves name matching.",
+      "editor": "textfield"
+    },
+    "activeOnly": {
+      "title": "Active entities only",
+      "type": "boolean",
+      "description": "true (default) = skip lapsed/inactive entities for name and registration searches.",
+      "default": true
+    },
+    "maxMatchesPerName": {
+      "title": "Max matches per name",
+      "type": "integer",
+      "description": "How many candidate entities to return per name or registration number (1-50).",
+      "default": 3,
+      "minimum": 1,
+      "maximum": 50
+    },
+    "includeParents": {
+      "title": "Include parent companies",
+      "type": "boolean",
+      "description": "true (default) = add direct and ultimate parent (LEI, name, country) where reported.",
+      "default": true
+    },
+    "maxResults": {
+      "title": "Max results",
+      "type": "integer",
+      "description": "Maximum rows overall (1-5000). You pay per row: 100 rows = $0.30.",
+      "default": 100,
+      "minimum": 1,
+      "maximum": 5000
+    }
+  }
+}

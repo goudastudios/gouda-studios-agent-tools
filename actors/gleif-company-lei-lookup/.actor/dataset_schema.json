@@ -1,0 +1,184 @@
+{
+  "actorSpecification": 1,
+  "views": {
+    "overview": {
+      "title": "Companies",
+      "transformation": {
+        "fields": [
+          "legalName",
+          "lei",
+          "status",
+          "jurisdiction",
+          "registeredAs",
+          "lastUpdateDate",
+          "url"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "legalName": {
+            "label": "legalName"
+          },
+          "lei": {
+            "label": "lei"
+          },
+          "status": {
+            "label": "status"
+          },
+          "jurisdiction": {
+            "label": "jurisdiction"
+          },
+          "registeredAs": {
+            "label": "registeredAs"
+          },
+          "lastUpdateDate": {
+            "label": "lastUpdateDate"
+          },
+          "url": {
+            "label": "url",
+            "format": "link"
+          }
+        }
+      }
+    }
+  },
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "query": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "lei": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "legalName": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "otherNames": {
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "status": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "registrationStatus": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "category": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "legalFormId": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "jurisdiction": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "registeredAs": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "registrationAuthorityId": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "legalAddress": {
+        "type": [
+          "null",
+          "object"
+        ]
+      },
+      "headquartersAddress": {
+        "type": [
+          "null",
+          "object"
+        ]
+      },
+      "entityCreatedAt": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "initialRegistrationDate": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "lastUpdateDate": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "nextRenewalDate": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "bic": {
+        "type": [
+          "array",
+          "null"
+        ]
+      },
+      "successorLei": {
+        "type": [
+          "null"
+        ]
+      },
+      "url": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "directParent": {
+        "type": [
+          "null",
+          "object"
+        ]
+      },
+      "ultimateParent": {
+        "type": [
+          "null",
+          "object"
+        ]
+      }
+    },
+    "additionalProperties": true
+  }
+}

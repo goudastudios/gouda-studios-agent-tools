@@ -1,0 +1,745 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Gouda Studios Agent Tools (via Apify)",
+    "version": "1.0.0",
+    "description": "Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com.",
+    "contact": {
+      "email": "m0f@mail.grokbot.com",
+      "url": "https://gouda-studios-agent-tools.vercel.app"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://api.apify.com/v2"
+    }
+  ],
+  "security": [
+    {
+      "bearer": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer",
+        "description": "Apify API token"
+      }
+    }
+  },
+  "paths": {
+    "/acts/gouda_studios~sam-gov-opportunities-feed/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_sam_gov_opportunities_feed",
+        "summary": "Run SAM.gov Contract Opportunities and return dataset items",
+        "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed. Pricing: $0.001 per run + $0.002 per opportunity.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/sam-gov-opportunities-feed"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "string",
+                    "description": "Optional free-text search over SAM.gov notice titles and text, e.g. \"cybersecurity\" or \"janitorial services\". Leave empty to return all notices that match the other filters."
+                  },
+                  "naicsCodes": {
+                    "type": "array",
+                    "description": "Optional list of 6-digit NAICS industry codes (strings), e.g. [\"541511\",\"541512\"]. A notice matches if it has any of them. Empty = all industries.",
+                    "default": []
+                  },
+                  "noticeTypes": {
+                    "type": "array",
+                    "description": "Optional list of notice type codes: o=Solicitation, k=Combined Synopsis/Solicitation, p=Presolicitation, r=Sources Sought, s=Special Notice, a=Award Notice, u=Justification, i=Intent to Bundle, g=Surplus sale. Empty = all types.",
+                    "default": []
+                  },
+                  "setAsides": {
+                    "type": "array",
+                    "description": "Optional small-business set-aside codes, e.g. [\"SBA\",\"8A\",\"SDVOSBC\",\"WOSB\",\"HZC\"]. Empty = any set-aside or none.",
+                    "default": []
+                  },
+                  "states": {
+                    "type": "array",
+                    "description": "Optional 2-letter US state codes for the place of performance, e.g. [\"VA\",\"MD\"]. Requires includeDetails=true. Empty = all locations.",
+                    "default": []
+                  },
+                  "agencyContains": {
+                    "type": "string",
+                    "description": "Optional case-insensitive text the agency path must contain, e.g. \"Navy\" or \"Veterans Affairs\"."
+                  },
+                  "postedWithinDays": {
+                    "type": "integer",
+                    "description": "Only notices posted or updated in the last N days. 0 = no date limit. Use 1-7 for daily/weekly monitoring.",
+                    "default": 0
+                  },
+                  "minDaysUntilResponse": {
+                    "type": "integer",
+                    "description": "Optional. Skip notices whose response deadline is fewer than N days away, so you only get ones you can still bid on."
+                  },
+                  "activeOnly": {
+                    "type": "boolean",
+                    "description": "true (default) = skip archived/inactive notices.",
+                    "default": true
+                  },
+                  "includeDetails": {
+                    "type": "boolean",
+                    "description": "true (default) = fetch each notice for NAICS, PSC, set-aside, place of performance, full description and contacts. false = faster, fewer fields.",
+                    "default": true
+                  },
+                  "includeContacts": {
+                    "type": "boolean",
+                    "description": "true (default) = include the contracting officer work name, email and phone published on the notice.",
+                    "default": true
+                  },
+                  "onlyNew": {
+                    "type": "boolean",
+                    "description": "true = return only notices not delivered in an earlier run with the same filters (state is kept between runs). Use with a schedule for an alert feed.",
+                    "default": false
+                  },
+                  "maxResults": {
+                    "type": "integer",
+                    "description": "Maximum rows to return (1-10000). You are charged per row returned, so this caps the cost: 100 rows = $0.20 at $0.002/row.",
+                    "default": 100
+                  },
+                  "apiKey": {
+                    "type": "string",
+                    "description": "Optional. Your own free api.sam.gov public API key; when set, the Actor reads the official SAM.gov Opportunities API instead of the public search feed."
+                  }
+                }
+              },
+              "example": {
+                "keywords": "cybersecurity",
+                "naicsCodes": [
+                  "541512"
+                ],
+                "setAsides": [
+                  "SBA"
+                ],
+                "postedWithinDays": 7,
+                "maxResults": 25
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "noticeId": {
+                        "description": ""
+                      },
+                      "title": {
+                        "description": ""
+                      },
+                      "solicitationNumber": {
+                        "description": ""
+                      },
+                      "noticeType": {
+                        "description": ""
+                      },
+                      "noticeTypeCode": {
+                        "description": ""
+                      },
+                      "department": {
+                        "description": ""
+                      },
+                      "subTier": {
+                        "description": ""
+                      },
+                      "office": {
+                        "description": ""
+                      },
+                      "agencyPath": {
+                        "description": ""
+                      },
+                      "postedDate": {
+                        "description": ""
+                      },
+                      "modifiedDate": {
+                        "description": ""
+                      },
+                      "responseDeadline": {
+                        "description": ""
+                      },
+                      "daysUntilResponse": {
+                        "description": ""
+                      },
+                      "naicsCodes": {
+                        "description": ""
+                      },
+                      "pscCode": {
+                        "description": ""
+                      },
+                      "setAside": {
+                        "description": ""
+                      },
+                      "placeOfPerformanceCity": {
+                        "description": ""
+                      },
+                      "placeOfPerformanceState": {
+                        "description": ""
+                      },
+                      "placeOfPerformanceCountry": {
+                        "description": ""
+                      },
+                      "awardee": {
+                        "description": ""
+                      },
+                      "awardAmount": {
+                        "description": ""
+                      },
+                      "awardDate": {
+                        "description": ""
+                      },
+                      "isActive": {
+                        "description": ""
+                      },
+                      "isCanceled": {
+                        "description": ""
+                      },
+                      "description": {
+                        "description": ""
+                      },
+                      "contacts": {
+                        "description": ""
+                      },
+                      "url": {
+                        "description": ""
+                      },
+                      "detailFetched": {
+                        "description": ""
+                      },
+                      "source": {
+                        "description": ""
+                      },
+                      "scrapedAt": {
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~sec-edgar-filings-feed/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_sec_edgar_filings_feed",
+        "summary": "Run SEC EDGAR Filings and return dataset items",
+        "description": "New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode. Pricing: $0.001 per run + $0.002 per filing.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/sec-edgar-filings-feed"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "tickers": {
+                    "type": "array",
+                    "description": "Optional stock tickers, e.g. [\"AAPL\",\"NVDA\"]. Resolved to CIKs with the SEC ticker file.",
+                    "default": []
+                  },
+                  "ciks": {
+                    "type": "array",
+                    "description": "Optional SEC Central Index Keys, e.g. [\"320193\"]. Leave tickers and CIKs empty to get latest filings across all companies.",
+                    "default": []
+                  },
+                  "formTypes": {
+                    "type": "array",
+                    "description": "Form types to include, e.g. [\"8-K\",\"10-K\",\"10-Q\",\"4\",\"D\",\"S-1\",\"13F-HR\",\"SC 13D\"]. Empty = all forms (company mode only; market-wide mode needs at least one).",
+                    "default": []
+                  },
+                  "filedWithinDays": {
+                    "type": "integer",
+                    "description": "Only filings from the last N days. 0 = no limit (company mode returns the ~1000 most recent).",
+                    "default": 7
+                  },
+                  "onlyNew": {
+                    "type": "boolean",
+                    "description": "true = skip filings delivered by an earlier run with the same tickers/CIKs/forms. Use with a schedule for an alert feed.",
+                    "default": false
+                  },
+                  "maxResults": {
+                    "type": "integer",
+                    "description": "Maximum rows (1-5000). You pay per row, so this caps cost: 100 rows = $0.20.",
+                    "default": 100
+                  },
+                  "contactEmail": {
+                    "type": "string",
+                    "description": "Optional. SEC asks automated clients to identify themselves; this email is sent in the User-Agent header to sec.gov only."
+                  }
+                }
+              },
+              "example": {
+                "tickers": [
+                  "AAPL",
+                  "TSLA"
+                ],
+                "formTypes": [
+                  "8-K",
+                  "10-Q"
+                ],
+                "filedWithinDays": 30,
+                "maxResults": 50
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "companyName": {
+                        "description": ""
+                      },
+                      "cik": {
+                        "description": ""
+                      },
+                      "filerRole": {
+                        "description": ""
+                      },
+                      "form": {
+                        "description": ""
+                      },
+                      "filingDate": {
+                        "description": ""
+                      },
+                      "acceptedAt": {
+                        "description": ""
+                      },
+                      "accessionNumber": {
+                        "description": ""
+                      },
+                      "items": {
+                        "description": ""
+                      },
+                      "indexUrl": {
+                        "description": ""
+                      },
+                      "documentUrl": {
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~usaspending-awards-search/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_usaspending_awards_search",
+        "summary": "Run USAspending Federal Awards and return dataset items",
+        "description": "Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links. Pricing: $0.001 per run + $0.0015 per award.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/usaspending-awards-search"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "array",
+                    "description": "Optional words to match in award descriptions, e.g. [\"cybersecurity\"].",
+                    "default": []
+                  },
+                  "recipientNames": {
+                    "type": "array",
+                    "description": "Optional company or organization names (or UEIs), e.g. [\"Booz Allen Hamilton\"]. Find a competitor's federal wins.",
+                    "default": []
+                  },
+                  "awardingAgencies": {
+                    "type": "array",
+                    "description": "Optional top-tier agency names exactly as USAspending lists them, e.g. [\"Department of Defense\",\"Department of Veterans Affairs\"].",
+                    "default": []
+                  },
+                  "naicsCodes": {
+                    "type": "array",
+                    "description": "Optional NAICS codes (contracts only), e.g. [\"541512\"].",
+                    "default": []
+                  },
+                  "states": {
+                    "type": "array",
+                    "description": "Optional 2-letter state codes, e.g. [\"VA\",\"TX\"].",
+                    "default": []
+                  },
+                  "awardType": {
+                    "type": "string",
+                    "description": "contracts (default), idvs, grants, loans, direct_payments or other.",
+                    "default": "contracts",
+                    "enum": [
+                      "contracts",
+                      "idvs",
+                      "grants",
+                      "loans",
+                      "direct_payments",
+                      "other"
+                    ]
+                  },
+                  "startDate": {
+                    "type": "string",
+                    "description": "YYYY-MM-DD. Defaults to 90 days ago. USAspending data starts 2007-10-01."
+                  },
+                  "endDate": {
+                    "type": "string",
+                    "description": "YYYY-MM-DD. Defaults to today."
+                  },
+                  "minAmount": {
+                    "type": "integer",
+                    "description": "Optional lower bound on award amount."
+                  },
+                  "maxAmount": {
+                    "type": "integer",
+                    "description": "Optional upper bound on award amount."
+                  },
+                  "onlyNew": {
+                    "type": "boolean",
+                    "description": "true = skip awards delivered by an earlier run with the same filters.",
+                    "default": false
+                  },
+                  "maxResults": {
+                    "type": "integer",
+                    "description": "Maximum rows (1-10000). You pay per row: 100 rows = $0.15.",
+                    "default": 100
+                  }
+                }
+              },
+              "example": {
+                "keywords": [
+                  "cybersecurity"
+                ],
+                "awardType": "contracts",
+                "startDate": "2026-01-01",
+                "maxResults": 50
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "awardId": {
+                        "description": ""
+                      },
+                      "recipientName": {
+                        "description": ""
+                      },
+                      "recipientUei": {
+                        "description": ""
+                      },
+                      "awardAmount": {
+                        "description": ""
+                      },
+                      "totalOutlays": {
+                        "description": ""
+                      },
+                      "description": {
+                        "description": ""
+                      },
+                      "startDate": {
+                        "description": ""
+                      },
+                      "endDate": {
+                        "description": ""
+                      },
+                      "awardingAgency": {
+                        "description": ""
+                      },
+                      "awardingSubAgency": {
+                        "description": ""
+                      },
+                      "fundingAgency": {
+                        "description": ""
+                      },
+                      "awardType": {
+                        "description": ""
+                      },
+                      "naics": {
+                        "description": ""
+                      },
+                      "psc": {
+                        "description": ""
+                      },
+                      "assistanceListings": {
+                        "description": ""
+                      },
+                      "placeOfPerformanceState": {
+                        "description": ""
+                      },
+                      "lastModified": {
+                        "description": ""
+                      },
+                      "internalId": {
+                        "description": ""
+                      },
+                      "url": {
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~gleif-company-lei-lookup/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_gleif_company_lei_lookup",
+        "summary": "Run GLEIF Company LEI Lookup and return dataset items",
+        "description": "Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities. Pricing: $0.001 per run + $0.003 per company.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/gleif-company-lei-lookup"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companyNames": {
+                    "type": "array",
+                    "description": "Legal names to look up, e.g. [\"Apple Inc.\",\"Siemens AG\"]. Exact legal name match first, then fuzzy full-text.",
+                    "default": []
+                  },
+                  "leis": {
+                    "type": "array",
+                    "description": "Optional 20-character LEIs to fetch directly.",
+                    "default": []
+                  },
+                  "registrationNumbers": {
+                    "type": "array",
+                    "description": "Optional company-registry numbers as reported to GLEIF (registeredAs), e.g. a UK Companies House number.",
+                    "default": []
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "Optional ISO 2-letter country of the legal address, e.g. US, GB, DE. Improves name matching."
+                  },
+                  "activeOnly": {
+                    "type": "boolean",
+                    "description": "true (default) = skip lapsed/inactive entities for name and registration searches.",
+                    "default": true
+                  },
+                  "maxMatchesPerName": {
+                    "type": "integer",
+                    "description": "How many candidate entities to return per name or registration number (1-50).",
+                    "default": 3
+                  },
+                  "includeParents": {
+                    "type": "boolean",
+                    "description": "true (default) = add direct and ultimate parent (LEI, name, country) where reported.",
+                    "default": true
+                  },
+                  "maxResults": {
+                    "type": "integer",
+                    "description": "Maximum rows overall (1-5000). You pay per row: 100 rows = $0.30.",
+                    "default": 100
+                  }
+                }
+              },
+              "example": {
+                "companyNames": [
+                  "Apple Inc."
+                ],
+                "country": "US",
+                "maxResults": 10
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "query": {
+                        "description": ""
+                      },
+                      "lei": {
+                        "description": ""
+                      },
+                      "legalName": {
+                        "description": ""
+                      },
+                      "otherNames": {
+                        "description": ""
+                      },
+                      "status": {
+                        "description": ""
+                      },
+                      "registrationStatus": {
+                        "description": ""
+                      },
+                      "category": {
+                        "description": ""
+                      },
+                      "legalFormId": {
+                        "description": ""
+                      },
+                      "jurisdiction": {
+                        "description": ""
+                      },
+                      "registeredAs": {
+                        "description": ""
+                      },
+                      "registrationAuthorityId": {
+                        "description": ""
+                      },
+                      "legalAddress": {
+                        "description": ""
+                      },
+                      "headquartersAddress": {
+                        "description": ""
+                      },
+                      "entityCreatedAt": {
+                        "description": ""
+                      },
+                      "initialRegistrationDate": {
+                        "description": ""
+                      },
+                      "lastUpdateDate": {
+                        "description": ""
+                      },
+                      "nextRenewalDate": {
+                        "description": ""
+                      },
+                      "bic": {
+                        "description": ""
+                      },
+                      "successorLei": {
+                        "description": ""
+                      },
+                      "url": {
+                        "description": ""
+                      },
+                      "directParent": {
+                        "description": ""
+                      },
+                      "ultimateParent": {
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

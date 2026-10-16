@@ -1,0 +1,9 @@
+{
+  "name": "sam-gov-opportunities-feed",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "SAM.gov federal contract opportunities feed with NAICS, set-aside, deadlines and change-only monitoring.",
+  "main": "src/main.js",
+  "scripts": { "start": "node src/main.js" },
+  "dependencies": { "apify": "^3.4.0" }
+}

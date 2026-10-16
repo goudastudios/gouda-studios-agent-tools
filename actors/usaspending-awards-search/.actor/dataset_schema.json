@@ -1,0 +1,174 @@
+{
+  "actorSpecification": 1,
+  "views": {
+    "overview": {
+      "title": "Awards",
+      "transformation": {
+        "fields": [
+          "awardId",
+          "recipientName",
+          "awardAmount",
+          "awardingAgency",
+          "awardType",
+          "startDate",
+          "endDate",
+          "placeOfPerformanceState",
+          "url"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "awardId": {
+            "label": "awardId"
+          },
+          "recipientName": {
+            "label": "recipientName"
+          },
+          "awardAmount": {
+            "label": "awardAmount"
+          },
+          "awardingAgency": {
+            "label": "awardingAgency"
+          },
+          "awardType": {
+            "label": "awardType"
+          },
+          "startDate": {
+            "label": "startDate"
+          },
+          "endDate": {
+            "label": "endDate"
+          },
+          "placeOfPerformanceState": {
+            "label": "placeOfPerformanceState"
+          },
+          "url": {
+            "label": "url",
+            "format": "link"
+          }
+        }
+      }
+    }
+  },
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "awardId": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "recipientName": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "recipientUei": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "awardAmount": {
+        "type": [
+          "null",
+          "number"
+        ]
+      },
+      "totalOutlays": {
+        "type": [
+          "null",
+          "number"
+        ]
+      },
+      "description": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "startDate": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "endDate": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "awardingAgency": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "awardingSubAgency": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "fundingAgency": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "awardType": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "naics": {
+        "type": [
+          "null",
+          "object"
+        ]
+      },
+      "psc": {
+        "type": [
+          "null",
+          "object"
+        ]
+      },
+      "assistanceListings": {
+        "type": [
+          "null"
+        ]
+      },
+      "placeOfPerformanceState": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "lastModified": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "internalId": {
+        "type": [
+          "null",
+          "string"
+        ]
+      },
+      "url": {
+        "type": [
+          "null",
+          "string"
+        ]
+      }
+    },
+    "additionalProperties": true
+  }
+}
