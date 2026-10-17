@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "gouda-studios-agent-tools": {
+      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup",
+      "headers": { "Authorization": "Bearer ${APIFY_TOKEN}" }
+    }
+  }
+}
