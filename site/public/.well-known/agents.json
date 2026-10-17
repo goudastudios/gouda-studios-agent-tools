@@ -1,0 +1,24 @@
+{
+  "name": "Gouda Studios Agent Tools",
+  "description": "Agent-payable public records data tools on Apify.",
+  "url": "https://gouda-studios-agent-tools.vercel.app",
+  "contact": "m0f@mail.grokbot.com",
+  "catalog": "https://gouda-studios-agent-tools.vercel.app/tools.json",
+  "openapi": "https://gouda-studios-agent-tools.vercel.app/openapi.json",
+  "llms": "https://gouda-studios-agent-tools.vercel.app/llms.txt",
+  "repository": "https://github.com/goudastudios/gouda-studios-agent-tools",
+  "mcp": {
+    "server": "https://mcp.apify.com",
+    "tools": [
+      "gouda_studios/sam-gov-opportunities-feed",
+      "gouda_studios/sec-edgar-filings-feed",
+      "gouda_studios/usaspending-awards-search",
+      "gouda_studios/gleif-company-lei-lookup"
+    ]
+  },
+  "payments": [
+    "x402",
+    "Skyfire",
+    "Apify API token"
+  ]
+}

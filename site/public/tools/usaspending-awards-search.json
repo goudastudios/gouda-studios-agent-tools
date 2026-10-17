@@ -1,0 +1,426 @@
+{
+  "slug": "usaspending-awards-search",
+  "name": "USAspending Federal Awards",
+  "title": "USAspending Federal Awards: Contracts, Grants, Recipients",
+  "actor": "gouda_studios/usaspending-awards-search",
+  "apify": "https://apify.com/gouda_studios/usaspending-awards-search",
+  "cat": "Government spending",
+  "uses": [
+    "GovCon BD teams researching competitor wins and incumbents",
+    "Grant seekers and consultants checking who funds what",
+    "AI agents answering who won federal money for a topic, with sourced data"
+  ],
+  "inputs": [
+    {
+      "name": "keywords",
+      "type": "array",
+      "title": "Keywords",
+      "description": "Optional words to match in award descriptions, e.g. [\"cybersecurity\"].",
+      "default": []
+    },
+    {
+      "name": "recipientNames",
+      "type": "array",
+      "title": "Recipient names",
+      "description": "Optional company or organization names (or UEIs), e.g. [\"Booz Allen Hamilton\"]. Find a competitor's federal wins.",
+      "default": []
+    },
+    {
+      "name": "awardingAgencies",
+      "type": "array",
+      "title": "Awarding agencies",
+      "description": "Optional top-tier agency names exactly as USAspending lists them, e.g. [\"Department of Defense\",\"Department of Veterans Affairs\"].",
+      "default": []
+    },
+    {
+      "name": "naicsCodes",
+      "type": "array",
+      "title": "NAICS codes",
+      "description": "Optional NAICS codes (contracts only), e.g. [\"541512\"].",
+      "default": []
+    },
+    {
+      "name": "states",
+      "type": "array",
+      "title": "Place of performance states",
+      "description": "Optional 2-letter state codes, e.g. [\"VA\",\"TX\"].",
+      "default": []
+    },
+    {
+      "name": "awardType",
+      "type": "string",
+      "title": "Award type",
+      "description": "contracts (default), idvs, grants, loans, direct_payments or other.",
+      "default": "contracts",
+      "enum": [
+        "contracts",
+        "idvs",
+        "grants",
+        "loans",
+        "direct_payments",
+        "other"
+      ]
+    },
+    {
+      "name": "startDate",
+      "type": "string",
+      "title": "Start date",
+      "description": "YYYY-MM-DD. Defaults to 90 days ago. USAspending data starts 2007-10-01.",
+      "default": null
+    },
+    {
+      "name": "endDate",
+      "type": "string",
+      "title": "End date",
+      "description": "YYYY-MM-DD. Defaults to today.",
+      "default": null
+    },
+    {
+      "name": "minAmount",
+      "type": "integer",
+      "title": "Minimum amount (USD)",
+      "description": "Optional lower bound on award amount.",
+      "default": null
+    },
+    {
+      "name": "maxAmount",
+      "type": "integer",
+      "title": "Maximum amount (USD)",
+      "description": "Optional upper bound on award amount.",
+      "default": null
+    },
+    {
+      "name": "onlyNew",
+      "type": "boolean",
+      "title": "Only new since last run",
+      "description": "true = skip awards delivered by an earlier run with the same filters.",
+      "default": false
+    },
+    {
+      "name": "maxResults",
+      "type": "integer",
+      "title": "Max results",
+      "description": "Maximum rows (1-10000). You pay per row: 100 rows = $0.15.",
+      "default": 100
+    }
+  ],
+  "outputs": [
+    {
+      "name": "awardId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "recipientName",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "recipientUei",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "awardAmount",
+      "type": [
+        "null",
+        "number"
+      ],
+      "description": ""
+    },
+    {
+      "name": "totalOutlays",
+      "type": [
+        "null",
+        "number"
+      ],
+      "description": ""
+    },
+    {
+      "name": "description",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "startDate",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "endDate",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "awardingAgency",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "awardingSubAgency",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "fundingAgency",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "awardType",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "naics",
+      "type": [
+        "null",
+        "object"
+      ],
+      "description": ""
+    },
+    {
+      "name": "psc",
+      "type": [
+        "null",
+        "object"
+      ],
+      "description": ""
+    },
+    {
+      "name": "assistanceListings",
+      "type": [
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "placeOfPerformanceState",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "lastModified",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "internalId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "url",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    }
+  ],
+  "description": "Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/usaspending-awards-search/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 0.001
+      },
+      {
+        "name": "award",
+        "price": 0.0015,
+        "per": "award"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~usaspending-awards-search/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/usaspending-awards-search"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "keywords": [
+      "cybersecurity"
+    ],
+    "awardType": "contracts",
+    "startDate": "2026-01-01",
+    "maxResults": 50
+  },
+  "sampleOutput": {
+    "awardId": "47QFCA26F0024",
+    "recipientName": "GENERAL DYNAMICS INFORMATION TECHNOLOGY, INC.",
+    "recipientUei": "SMNWM6HN79X5",
+    "awardAmount": 87754106,
+    "totalOutlays": null,
+    "description": "ENTERPRISE NETWORK OPERATIONS AND CYBERSECURITY SUPPORT ENOCS",
+    "startDate": "2026-06-29",
+    "endDate": "2027-06-30",
+    "awardingAgency": "General Services Administration",
+    "awardingSubAgency": "Federal Acquisition Service",
+    "fundingAgency": "Department of Defense",
+    "awardType": "DELIVERY ORDER",
+    "naics": {
+      "code": "541512",
+      "description": "COMPUTER SYSTEMS DESIGN SERVICES"
+    },
+    "psc": {
+      "code": "DJ10",
+      "description": "IT AND TELECOM - SECURITY AND COMPLIANCE AS A SERVICE"
+    },
+    "assistanceListings": null,
+    "placeOfPerformanceState": "VA",
+    "lastModified": "2026-09-30 13:53:41",
+    "internalId": "CONT_AWD_47QFCA26F0024_4732_47QTCK18D0003_4732",
+    "url": "https://www.usaspending.gov/award/CONT_AWD_47QFCA26F0024_4732_47QTCK18D0003_4732"
+  },
+  "inputSchema": {
+    "title": "USAspending Federal Awards Search: Contracts, Grants, Recipients",
+    "type": "object",
+    "schemaVersion": 1,
+    "description": "Returns U.S. federal spending awards (contracts, IDVs, grants, loans) from the official USAspending.gov API, one JSON row per award, largest first. Example: {\"keywords\":[\"cybersecurity\"],\"awardType\":\"contracts\",\"startDate\":\"2026-01-01\",\"maxResults\":50}. Pricing: $0.0015 per award row.",
+    "properties": {
+      "keywords": {
+        "title": "Keywords",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional words to match in award descriptions, e.g. [\"cybersecurity\"].",
+        "prefill": [
+          "cybersecurity"
+        ],
+        "default": []
+      },
+      "recipientNames": {
+        "title": "Recipient names",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional company or organization names (or UEIs), e.g. [\"Booz Allen Hamilton\"]. Find a competitor's federal wins.",
+        "default": []
+      },
+      "awardingAgencies": {
+        "title": "Awarding agencies",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional top-tier agency names exactly as USAspending lists them, e.g. [\"Department of Defense\",\"Department of Veterans Affairs\"].",
+        "default": []
+      },
+      "naicsCodes": {
+        "title": "NAICS codes",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional NAICS codes (contracts only), e.g. [\"541512\"].",
+        "default": []
+      },
+      "states": {
+        "title": "Place of performance states",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional 2-letter state codes, e.g. [\"VA\",\"TX\"].",
+        "default": []
+      },
+      "awardType": {
+        "title": "Award type",
+        "type": "string",
+        "description": "contracts (default), idvs, grants, loans, direct_payments or other.",
+        "enum": [
+          "contracts",
+          "idvs",
+          "grants",
+          "loans",
+          "direct_payments",
+          "other"
+        ],
+        "default": "contracts"
+      },
+      "startDate": {
+        "title": "Start date",
+        "type": "string",
+        "description": "YYYY-MM-DD. Defaults to 90 days ago. USAspending data starts 2007-10-01.",
+        "editor": "textfield"
+      },
+      "endDate": {
+        "title": "End date",
+        "type": "string",
+        "description": "YYYY-MM-DD. Defaults to today.",
+        "editor": "textfield"
+      },
+      "minAmount": {
+        "title": "Minimum amount (USD)",
+        "type": "integer",
+        "description": "Optional lower bound on award amount."
+      },
+      "maxAmount": {
+        "title": "Maximum amount (USD)",
+        "type": "integer",
+        "description": "Optional upper bound on award amount."
+      },
+      "onlyNew": {
+        "title": "Only new since last run",
+        "type": "boolean",
+        "description": "true = skip awards delivered by an earlier run with the same filters.",
+        "default": false
+      },
+      "maxResults": {
+        "title": "Max results",
+        "type": "integer",
+        "description": "Maximum rows (1-10000). You pay per row: 100 rows = $0.15.",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 10000
+      }
+    }
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

@@ -1,0 +1,613 @@
+{
+  "slug": "sam-gov-opportunities-feed",
+  "name": "SAM.gov Contract Opportunities",
+  "title": "SAM.gov Contract Opportunities: RFPs, Set-Asides, Deadlines",
+  "actor": "gouda_studios/sam-gov-opportunities-feed",
+  "apify": "https://apify.com/gouda_studios/sam-gov-opportunities-feed",
+  "cat": "Government contracting",
+  "uses": [
+    "Small businesses and 8(a), HUBZone, SDVOSB and WOSB firms watching set-asides in their NAICS codes",
+    "Bid and capture teams building a daily opportunity pipeline",
+    "GovCon consultants running alerts for many clients",
+    "AI agents answering which federal RFPs are open for a capability"
+  ],
+  "inputs": [
+    {
+      "name": "keywords",
+      "type": "string",
+      "title": "Keywords",
+      "description": "Optional free-text search over SAM.gov notice titles and text, e.g. \"cybersecurity\" or \"janitorial services\". Leave empty to return all notices that match the other filters.",
+      "default": null
+    },
+    {
+      "name": "naicsCodes",
+      "type": "array",
+      "title": "NAICS codes",
+      "description": "Optional list of 6-digit NAICS industry codes (strings), e.g. [\"541511\",\"541512\"]. A notice matches if it has any of them. Empty = all industries.",
+      "default": []
+    },
+    {
+      "name": "noticeTypes",
+      "type": "array",
+      "title": "Notice types",
+      "description": "Optional list of notice type codes: o=Solicitation, k=Combined Synopsis/Solicitation, p=Presolicitation, r=Sources Sought, s=Special Notice, a=Award Notice, u=Justification, i=Intent to Bundle, g=Surplus sale. Empty = all types.",
+      "default": []
+    },
+    {
+      "name": "setAsides",
+      "type": "array",
+      "title": "Set-asides",
+      "description": "Optional small-business set-aside codes, e.g. [\"SBA\",\"8A\",\"SDVOSBC\",\"WOSB\",\"HZC\"]. Empty = any set-aside or none.",
+      "default": []
+    },
+    {
+      "name": "states",
+      "type": "array",
+      "title": "Place of performance (state codes)",
+      "description": "Optional 2-letter US state codes for the place of performance, e.g. [\"VA\",\"MD\"]. Requires includeDetails=true. Empty = all locations.",
+      "default": []
+    },
+    {
+      "name": "agencyContains",
+      "type": "string",
+      "title": "Agency contains",
+      "description": "Optional case-insensitive text the agency path must contain, e.g. \"Navy\" or \"Veterans Affairs\".",
+      "default": null
+    },
+    {
+      "name": "postedWithinDays",
+      "type": "integer",
+      "title": "Posted/updated within (days)",
+      "description": "Only notices posted or updated in the last N days. 0 = no date limit. Use 1-7 for daily/weekly monitoring.",
+      "default": 0
+    },
+    {
+      "name": "minDaysUntilResponse",
+      "type": "integer",
+      "title": "Minimum days until response deadline",
+      "description": "Optional. Skip notices whose response deadline is fewer than N days away, so you only get ones you can still bid on.",
+      "default": null
+    },
+    {
+      "name": "activeOnly",
+      "type": "boolean",
+      "title": "Active notices only",
+      "description": "true (default) = skip archived/inactive notices.",
+      "default": true
+    },
+    {
+      "name": "includeDetails",
+      "type": "boolean",
+      "title": "Fetch full details",
+      "description": "true (default) = fetch each notice for NAICS, PSC, set-aside, place of performance, full description and contacts. false = faster, fewer fields.",
+      "default": true
+    },
+    {
+      "name": "includeContacts",
+      "type": "boolean",
+      "title": "Include contracting officer contacts",
+      "description": "true (default) = include the contracting officer work name, email and phone published on the notice.",
+      "default": true
+    },
+    {
+      "name": "onlyNew",
+      "type": "boolean",
+      "title": "Only new since last run (monitor mode)",
+      "description": "true = return only notices not delivered in an earlier run with the same filters (state is kept between runs). Use with a schedule for an alert feed.",
+      "default": false
+    },
+    {
+      "name": "maxResults",
+      "type": "integer",
+      "title": "Max results",
+      "description": "Maximum rows to return (1-10000). You are charged per row returned, so this caps the cost: 100 rows = $0.20 at $0.002/row.",
+      "default": 100
+    },
+    {
+      "name": "apiKey",
+      "type": "string",
+      "title": "SAM.gov API key (optional)",
+      "description": "Optional. Your own free api.sam.gov public API key; when set, the Actor reads the official SAM.gov Opportunities API instead of the public search feed.",
+      "default": null
+    }
+  ],
+  "outputs": [
+    {
+      "name": "noticeId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "title",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "solicitationNumber",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "noticeType",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "noticeTypeCode",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "department",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "subTier",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "office",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "agencyPath",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "postedDate",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "modifiedDate",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "responseDeadline",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "daysUntilResponse",
+      "type": [
+        "null",
+        "number"
+      ],
+      "description": ""
+    },
+    {
+      "name": "naicsCodes",
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "pscCode",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "setAside",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "placeOfPerformanceCity",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "placeOfPerformanceState",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "placeOfPerformanceCountry",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "awardee",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "awardAmount",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "awardDate",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "isActive",
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "isCanceled",
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "description",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "contacts",
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "url",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "detailFetched",
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "source",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "scrapedAt",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    }
+  ],
+  "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 0.001
+      },
+      {
+        "name": "opportunity",
+        "price": 0.002,
+        "per": "opportunity"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~sam-gov-opportunities-feed/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/sam-gov-opportunities-feed"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "keywords": "cybersecurity",
+    "naicsCodes": [
+      "541512"
+    ],
+    "setAsides": [
+      "SBA"
+    ],
+    "postedWithinDays": 7,
+    "maxResults": 25
+  },
+  "sampleOutput": {
+    "noticeId": "9918efd75fd242f387fb70316e0a71ab",
+    "title": "GA-VGMS-33528",
+    "solicitationNumber": "27M-638A-VA",
+    "noticeType": "Sources Sought",
+    "noticeTypeCode": "r",
+    "department": "DEPT OF DEFENSE",
+    "subTier": "DEPT OF THE AIR FORCE",
+    "office": "FA2263  AFLCMC WNMK",
+    "agencyPath": "DEPT OF DEFENSE > DEPT OF THE AIR FORCE > AIR FORCE MATERIEL COMMAND > AIR FORCE LIFE CYCLE MANAGEMENT CENTER > AGILE COMBAT SYSTEMS > FA2263  AFLCMC WNMK",
+    "postedDate": "2026-10-16T17:49:16+00:00",
+    "modifiedDate": "2026-10-16T17:49:16+00:00",
+    "responseDeadline": "2026-11-17T14:00:00-05:00",
+    "daysUntilResponse": 33,
+    "naicsCodes": [
+      "334515"
+    ],
+    "pscCode": null,
+    "setAside": null,
+    "placeOfPerformanceCity": null,
+    "placeOfPerformanceState": null,
+    "placeOfPerformanceCountry": null,
+    "awardee": null,
+    "awardAmount": null,
+    "awardDate": null,
+    "isActive": true,
+    "isCanceled": false,
+    "description": "This is a request for information (RFI) / SOURCES SOUGHT SYNOPSIS. This request is not a solicitation (Request for Proposal or Request for Quotations) or a promise to issue a solicitation in the future. Responses to this notice are not considered offers and cannot be accepted by the government to fo...",
+    "contacts": [
+      {
+        "type": "primary",
+        "name": "Megan Moretti",
+        "title": null,
+        "email": "megan.moretti@us.af.mil",
+        "phone": "9377135845"
+      },
+      {
+        "type": "secondary",
+        "name": "Frank Capuano",
+        "title": null,
+        "email": "frank.capuano@us.af.mil",
+        "phone": "9377135842"
+      }
+    ],
+    "url": "https://sam.gov/opp/9918efd75fd242f387fb70316e0a71ab/view",
+    "detailFetched": true,
+    "source": "sam.gov public search",
+    "scrapedAt": "2026-10-16T17:52:51.524Z"
+  },
+  "inputSchema": {
+    "title": "SAM.gov Contract Opportunities Feed",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "keywords": {
+        "title": "Keywords",
+        "type": "string",
+        "editor": "textfield",
+        "description": "Optional free-text search over SAM.gov notice titles and text, e.g. \"cybersecurity\" or \"janitorial services\". Leave empty to return all notices that match the other filters.",
+        "prefill": "software"
+      },
+      "naicsCodes": {
+        "title": "NAICS codes",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional list of 6-digit NAICS industry codes (strings), e.g. [\"541511\",\"541512\"]. A notice matches if it has any of them. Empty = all industries.",
+        "default": []
+      },
+      "noticeTypes": {
+        "title": "Notice types",
+        "type": "array",
+        "editor": "select",
+        "description": "Optional list of notice type codes: o=Solicitation, k=Combined Synopsis/Solicitation, p=Presolicitation, r=Sources Sought, s=Special Notice, a=Award Notice, u=Justification, i=Intent to Bundle, g=Surplus sale. Empty = all types.",
+        "items": {
+          "type": "string",
+          "enum": [
+            "o",
+            "k",
+            "p",
+            "r",
+            "s",
+            "a",
+            "u",
+            "i",
+            "g"
+          ],
+          "enumTitles": [
+            "Solicitation",
+            "Combined Synopsis/Solicitation",
+            "Presolicitation",
+            "Sources Sought",
+            "Special Notice",
+            "Award Notice",
+            "Justification (J&A)",
+            "Intent to Bundle",
+            "Sale of Surplus Property"
+          ]
+        },
+        "default": []
+      },
+      "setAsides": {
+        "title": "Set-asides",
+        "type": "array",
+        "editor": "select",
+        "description": "Optional small-business set-aside codes, e.g. [\"SBA\",\"8A\",\"SDVOSBC\",\"WOSB\",\"HZC\"]. Empty = any set-aside or none.",
+        "items": {
+          "type": "string",
+          "enum": [
+            "SBA",
+            "SBP",
+            "8A",
+            "8AN",
+            "HZC",
+            "HZS",
+            "SDVOSBC",
+            "SDVOSBS",
+            "WOSB",
+            "WOSBSS",
+            "EDWOSB",
+            "EDWOSBSS",
+            "VSA",
+            "VSS"
+          ],
+          "enumTitles": [
+            "Total Small Business",
+            "Partial Small Business",
+            "8(a) Competed",
+            "8(a) Sole Source",
+            "HUBZone",
+            "HUBZone Sole Source",
+            "SDVOSB",
+            "SDVOSB Sole Source",
+            "WOSB",
+            "WOSB Sole Source",
+            "EDWOSB",
+            "EDWOSB Sole Source",
+            "Veteran-Owned",
+            "Veteran-Owned Sole Source"
+          ]
+        },
+        "default": []
+      },
+      "states": {
+        "title": "Place of performance (state codes)",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional 2-letter US state codes for the place of performance, e.g. [\"VA\",\"MD\"]. Requires includeDetails=true. Empty = all locations.",
+        "default": []
+      },
+      "agencyContains": {
+        "title": "Agency contains",
+        "type": "string",
+        "editor": "textfield",
+        "description": "Optional case-insensitive text the agency path must contain, e.g. \"Navy\" or \"Veterans Affairs\"."
+      },
+      "postedWithinDays": {
+        "title": "Posted/updated within (days)",
+        "type": "integer",
+        "minimum": 0,
+        "default": 0,
+        "description": "Only notices posted or updated in the last N days. 0 = no date limit. Use 1-7 for daily/weekly monitoring."
+      },
+      "minDaysUntilResponse": {
+        "title": "Minimum days until response deadline",
+        "type": "integer",
+        "minimum": 0,
+        "description": "Optional. Skip notices whose response deadline is fewer than N days away, so you only get ones you can still bid on."
+      },
+      "activeOnly": {
+        "title": "Active notices only",
+        "type": "boolean",
+        "default": true,
+        "description": "true (default) = skip archived/inactive notices."
+      },
+      "includeDetails": {
+        "title": "Fetch full details",
+        "type": "boolean",
+        "default": true,
+        "description": "true (default) = fetch each notice for NAICS, PSC, set-aside, place of performance, full description and contacts. false = faster, fewer fields."
+      },
+      "includeContacts": {
+        "title": "Include contracting officer contacts",
+        "type": "boolean",
+        "default": true,
+        "description": "true (default) = include the contracting officer work name, email and phone published on the notice."
+      },
+      "onlyNew": {
+        "title": "Only new since last run (monitor mode)",
+        "type": "boolean",
+        "default": false,
+        "description": "true = return only notices not delivered in an earlier run with the same filters (state is kept between runs). Use with a schedule for an alert feed."
+      },
+      "maxResults": {
+        "title": "Max results",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 10000,
+        "default": 100,
+        "description": "Maximum rows to return (1-10000). You are charged per row returned, so this caps the cost: 100 rows = $0.20 at $0.002/row."
+      },
+      "apiKey": {
+        "title": "SAM.gov API key (optional)",
+        "type": "string",
+        "editor": "textfield",
+        "isSecret": true,
+        "description": "Optional. Your own free api.sam.gov public API key; when set, the Actor reads the official SAM.gov Opportunities API instead of the public search feed."
+      }
+    },
+    "required": [],
+    "description": "Returns U.S. federal contract opportunities (RFPs, RFQs, sources sought, award notices) from SAM.gov as one JSON row per notice. All inputs are optional; a good default is {\"keywords\":\"software\",\"postedWithinDays\":7,\"maxResults\":50}. Pricing: pay per event, $0.002 per opportunity row returned."
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

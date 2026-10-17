@@ -1,0 +1,402 @@
+{
+  "slug": "gleif-company-lei-lookup",
+  "name": "GLEIF Company LEI Lookup",
+  "title": "Company Lookup by Name or LEI: Entity, Address, Parent (GLEIF)",
+  "actor": "gouda_studios/gleif-company-lei-lookup",
+  "apify": "https://apify.com/gouda_studios/gleif-company-lei-lookup",
+  "cat": "Company data / KYB",
+  "uses": [
+    "KYB, onboarding and compliance checks",
+    "CRM and lead enrichment with verified legal names, addresses and parents",
+    "AI agents that must confirm a company exists and who owns it"
+  ],
+  "inputs": [
+    {
+      "name": "companyNames",
+      "type": "array",
+      "title": "Company names",
+      "description": "Legal names to look up, e.g. [\"Apple Inc.\",\"Siemens AG\"]. Exact legal name match first, then fuzzy full-text.",
+      "default": []
+    },
+    {
+      "name": "leis",
+      "type": "array",
+      "title": "LEI codes",
+      "description": "Optional 20-character LEIs to fetch directly.",
+      "default": []
+    },
+    {
+      "name": "registrationNumbers",
+      "type": "array",
+      "title": "Registration numbers",
+      "description": "Optional company-registry numbers as reported to GLEIF (registeredAs), e.g. a UK Companies House number.",
+      "default": []
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "title": "Country",
+      "description": "Optional ISO 2-letter country of the legal address, e.g. US, GB, DE. Improves name matching.",
+      "default": null
+    },
+    {
+      "name": "activeOnly",
+      "type": "boolean",
+      "title": "Active entities only",
+      "description": "true (default) = skip lapsed/inactive entities for name and registration searches.",
+      "default": true
+    },
+    {
+      "name": "maxMatchesPerName",
+      "type": "integer",
+      "title": "Max matches per name",
+      "description": "How many candidate entities to return per name or registration number (1-50).",
+      "default": 3
+    },
+    {
+      "name": "includeParents",
+      "type": "boolean",
+      "title": "Include parent companies",
+      "description": "true (default) = add direct and ultimate parent (LEI, name, country) where reported.",
+      "default": true
+    },
+    {
+      "name": "maxResults",
+      "type": "integer",
+      "title": "Max results",
+      "description": "Maximum rows overall (1-5000). You pay per row: 100 rows = $0.30.",
+      "default": 100
+    }
+  ],
+  "outputs": [
+    {
+      "name": "query",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "lei",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "legalName",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "otherNames",
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "status",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "registrationStatus",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "category",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "legalFormId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "jurisdiction",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "registeredAs",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "registrationAuthorityId",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "legalAddress",
+      "type": [
+        "null",
+        "object"
+      ],
+      "description": ""
+    },
+    {
+      "name": "headquartersAddress",
+      "type": [
+        "null",
+        "object"
+      ],
+      "description": ""
+    },
+    {
+      "name": "entityCreatedAt",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "initialRegistrationDate",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "lastUpdateDate",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "nextRenewalDate",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "bic",
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "successorLei",
+      "type": [
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "url",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "directParent",
+      "type": [
+        "null",
+        "object"
+      ],
+      "description": ""
+    },
+    {
+      "name": "ultimateParent",
+      "type": [
+        "null",
+        "object"
+      ],
+      "description": ""
+    }
+  ],
+  "description": "Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 0.001
+      },
+      {
+        "name": "company",
+        "price": 0.003,
+        "per": "company"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~gleif-company-lei-lookup/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/gleif-company-lei-lookup"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "companyNames": [
+      "Apple Inc."
+    ],
+    "country": "US",
+    "maxResults": 10
+  },
+  "sampleOutput": {
+    "query": "HWUPKR0MPOU8FGXBT394",
+    "lei": "HWUPKR0MPOU8FGXBT394",
+    "legalName": "Apple Inc.",
+    "otherNames": [
+      "Apple Computer, Inc."
+    ],
+    "status": "ACTIVE",
+    "registrationStatus": "ISSUED",
+    "category": "GENERAL",
+    "legalFormId": "H1UM",
+    "jurisdiction": "US-CA",
+    "registeredAs": "806592",
+    "registrationAuthorityId": "RA000598",
+    "legalAddress": {
+      "lines": [
+        "C/O C T Corporation System",
+        "330 N. Brand Blvd",
+        "Suite 700"
+      ],
+      "city": "Glendale",
+      "region": "US-CA",
+      "postalCode": "91203",
+      "country": "US"
+    },
+    "headquartersAddress": {
+      "lines": [
+        "One Apple Park Way"
+      ],
+      "city": "Cupertino",
+      "region": "US-CA",
+      "postalCode": "95014",
+      "country": "US"
+    },
+    "entityCreatedAt": "1977-01-03T00:00:00Z",
+    "initialRegistrationDate": "2012-06-06T15:53:00Z",
+    "lastUpdateDate": "2026-03-03T16:34:33Z",
+    "nextRenewalDate": "2027-03-08T17:27:20Z",
+    "bic": [
+      "APLEUS66XXX"
+    ],
+    "successorLei": null,
+    "url": "https://search.gleif.org/#/record/HWUPKR0MPOU8FGXBT394",
+    "directParent": null,
+    "ultimateParent": null
+  },
+  "inputSchema": {
+    "title": "Company Lookup by Name or LEI: Legal Entity, Address, Parent (GLEIF)",
+    "type": "object",
+    "schemaVersion": 1,
+    "description": "Looks up legal entities worldwide in the official GLEIF Legal Entity Identifier (LEI) database and returns one JSON row per matched company with legal name, status, address, registration number and parent companies. Example: {\"companyNames\":[\"Apple Inc.\"],\"country\":\"US\"} or {\"leis\":[\"HWUPKR0MPOU8FGXBT394\"]}. Pricing: $0.003 per company row.",
+    "properties": {
+      "companyNames": {
+        "title": "Company names",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Legal names to look up, e.g. [\"Apple Inc.\",\"Siemens AG\"]. Exact legal name match first, then fuzzy full-text.",
+        "prefill": [
+          "Apple Inc."
+        ],
+        "default": []
+      },
+      "leis": {
+        "title": "LEI codes",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional 20-character LEIs to fetch directly.",
+        "default": []
+      },
+      "registrationNumbers": {
+        "title": "Registration numbers",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional company-registry numbers as reported to GLEIF (registeredAs), e.g. a UK Companies House number.",
+        "default": []
+      },
+      "country": {
+        "title": "Country",
+        "type": "string",
+        "description": "Optional ISO 2-letter country of the legal address, e.g. US, GB, DE. Improves name matching.",
+        "editor": "textfield"
+      },
+      "activeOnly": {
+        "title": "Active entities only",
+        "type": "boolean",
+        "description": "true (default) = skip lapsed/inactive entities for name and registration searches.",
+        "default": true
+      },
+      "maxMatchesPerName": {
+        "title": "Max matches per name",
+        "type": "integer",
+        "description": "How many candidate entities to return per name or registration number (1-50).",
+        "default": 3,
+        "minimum": 1,
+        "maximum": 50
+      },
+      "includeParents": {
+        "title": "Include parent companies",
+        "type": "boolean",
+        "description": "true (default) = add direct and ultimate parent (LEI, name, country) where reported.",
+        "default": true
+      },
+      "maxResults": {
+        "title": "Max results",
+        "type": "integer",
+        "description": "Maximum rows overall (1-5000). You pay per row: 100 rows = $0.30.",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 5000
+      }
+    }
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

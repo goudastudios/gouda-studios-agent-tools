@@ -1,0 +1,173 @@
+{
+  "name": "Gouda Studios Agent Tools",
+  "url": "https://gouda-studios-agent-tools.vercel.app/",
+  "repository": "https://github.com/goudastudios/gouda-studios-agent-tools",
+  "contact": "m0f@mail.grokbot.com",
+  "payment": "Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com.",
+  "tools": [
+    {
+      "slug": "sam-gov-opportunities-feed",
+      "name": "SAM.gov Contract Opportunities",
+      "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed.",
+      "actor": "gouda_studios/sam-gov-opportunities-feed",
+      "apify": "https://apify.com/gouda_studios/sam-gov-opportunities-feed",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 0.001
+          },
+          {
+            "name": "opportunity",
+            "price": 0.002,
+            "per": "opportunity"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~sam-gov-opportunities-feed/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/sam-gov-opportunities-feed"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed.json"
+    },
+    {
+      "slug": "sec-edgar-filings-feed",
+      "name": "SEC EDGAR Filings",
+      "description": "New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode.",
+      "actor": "gouda_studios/sec-edgar-filings-feed",
+      "apify": "https://apify.com/gouda_studios/sec-edgar-filings-feed",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/sec-edgar-filings-feed/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 0.001
+          },
+          {
+            "name": "filing",
+            "price": 0.002,
+            "per": "filing"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~sec-edgar-filings-feed/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/sec-edgar-filings-feed"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/sec-edgar-filings-feed.json"
+    },
+    {
+      "slug": "usaspending-awards-search",
+      "name": "USAspending Federal Awards",
+      "description": "Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links.",
+      "actor": "gouda_studios/usaspending-awards-search",
+      "apify": "https://apify.com/gouda_studios/usaspending-awards-search",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/usaspending-awards-search/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 0.001
+          },
+          {
+            "name": "award",
+            "price": 0.0015,
+            "per": "award"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~usaspending-awards-search/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/usaspending-awards-search"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/usaspending-awards-search.json"
+    },
+    {
+      "slug": "gleif-company-lei-lookup",
+      "name": "GLEIF Company LEI Lookup",
+      "description": "Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities.",
+      "actor": "gouda_studios/gleif-company-lei-lookup",
+      "apify": "https://apify.com/gouda_studios/gleif-company-lei-lookup",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 0.001
+          },
+          {
+            "name": "company",
+            "price": 0.003,
+            "per": "company"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~gleif-company-lei-lookup/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/gleif-company-lei-lookup"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup.json"
+    }
+  ]
+}

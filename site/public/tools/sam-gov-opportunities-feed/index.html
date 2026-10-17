@@ -1,0 +1,71 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="google-site-verification" content="_Ybr6wmY-W34MNXBKQ_hFFmODi8KMyzlrg7Q5fC0v-k"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SAM.gov Contract Opportunities API | Gouda Studios Agent Tools</title><meta name="description" content="Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed."><link rel="canonical" href="https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed/"><link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt"><link rel="alternate" type="application/json" href="/tools.json" title="Tool catalog"><style>body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}pre{background:#f5f5f5;padding:1rem;overflow:auto;font-size:.85rem}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border:1px solid #ddd;padding:.35rem;text-align:left;vertical-align:top}code{background:#f0f0f0;padding:0 .2rem}a{color:#0a58ca}</style><script type="application/ld+json">{"@context": "https://schema.org", "@type": ["SoftwareApplication", "WebAPI"], "name": "SAM.gov Contract Opportunities", "alternateName": "SAM.gov Contract Opportunities: RFPs, Set-Asides, Deadlines", "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed.", "url": "https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed/", "sameAs": "https://apify.com/gouda_studios/sam-gov-opportunities-feed", "applicationCategory": "BusinessApplication", "operatingSystem": "Cloud (Apify)", "documentation": "https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed.json", "provider": {"@type": "Organization", "name": "Gouda Studios", "email": "m0f@mail.grokbot.com", "url": "https://apify.com/gouda_studios"}, "offers": [{"@type": "Offer", "name": "Actor start", "price": "0.001", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Per opportunity", "price": "0.002", "priceCurrency": "USD", "priceSpecification": {"@type": "UnitPriceSpecification", "price": 0.002, "priceCurrency": "USD", "unitText": "opportunity"}}]}</script></head><body><p><a href="/">Gouda Studios Agent Tools</a></p><h1>SAM.gov Contract Opportunities</h1><p>Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed.</p><p><a href="https://apify.com/gouda_studios/sam-gov-opportunities-feed">Open on Apify: gouda_studios/sam-gov-opportunities-feed</a></p>
+<h2>Use cases</h2><ul><li>Small businesses and 8(a), HUBZone, SDVOSB and WOSB firms watching set-asides in their NAICS codes</li><li>Bid and capture teams building a daily opportunity pipeline</li><li>GovCon consultants running alerts for many clients</li><li>AI agents answering which federal RFPs are open for a capability</li></ul>
+<h2>Pricing</h2><ul><li>Actor start: $0.001 per run</li><li>$0.002 per opportunity returned ($2.0 per 1,000)</li><li>No platform usage fee. Set <code>maxResults</code> to cap spend.</li></ul>
+<h2>Input parameters</h2><table><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr><tr><td><code>keywords</code></td><td>string</td><td></td><td>Optional free-text search over SAM.gov notice titles and text, e.g. &quot;cybersecurity&quot; or &quot;janitorial services&quot;. Leave empty to return all notices that match the other filters.</td></tr><tr><td><code>naicsCodes</code></td><td>array</td><td>[]</td><td>Optional list of 6-digit NAICS industry codes (strings), e.g. [&quot;541511&quot;,&quot;541512&quot;]. A notice matches if it has any of them. Empty = all industries.</td></tr><tr><td><code>noticeTypes</code></td><td>array</td><td>[]</td><td>Optional list of notice type codes: o=Solicitation, k=Combined Synopsis/Solicitation, p=Presolicitation, r=Sources Sought, s=Special Notice, a=Award Notice, u=Justification, i=Intent to Bundle, g=Surplus sale. Empty = all types.</td></tr><tr><td><code>setAsides</code></td><td>array</td><td>[]</td><td>Optional small-business set-aside codes, e.g. [&quot;SBA&quot;,&quot;8A&quot;,&quot;SDVOSBC&quot;,&quot;WOSB&quot;,&quot;HZC&quot;]. Empty = any set-aside or none.</td></tr><tr><td><code>states</code></td><td>array</td><td>[]</td><td>Optional 2-letter US state codes for the place of performance, e.g. [&quot;VA&quot;,&quot;MD&quot;]. Requires includeDetails=true. Empty = all locations.</td></tr><tr><td><code>agencyContains</code></td><td>string</td><td></td><td>Optional case-insensitive text the agency path must contain, e.g. &quot;Navy&quot; or &quot;Veterans Affairs&quot;.</td></tr><tr><td><code>postedWithinDays</code></td><td>integer</td><td>0</td><td>Only notices posted or updated in the last N days. 0 = no date limit. Use 1-7 for daily/weekly monitoring.</td></tr><tr><td><code>minDaysUntilResponse</code></td><td>integer</td><td></td><td>Optional. Skip notices whose response deadline is fewer than N days away, so you only get ones you can still bid on.</td></tr><tr><td><code>activeOnly</code></td><td>boolean</td><td>true</td><td>true (default) = skip archived/inactive notices.</td></tr><tr><td><code>includeDetails</code></td><td>boolean</td><td>true</td><td>true (default) = fetch each notice for NAICS, PSC, set-aside, place of performance, full description and contacts. false = faster, fewer fields.</td></tr><tr><td><code>includeContacts</code></td><td>boolean</td><td>true</td><td>true (default) = include the contracting officer work name, email and phone published on the notice.</td></tr><tr><td><code>onlyNew</code></td><td>boolean</td><td>false</td><td>true = return only notices not delivered in an earlier run with the same filters (state is kept between runs). Use with a schedule for an alert feed.</td></tr><tr><td><code>maxResults</code></td><td>integer</td><td>100</td><td>Maximum rows to return (1-10000). You are charged per row returned, so this caps the cost: 100 rows = $0.20 at $0.002/row.</td></tr><tr><td><code>apiKey</code></td><td>string</td><td></td><td>Optional. Your own free api.sam.gov public API key; when set, the Actor reads the official SAM.gov Opportunities API instead of the public search feed.</td></tr></table>
+<h2>Example input</h2><pre>{
+  &quot;keywords&quot;: &quot;cybersecurity&quot;,
+  &quot;naicsCodes&quot;: [
+    &quot;541512&quot;
+  ],
+  &quot;setAsides&quot;: [
+    &quot;SBA&quot;
+  ],
+  &quot;postedWithinDays&quot;: 7,
+  &quot;maxResults&quot;: 25
+}</pre>
+<h2>Output fields (one row per opportunity)</h2><table><tr><th>Field</th><th>Type</th><th>Description</th></tr><tr><td><code>noticeId</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>title</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>solicitationNumber</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>noticeType</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>noticeTypeCode</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>department</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>subTier</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>office</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>agencyPath</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>postedDate</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>modifiedDate</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>responseDeadline</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>daysUntilResponse</code></td><td>[&#x27;null&#x27;, &#x27;number&#x27;]</td><td></td></tr><tr><td><code>naicsCodes</code></td><td>[&#x27;array&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>pscCode</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>setAside</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>placeOfPerformanceCity</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>placeOfPerformanceState</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>placeOfPerformanceCountry</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>awardee</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>awardAmount</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>awardDate</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>isActive</code></td><td>[&#x27;boolean&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>isCanceled</code></td><td>[&#x27;boolean&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>description</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>contacts</code></td><td>[&#x27;array&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>url</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>detailFetched</code></td><td>[&#x27;boolean&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>source</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>scrapedAt</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr></table>
+<h2>Sample output row</h2><pre>{
+  &quot;noticeId&quot;: &quot;9918efd75fd242f387fb70316e0a71ab&quot;,
+  &quot;title&quot;: &quot;GA-VGMS-33528&quot;,
+  &quot;solicitationNumber&quot;: &quot;27M-638A-VA&quot;,
+  &quot;noticeType&quot;: &quot;Sources Sought&quot;,
+  &quot;noticeTypeCode&quot;: &quot;r&quot;,
+  &quot;department&quot;: &quot;DEPT OF DEFENSE&quot;,
+  &quot;subTier&quot;: &quot;DEPT OF THE AIR FORCE&quot;,
+  &quot;office&quot;: &quot;FA2263  AFLCMC WNMK&quot;,
+  &quot;agencyPath&quot;: &quot;DEPT OF DEFENSE &gt; DEPT OF THE AIR FORCE &gt; AIR FORCE MATERIEL COMMAND &gt; AIR FORCE LIFE CYCLE MANAGEMENT CENTER &gt; AGILE COMBAT SYSTEMS &gt; FA2263  AFLCMC WNMK&quot;,
+  &quot;postedDate&quot;: &quot;2026-10-16T17:49:16+00:00&quot;,
+  &quot;modifiedDate&quot;: &quot;2026-10-16T17:49:16+00:00&quot;,
+  &quot;responseDeadline&quot;: &quot;2026-11-17T14:00:00-05:00&quot;,
+  &quot;daysUntilResponse&quot;: 33,
+  &quot;naicsCodes&quot;: [
+    &quot;334515&quot;
+  ],
+  &quot;pscCode&quot;: null,
+  &quot;setAside&quot;: null,
+  &quot;placeOfPerformanceCity&quot;: null,
+  &quot;placeOfPerformanceState&quot;: null,
+  &quot;placeOfPerformanceCountry&quot;: null,
+  &quot;awardee&quot;: null,
+  &quot;awardAmount&quot;: null,
+  &quot;awardDate&quot;: null,
+  &quot;isActive&quot;: true,
+  &quot;isCanceled&quot;: false,
+  &quot;description&quot;: &quot;This is a request for information (RFI) / SOURCES SOUGHT SYNOPSIS. This request is not a solicitation (Request for Proposal or Request for Quotations) or a promise to issue a solicitation in the future. Responses to this notice are not considered offers and cannot be accepted by the government to fo...&quot;,
+  &quot;contacts&quot;: [
+    {
+      &quot;type&quot;: &quot;primary&quot;,
+      &quot;name&quot;: &quot;Megan Moretti&quot;,
+      &quot;title&quot;: null,
+      &quot;email&quot;: &quot;megan.moretti@us.af.mil&quot;,
+      &quot;phone&quot;: &quot;9377135845&quot;
+    },
+    {
+      &quot;type&quot;: &quot;secondary&quot;,
+      &quot;name&quot;: &quot;Frank Capuano&quot;,
+      &quot;title&quot;: null,
+      &quot;email&quot;: &quot;frank.capuano@us.af.mil&quot;,
+      &quot;phone&quot;: &quot;9377135842&quot;
+    }
+  ],
+  &quot;url&quot;: &quot;https://sam.gov/opp/9918efd75fd242f387fb70316e0a71ab/view&quot;,
+  &quot;detailFetched&quot;: true,
+  &quot;source&quot;: &quot;sam.gov public search&quot;,
+  &quot;scrapedAt&quot;: &quot;2026-10-16T17:52:51.524Z&quot;
+}</pre>
+<h2>How to call</h2><h3>Apify API (synchronous, returns dataset items)</h3><pre>curl -X POST &quot;https://api.apify.com/v2/acts/gouda_studios~sam-gov-opportunities-feed/run-sync-get-dataset-items?token=$APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;keywords&quot;: &quot;cybersecurity&quot;, &quot;naicsCodes&quot;: [&quot;541512&quot;], &quot;setAsides&quot;: [&quot;SBA&quot;], &quot;postedWithinDays&quot;: 7, &quot;maxResults&quot;: 25}&#x27;</pre>
+<h3>Apify MCP server</h3><p>Connect an MCP client to <code>https://mcp.apify.com</code> and add the actor <code>gouda_studios/sam-gov-opportunities-feed</code>, for example <code>https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed</code>.</p>
+<h3>Agentic payments (x402 / Skyfire)</h3><p>This actor is eligible for Apify agentic payments, so an AI agent can pay per run without an Apify account. See <a href="https://docs.apify.com/platform/integrations/x402">Apify x402 docs</a>.</p>
+<p>Machine-readable: <a href="/tools/sam-gov-opportunities-feed.json">/tools/sam-gov-opportunities-feed.json</a></p><hr><p>Contact: <a href="mailto:m0f@mail.grokbot.com">m0f@mail.grokbot.com</a> | Machine-readable: <a href="/llms.txt">llms.txt</a>, <a href="/llms-full.txt">llms-full.txt</a>, <a href="/tools.json">tools.json</a>, <a href="/openapi.json">openapi.json</a> | Source: <a href="https://github.com/goudastudios/gouda-studios-agent-tools">GitHub</a></p></body></html>

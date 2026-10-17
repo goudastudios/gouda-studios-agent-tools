@@ -1,0 +1,18 @@
+{
+  "schema_version": "v1",
+  "name_for_human": "Gouda Studios Agent Tools",
+  "name_for_model": "gouda_studios_agent_tools",
+  "description_for_human": "Public records data tools: SAM.gov, SEC EDGAR, USAspending, GLEIF.",
+  "description_for_model": "Use to fetch federal contract opportunities (SAM.gov), SEC filings, federal awards (USAspending) and company LEI records (GLEIF) as JSON via Apify actors. Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com.",
+  "auth": {
+    "type": "user_http",
+    "authorization_type": "bearer"
+  },
+  "api": {
+    "type": "openapi",
+    "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+  },
+  "logo_url": "https://gouda-studios-agent-tools.vercel.app/favicon.svg",
+  "contact_email": "m0f@mail.grokbot.com",
+  "legal_info_url": "https://gouda-studios-agent-tools.vercel.app/"
+}

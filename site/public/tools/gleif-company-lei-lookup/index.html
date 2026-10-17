@@ -1,0 +1,64 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="google-site-verification" content="_Ybr6wmY-W34MNXBKQ_hFFmODi8KMyzlrg7Q5fC0v-k"><meta name="viewport" content="width=device-width,initial-scale=1"><title>GLEIF Company LEI Lookup API | Gouda Studios Agent Tools</title><meta name="description" content="Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities."><link rel="canonical" href="https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup/"><link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt"><link rel="alternate" type="application/json" href="/tools.json" title="Tool catalog"><style>body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}pre{background:#f5f5f5;padding:1rem;overflow:auto;font-size:.85rem}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border:1px solid #ddd;padding:.35rem;text-align:left;vertical-align:top}code{background:#f0f0f0;padding:0 .2rem}a{color:#0a58ca}</style><script type="application/ld+json">{"@context": "https://schema.org", "@type": ["SoftwareApplication", "WebAPI"], "name": "GLEIF Company LEI Lookup", "alternateName": "Company Lookup by Name or LEI: Entity, Address, Parent (GLEIF)", "description": "Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities.", "url": "https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup/", "sameAs": "https://apify.com/gouda_studios/gleif-company-lei-lookup", "applicationCategory": "BusinessApplication", "operatingSystem": "Cloud (Apify)", "documentation": "https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup.json", "provider": {"@type": "Organization", "name": "Gouda Studios", "email": "m0f@mail.grokbot.com", "url": "https://apify.com/gouda_studios"}, "offers": [{"@type": "Offer", "name": "Actor start", "price": "0.001", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Per company", "price": "0.003", "priceCurrency": "USD", "priceSpecification": {"@type": "UnitPriceSpecification", "price": 0.003, "priceCurrency": "USD", "unitText": "company"}}]}</script></head><body><p><a href="/">Gouda Studios Agent Tools</a></p><h1>GLEIF Company LEI Lookup</h1><p>Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities.</p><p><a href="https://apify.com/gouda_studios/gleif-company-lei-lookup">Open on Apify: gouda_studios/gleif-company-lei-lookup</a></p>
+<h2>Use cases</h2><ul><li>KYB, onboarding and compliance checks</li><li>CRM and lead enrichment with verified legal names, addresses and parents</li><li>AI agents that must confirm a company exists and who owns it</li></ul>
+<h2>Pricing</h2><ul><li>Actor start: $0.001 per run</li><li>$0.003 per company returned ($3.0 per 1,000)</li><li>No platform usage fee. Set <code>maxResults</code> to cap spend.</li></ul>
+<h2>Input parameters</h2><table><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr><tr><td><code>companyNames</code></td><td>array</td><td>[]</td><td>Legal names to look up, e.g. [&quot;Apple Inc.&quot;,&quot;Siemens AG&quot;]. Exact legal name match first, then fuzzy full-text.</td></tr><tr><td><code>leis</code></td><td>array</td><td>[]</td><td>Optional 20-character LEIs to fetch directly.</td></tr><tr><td><code>registrationNumbers</code></td><td>array</td><td>[]</td><td>Optional company-registry numbers as reported to GLEIF (registeredAs), e.g. a UK Companies House number.</td></tr><tr><td><code>country</code></td><td>string</td><td></td><td>Optional ISO 2-letter country of the legal address, e.g. US, GB, DE. Improves name matching.</td></tr><tr><td><code>activeOnly</code></td><td>boolean</td><td>true</td><td>true (default) = skip lapsed/inactive entities for name and registration searches.</td></tr><tr><td><code>maxMatchesPerName</code></td><td>integer</td><td>3</td><td>How many candidate entities to return per name or registration number (1-50).</td></tr><tr><td><code>includeParents</code></td><td>boolean</td><td>true</td><td>true (default) = add direct and ultimate parent (LEI, name, country) where reported.</td></tr><tr><td><code>maxResults</code></td><td>integer</td><td>100</td><td>Maximum rows overall (1-5000). You pay per row: 100 rows = $0.30.</td></tr></table>
+<h2>Example input</h2><pre>{
+  &quot;companyNames&quot;: [
+    &quot;Apple Inc.&quot;
+  ],
+  &quot;country&quot;: &quot;US&quot;,
+  &quot;maxResults&quot;: 10
+}</pre>
+<h2>Output fields (one row per company)</h2><table><tr><th>Field</th><th>Type</th><th>Description</th></tr><tr><td><code>query</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>lei</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>legalName</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>otherNames</code></td><td>[&#x27;array&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>status</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>registrationStatus</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>category</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>legalFormId</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>jurisdiction</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>registeredAs</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>registrationAuthorityId</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>legalAddress</code></td><td>[&#x27;null&#x27;, &#x27;object&#x27;]</td><td></td></tr><tr><td><code>headquartersAddress</code></td><td>[&#x27;null&#x27;, &#x27;object&#x27;]</td><td></td></tr><tr><td><code>entityCreatedAt</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>initialRegistrationDate</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>lastUpdateDate</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>nextRenewalDate</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>bic</code></td><td>[&#x27;array&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>successorLei</code></td><td>[&#x27;null&#x27;]</td><td></td></tr><tr><td><code>url</code></td><td>[&#x27;null&#x27;, &#x27;string&#x27;]</td><td></td></tr><tr><td><code>directParent</code></td><td>[&#x27;null&#x27;, &#x27;object&#x27;]</td><td></td></tr><tr><td><code>ultimateParent</code></td><td>[&#x27;null&#x27;, &#x27;object&#x27;]</td><td></td></tr></table>
+<h2>Sample output row</h2><pre>{
+  &quot;query&quot;: &quot;HWUPKR0MPOU8FGXBT394&quot;,
+  &quot;lei&quot;: &quot;HWUPKR0MPOU8FGXBT394&quot;,
+  &quot;legalName&quot;: &quot;Apple Inc.&quot;,
+  &quot;otherNames&quot;: [
+    &quot;Apple Computer, Inc.&quot;
+  ],
+  &quot;status&quot;: &quot;ACTIVE&quot;,
+  &quot;registrationStatus&quot;: &quot;ISSUED&quot;,
+  &quot;category&quot;: &quot;GENERAL&quot;,
+  &quot;legalFormId&quot;: &quot;H1UM&quot;,
+  &quot;jurisdiction&quot;: &quot;US-CA&quot;,
+  &quot;registeredAs&quot;: &quot;806592&quot;,
+  &quot;registrationAuthorityId&quot;: &quot;RA000598&quot;,
+  &quot;legalAddress&quot;: {
+    &quot;lines&quot;: [
+      &quot;C/O C T Corporation System&quot;,
+      &quot;330 N. Brand Blvd&quot;,
+      &quot;Suite 700&quot;
+    ],
+    &quot;city&quot;: &quot;Glendale&quot;,
+    &quot;region&quot;: &quot;US-CA&quot;,
+    &quot;postalCode&quot;: &quot;91203&quot;,
+    &quot;country&quot;: &quot;US&quot;
+  },
+  &quot;headquartersAddress&quot;: {
+    &quot;lines&quot;: [
+      &quot;One Apple Park Way&quot;
+    ],
+    &quot;city&quot;: &quot;Cupertino&quot;,
+    &quot;region&quot;: &quot;US-CA&quot;,
+    &quot;postalCode&quot;: &quot;95014&quot;,
+    &quot;country&quot;: &quot;US&quot;
+  },
+  &quot;entityCreatedAt&quot;: &quot;1977-01-03T00:00:00Z&quot;,
+  &quot;initialRegistrationDate&quot;: &quot;2012-06-06T15:53:00Z&quot;,
+  &quot;lastUpdateDate&quot;: &quot;2026-03-03T16:34:33Z&quot;,
+  &quot;nextRenewalDate&quot;: &quot;2027-03-08T17:27:20Z&quot;,
+  &quot;bic&quot;: [
+    &quot;APLEUS66XXX&quot;
+  ],
+  &quot;successorLei&quot;: null,
+  &quot;url&quot;: &quot;https://search.gleif.org/#/record/HWUPKR0MPOU8FGXBT394&quot;,
+  &quot;directParent&quot;: null,
+  &quot;ultimateParent&quot;: null
+}</pre>
+<h2>How to call</h2><h3>Apify API (synchronous, returns dataset items)</h3><pre>curl -X POST &quot;https://api.apify.com/v2/acts/gouda_studios~gleif-company-lei-lookup/run-sync-get-dataset-items?token=$APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;companyNames&quot;: [&quot;Apple Inc.&quot;], &quot;country&quot;: &quot;US&quot;, &quot;maxResults&quot;: 10}&#x27;</pre>
+<h3>Apify MCP server</h3><p>Connect an MCP client to <code>https://mcp.apify.com</code> and add the actor <code>gouda_studios/gleif-company-lei-lookup</code>, for example <code>https://mcp.apify.com/?tools=gouda_studios/gleif-company-lei-lookup</code>.</p>
+<h3>Agentic payments (x402 / Skyfire)</h3><p>This actor is eligible for Apify agentic payments, so an AI agent can pay per run without an Apify account. See <a href="https://docs.apify.com/platform/integrations/x402">Apify x402 docs</a>.</p>
+<p>Machine-readable: <a href="/tools/gleif-company-lei-lookup.json">/tools/gleif-company-lei-lookup.json</a></p><hr><p>Contact: <a href="mailto:m0f@mail.grokbot.com">m0f@mail.grokbot.com</a> | Machine-readable: <a href="/llms.txt">llms.txt</a>, <a href="/llms-full.txt">llms-full.txt</a>, <a href="/tools.json">tools.json</a>, <a href="/openapi.json">openapi.json</a> | Source: <a href="https://github.com/goudastudios/gouda-studios-agent-tools">GitHub</a></p></body></html>

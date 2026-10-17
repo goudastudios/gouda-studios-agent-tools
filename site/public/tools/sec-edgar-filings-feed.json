@@ -1,0 +1,269 @@
+{
+  "slug": "sec-edgar-filings-feed",
+  "name": "SEC EDGAR Filings",
+  "title": "SEC EDGAR Filings Feed: 8-K, 10-K, 10-Q, Form 4, Form D, S-1",
+  "actor": "gouda_studios/sec-edgar-filings-feed",
+  "apify": "https://apify.com/gouda_studios/sec-edgar-filings-feed",
+  "cat": "Financial filings",
+  "uses": [
+    "Investors and analysts watching 8-Ks and insider Form 4s for a watchlist",
+    "AI research agents that need what a company filed this week as JSON",
+    "Deal, IR and compliance teams tracking Form D raises, S-1s and 13D stakes"
+  ],
+  "inputs": [
+    {
+      "name": "tickers",
+      "type": "array",
+      "title": "Tickers",
+      "description": "Optional stock tickers, e.g. [\"AAPL\",\"NVDA\"]. Resolved to CIKs with the SEC ticker file.",
+      "default": []
+    },
+    {
+      "name": "ciks",
+      "type": "array",
+      "title": "CIK numbers",
+      "description": "Optional SEC Central Index Keys, e.g. [\"320193\"]. Leave tickers and CIKs empty to get latest filings across all companies.",
+      "default": []
+    },
+    {
+      "name": "formTypes",
+      "type": "array",
+      "title": "Form types",
+      "description": "Form types to include, e.g. [\"8-K\",\"10-K\",\"10-Q\",\"4\",\"D\",\"S-1\",\"13F-HR\",\"SC 13D\"]. Empty = all forms (company mode only; market-wide mode needs at least one).",
+      "default": []
+    },
+    {
+      "name": "filedWithinDays",
+      "type": "integer",
+      "title": "Filed within (days)",
+      "description": "Only filings from the last N days. 0 = no limit (company mode returns the ~1000 most recent).",
+      "default": 7
+    },
+    {
+      "name": "onlyNew",
+      "type": "boolean",
+      "title": "Only new since last run",
+      "description": "true = skip filings delivered by an earlier run with the same tickers/CIKs/forms. Use with a schedule for an alert feed.",
+      "default": false
+    },
+    {
+      "name": "maxResults",
+      "type": "integer",
+      "title": "Max results",
+      "description": "Maximum rows (1-5000). You pay per row, so this caps cost: 100 rows = $0.20.",
+      "default": 100
+    },
+    {
+      "name": "contactEmail",
+      "type": "string",
+      "title": "Contact email for SEC User-Agent",
+      "description": "Optional. SEC asks automated clients to identify themselves; this email is sent in the User-Agent header to sec.gov only.",
+      "default": null
+    }
+  ],
+  "outputs": [
+    {
+      "name": "companyName",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "cik",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "filerRole",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "form",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "filingDate",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "acceptedAt",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "accessionNumber",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "items",
+      "type": [
+        "array",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "indexUrl",
+      "type": [
+        "null",
+        "string"
+      ],
+      "description": ""
+    },
+    {
+      "name": "documentUrl",
+      "type": [
+        "null"
+      ],
+      "description": ""
+    }
+  ],
+  "description": "New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/sec-edgar-filings-feed/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 0.001
+      },
+      {
+        "name": "filing",
+        "price": 0.002,
+        "per": "filing"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~sec-edgar-filings-feed/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/sec-edgar-filings-feed"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "tickers": [
+      "AAPL",
+      "TSLA"
+    ],
+    "formTypes": [
+      "8-K",
+      "10-Q"
+    ],
+    "filedWithinDays": 30,
+    "maxResults": 50
+  },
+  "sampleOutput": {
+    "companyName": "LAGO Evergreen Credit",
+    "cik": "2043759",
+    "filerRole": "Filer",
+    "form": "8-K",
+    "filingDate": "2026-10-16",
+    "acceptedAt": "2026-10-16T13:37:35-04:00",
+    "accessionNumber": "0001193125-26-423790",
+    "items": [
+      "3.02 Unregistered Sales of Equity Securities"
+    ],
+    "indexUrl": "https://www.sec.gov/Archives/edgar/data/2043759/000119312526423790/0001193125-26-423790-index.htm",
+    "documentUrl": null
+  },
+  "inputSchema": {
+    "title": "SEC EDGAR Filings Feed: 8-K, 10-K, 10-Q, Form 4, Form D, S-1",
+    "type": "object",
+    "schemaVersion": 1,
+    "description": "Returns SEC EDGAR filings as one JSON row per filing, from official sec.gov / data.sec.gov endpoints. With tickers or CIKs it reads each company's filing history; with neither it returns the latest market-wide filings of the chosen form types. Example: {\"tickers\":[\"AAPL\",\"TSLA\"],\"formTypes\":[\"8-K\",\"10-Q\"],\"filedWithinDays\":30}. Pricing: $0.002 per filing row.",
+    "properties": {
+      "tickers": {
+        "title": "Tickers",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional stock tickers, e.g. [\"AAPL\",\"NVDA\"]. Resolved to CIKs with the SEC ticker file.",
+        "prefill": [
+          "AAPL",
+          "TSLA"
+        ],
+        "default": []
+      },
+      "ciks": {
+        "title": "CIK numbers",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional SEC Central Index Keys, e.g. [\"320193\"]. Leave tickers and CIKs empty to get latest filings across all companies.",
+        "default": []
+      },
+      "formTypes": {
+        "title": "Form types",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Form types to include, e.g. [\"8-K\",\"10-K\",\"10-Q\",\"4\",\"D\",\"S-1\",\"13F-HR\",\"SC 13D\"]. Empty = all forms (company mode only; market-wide mode needs at least one).",
+        "prefill": [
+          "8-K"
+        ],
+        "default": []
+      },
+      "filedWithinDays": {
+        "title": "Filed within (days)",
+        "type": "integer",
+        "description": "Only filings from the last N days. 0 = no limit (company mode returns the ~1000 most recent).",
+        "default": 7,
+        "minimum": 0
+      },
+      "onlyNew": {
+        "title": "Only new since last run",
+        "type": "boolean",
+        "description": "true = skip filings delivered by an earlier run with the same tickers/CIKs/forms. Use with a schedule for an alert feed.",
+        "default": false
+      },
+      "maxResults": {
+        "title": "Max results",
+        "type": "integer",
+        "description": "Maximum rows (1-5000). You pay per row, so this caps cost: 100 rows = $0.20.",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 5000
+      },
+      "contactEmail": {
+        "title": "Contact email for SEC User-Agent",
+        "type": "string",
+        "description": "Optional. SEC asks automated clients to identify themselves; this email is sent in the User-Agent header to sec.gov only.",
+        "editor": "textfield"
+      }
+    }
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

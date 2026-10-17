@@ -1,0 +1,199 @@
+{
+  "aid": "gouda-studios-agent-tools.vercel.app",
+  "name": "Gouda Studios Agent Tools",
+  "description": "Agent-payable public records data tools on Apify: SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards and GLEIF company LEI lookup. Clean JSON, pay per result.",
+  "image": "https://gouda-studios-agent-tools.vercel.app/favicon.svg",
+  "url": "https://gouda-studios-agent-tools.vercel.app/apis.json",
+  "created": "2026-10-17",
+  "modified": "2026-10-17",
+  "specificationVersion": "0.19",
+  "tags": [
+    "government data",
+    "SEC",
+    "federal contracts",
+    "KYB",
+    "company data",
+    "MCP",
+    "Apify",
+    "AI agents"
+  ],
+  "apis": [
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:sam-gov-opportunities-feed",
+      "name": "SAM.gov Contract Opportunities",
+      "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed. Pricing: $0.001 per run + $0.002 per opportunity.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Government contracting",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/sam-gov-opportunities-feed"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/sam-gov-opportunities-feed/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:sec-edgar-filings-feed",
+      "name": "SEC EDGAR Filings",
+      "description": "New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode. Pricing: $0.001 per run + $0.002 per filing.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/sec-edgar-filings-feed/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Financial filings",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/sec-edgar-filings-feed"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/sec-edgar-filings-feed.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/sec-edgar-filings-feed"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/sec-edgar-filings-feed/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:usaspending-awards-search",
+      "name": "USAspending Federal Awards",
+      "description": "Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links. Pricing: $0.001 per run + $0.0015 per award.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/usaspending-awards-search/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Government spending",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/usaspending-awards-search"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/usaspending-awards-search.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/usaspending-awards-search"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/usaspending-awards-search/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:gleif-company-lei-lookup",
+      "name": "GLEIF Company LEI Lookup",
+      "description": "Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities. Pricing: $0.001 per run + $0.003 per company.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Company data / KYB",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/gleif-company-lei-lookup"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/gleif-company-lei-lookup"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/gleif-company-lei-lookup/pricing"
+        }
+      ]
+    }
+  ],
+  "common": [
+    {
+      "type": "Catalog",
+      "url": "https://gouda-studios-agent-tools.vercel.app/tools.json"
+    },
+    {
+      "type": "LLMsTxt",
+      "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+    },
+    {
+      "type": "GitHubRepository",
+      "url": "https://github.com/goudastudios/gouda-studios-agent-tools"
+    },
+    {
+      "type": "MCPServer",
+      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup"
+    }
+  ],
+  "maintainers": [
+    {
+      "FN": "Gouda Studios",
+      "email": "m0f@mail.grokbot.com",
+      "url": "https://gouda-studios-agent-tools.vercel.app"
+    }
+  ]
+}

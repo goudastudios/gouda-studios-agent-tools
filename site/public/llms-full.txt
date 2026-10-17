@@ -1,0 +1,352 @@
+# Gouda Studios Agent Tools (full)
+
+Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com.
+Contact: m0f@mail.grokbot.com
+
+
+## SAM.gov Contract Opportunities
+
+Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed.
+
+Apify: https://apify.com/gouda_studios/sam-gov-opportunities-feed
+Actor ID for MCP: gouda_studios/sam-gov-opportunities-feed
+Pricing: $0.001 per run start + $0.002 per opportunity, no platform usage fee.
+
+Use cases:
+- Small businesses and 8(a), HUBZone, SDVOSB and WOSB firms watching set-asides in their NAICS codes
+- Bid and capture teams building a daily opportunity pipeline
+- GovCon consultants running alerts for many clients
+- AI agents answering which federal RFPs are open for a capability
+
+Input parameters:
+- keywords (string): Optional free-text search over SAM.gov notice titles and text, e.g. "cybersecurity" or "janitorial services". Leave empty to return all notices that match the other filters.
+- naicsCodes (array, default []): Optional list of 6-digit NAICS industry codes (strings), e.g. ["541511","541512"]. A notice matches if it has any of them. Empty = all industries.
+- noticeTypes (array, default []): Optional list of notice type codes: o=Solicitation, k=Combined Synopsis/Solicitation, p=Presolicitation, r=Sources Sought, s=Special Notice, a=Award Notice, u=Justification, i=Intent to Bundle, g=Surplus sale. Empty = all types.
+- setAsides (array, default []): Optional small-business set-aside codes, e.g. ["SBA","8A","SDVOSBC","WOSB","HZC"]. Empty = any set-aside or none.
+- states (array, default []): Optional 2-letter US state codes for the place of performance, e.g. ["VA","MD"]. Requires includeDetails=true. Empty = all locations.
+- agencyContains (string): Optional case-insensitive text the agency path must contain, e.g. "Navy" or "Veterans Affairs".
+- postedWithinDays (integer, default 0): Only notices posted or updated in the last N days. 0 = no date limit. Use 1-7 for daily/weekly monitoring.
+- minDaysUntilResponse (integer): Optional. Skip notices whose response deadline is fewer than N days away, so you only get ones you can still bid on.
+- activeOnly (boolean, default true): true (default) = skip archived/inactive notices.
+- includeDetails (boolean, default true): true (default) = fetch each notice for NAICS, PSC, set-aside, place of performance, full description and contacts. false = faster, fewer fields.
+- includeContacts (boolean, default true): true (default) = include the contracting officer work name, email and phone published on the notice.
+- onlyNew (boolean, default false): true = return only notices not delivered in an earlier run with the same filters (state is kept between runs). Use with a schedule for an alert feed.
+- maxResults (integer, default 100): Maximum rows to return (1-10000). You are charged per row returned, so this caps the cost: 100 rows = $0.20 at $0.002/row.
+- apiKey (string): Optional. Your own free api.sam.gov public API key; when set, the Actor reads the official SAM.gov Opportunities API instead of the public search feed.
+
+Output fields: noticeId, title, solicitationNumber, noticeType, noticeTypeCode, department, subTier, office, agencyPath, postedDate, modifiedDate, responseDeadline, daysUntilResponse, naicsCodes, pscCode, setAside, placeOfPerformanceCity, placeOfPerformanceState, placeOfPerformanceCountry, awardee, awardAmount, awardDate, isActive, isCanceled, description, contacts, url, detailFetched, source, scrapedAt
+
+Example input:
+```json
+{
+  "keywords": "cybersecurity",
+  "naicsCodes": [
+    "541512"
+  ],
+  "setAsides": [
+    "SBA"
+  ],
+  "postedWithinDays": 7,
+  "maxResults": 25
+}
+```
+
+Call:
+```bash
+curl -X POST "https://api.apify.com/v2/acts/gouda_studios~sam-gov-opportunities-feed/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"keywords": "cybersecurity", "naicsCodes": ["541512"], "setAsides": ["SBA"], "postedWithinDays": 7, "maxResults": 25}'
+```
+
+Sample output row:
+```json
+{
+  "noticeId": "9918efd75fd242f387fb70316e0a71ab",
+  "title": "GA-VGMS-33528",
+  "solicitationNumber": "27M-638A-VA",
+  "noticeType": "Sources Sought",
+  "noticeTypeCode": "r",
+  "department": "DEPT OF DEFENSE",
+  "subTier": "DEPT OF THE AIR FORCE",
+  "office": "FA2263  AFLCMC WNMK",
+  "agencyPath": "DEPT OF DEFENSE > DEPT OF THE AIR FORCE > AIR FORCE MATERIEL COMMAND > AIR FORCE LIFE CYCLE MANAGEMENT CENTER > AGILE COMBAT SYSTEMS > FA2263  AFLCMC WNMK",
+  "postedDate": "2026-10-16T17:49:16+00:00",
+  "modifiedDate": "2026-10-16T17:49:16+00:00",
+  "responseDeadline": "2026-11-17T14:00:00-05:00",
+  "daysUntilResponse": 33,
+  "naicsCodes": [
+    "334515"
+  ],
+  "pscCode": null,
+  "setAside": null,
+  "placeOfPerformanceCity": null,
+  "placeOfPerformanceState": null,
+  "placeOfPerformanceCountry": null,
+  "awardee": null,
+  "awardAmount": null,
+  "awardDate": null,
+  "isActive": true,
+  "isCanceled": false,
+  "description": "This is a request for information (RFI) / SOURCES SOUGHT SYNOPSIS. This request is not a solicitation (Request for Proposal or Request for Quotations) or a promise to issue a solicitation in the future. Responses to this notice are not considered offers and cannot be accepted by the government to fo...",
+  "contacts": [
+    {
+      "type": "primary",
+      "name": "Megan Moretti",
+      "title": null,
+      "email": "megan.moretti@us.af.mil",
+      "phone": "9377135845"
+    },
+    {
+      "type": "secondary",
+      "name": "Frank Capuano",
+      "title": null,
+      "email": "frank.capuano@us.af.mil",
+      "phone": "9377135842"
+    }
+  ],
+  "url": "https://sam.gov/opp/9918efd75fd242f387fb70316e0a71ab/view",
+  "detailFetched": true,
+  "source": "sam.gov public search",
+  "scrapedAt": "2026-10-16T17:52:51.524Z"
+}
+```
+
+
+## SEC EDGAR Filings
+
+New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode.
+
+Apify: https://apify.com/gouda_studios/sec-edgar-filings-feed
+Actor ID for MCP: gouda_studios/sec-edgar-filings-feed
+Pricing: $0.001 per run start + $0.002 per filing, no platform usage fee.
+
+Use cases:
+- Investors and analysts watching 8-Ks and insider Form 4s for a watchlist
+- AI research agents that need what a company filed this week as JSON
+- Deal, IR and compliance teams tracking Form D raises, S-1s and 13D stakes
+
+Input parameters:
+- tickers (array, default []): Optional stock tickers, e.g. ["AAPL","NVDA"]. Resolved to CIKs with the SEC ticker file.
+- ciks (array, default []): Optional SEC Central Index Keys, e.g. ["320193"]. Leave tickers and CIKs empty to get latest filings across all companies.
+- formTypes (array, default []): Form types to include, e.g. ["8-K","10-K","10-Q","4","D","S-1","13F-HR","SC 13D"]. Empty = all forms (company mode only; market-wide mode needs at least one).
+- filedWithinDays (integer, default 7): Only filings from the last N days. 0 = no limit (company mode returns the ~1000 most recent).
+- onlyNew (boolean, default false): true = skip filings delivered by an earlier run with the same tickers/CIKs/forms. Use with a schedule for an alert feed.
+- maxResults (integer, default 100): Maximum rows (1-5000). You pay per row, so this caps cost: 100 rows = $0.20.
+- contactEmail (string): Optional. SEC asks automated clients to identify themselves; this email is sent in the User-Agent header to sec.gov only.
+
+Output fields: companyName, cik, filerRole, form, filingDate, acceptedAt, accessionNumber, items, indexUrl, documentUrl
+
+Example input:
+```json
+{
+  "tickers": [
+    "AAPL",
+    "TSLA"
+  ],
+  "formTypes": [
+    "8-K",
+    "10-Q"
+  ],
+  "filedWithinDays": 30,
+  "maxResults": 50
+}
+```
+
+Call:
+```bash
+curl -X POST "https://api.apify.com/v2/acts/gouda_studios~sec-edgar-filings-feed/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"tickers": ["AAPL", "TSLA"], "formTypes": ["8-K", "10-Q"], "filedWithinDays": 30, "maxResults": 50}'
+```
+
+Sample output row:
+```json
+{
+  "companyName": "LAGO Evergreen Credit",
+  "cik": "2043759",
+  "filerRole": "Filer",
+  "form": "8-K",
+  "filingDate": "2026-10-16",
+  "acceptedAt": "2026-10-16T13:37:35-04:00",
+  "accessionNumber": "0001193125-26-423790",
+  "items": [
+    "3.02 Unregistered Sales of Equity Securities"
+  ],
+  "indexUrl": "https://www.sec.gov/Archives/edgar/data/2043759/000119312526423790/0001193125-26-423790-index.htm",
+  "documentUrl": null
+}
+```
+
+
+## USAspending Federal Awards
+
+Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links.
+
+Apify: https://apify.com/gouda_studios/usaspending-awards-search
+Actor ID for MCP: gouda_studios/usaspending-awards-search
+Pricing: $0.001 per run start + $0.0015 per award, no platform usage fee.
+
+Use cases:
+- GovCon BD teams researching competitor wins and incumbents
+- Grant seekers and consultants checking who funds what
+- AI agents answering who won federal money for a topic, with sourced data
+
+Input parameters:
+- keywords (array, default []): Optional words to match in award descriptions, e.g. ["cybersecurity"].
+- recipientNames (array, default []): Optional company or organization names (or UEIs), e.g. ["Booz Allen Hamilton"]. Find a competitor's federal wins.
+- awardingAgencies (array, default []): Optional top-tier agency names exactly as USAspending lists them, e.g. ["Department of Defense","Department of Veterans Affairs"].
+- naicsCodes (array, default []): Optional NAICS codes (contracts only), e.g. ["541512"].
+- states (array, default []): Optional 2-letter state codes, e.g. ["VA","TX"].
+- awardType (string, default "contracts"): contracts (default), idvs, grants, loans, direct_payments or other.
+- startDate (string): YYYY-MM-DD. Defaults to 90 days ago. USAspending data starts 2007-10-01.
+- endDate (string): YYYY-MM-DD. Defaults to today.
+- minAmount (integer): Optional lower bound on award amount.
+- maxAmount (integer): Optional upper bound on award amount.
+- onlyNew (boolean, default false): true = skip awards delivered by an earlier run with the same filters.
+- maxResults (integer, default 100): Maximum rows (1-10000). You pay per row: 100 rows = $0.15.
+
+Output fields: awardId, recipientName, recipientUei, awardAmount, totalOutlays, description, startDate, endDate, awardingAgency, awardingSubAgency, fundingAgency, awardType, naics, psc, assistanceListings, placeOfPerformanceState, lastModified, internalId, url
+
+Example input:
+```json
+{
+  "keywords": [
+    "cybersecurity"
+  ],
+  "awardType": "contracts",
+  "startDate": "2026-01-01",
+  "maxResults": 50
+}
+```
+
+Call:
+```bash
+curl -X POST "https://api.apify.com/v2/acts/gouda_studios~usaspending-awards-search/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"keywords": ["cybersecurity"], "awardType": "contracts", "startDate": "2026-01-01", "maxResults": 50}'
+```
+
+Sample output row:
+```json
+{
+  "awardId": "47QFCA26F0024",
+  "recipientName": "GENERAL DYNAMICS INFORMATION TECHNOLOGY, INC.",
+  "recipientUei": "SMNWM6HN79X5",
+  "awardAmount": 87754106,
+  "totalOutlays": null,
+  "description": "ENTERPRISE NETWORK OPERATIONS AND CYBERSECURITY SUPPORT ENOCS",
+  "startDate": "2026-06-29",
+  "endDate": "2027-06-30",
+  "awardingAgency": "General Services Administration",
+  "awardingSubAgency": "Federal Acquisition Service",
+  "fundingAgency": "Department of Defense",
+  "awardType": "DELIVERY ORDER",
+  "naics": {
+    "code": "541512",
+    "description": "COMPUTER SYSTEMS DESIGN SERVICES"
+  },
+  "psc": {
+    "code": "DJ10",
+    "description": "IT AND TELECOM - SECURITY AND COMPLIANCE AS A SERVICE"
+  },
+  "assistanceListings": null,
+  "placeOfPerformanceState": "VA",
+  "lastModified": "2026-09-30 13:53:41",
+  "internalId": "CONT_AWD_47QFCA26F0024_4732_47QTCK18D0003_4732",
+  "url": "https://www.usaspending.gov/award/CONT_AWD_47QFCA26F0024_4732_47QTCK18D0003_4732"
+}
+```
+
+
+## GLEIF Company LEI Lookup
+
+Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities.
+
+Apify: https://apify.com/gouda_studios/gleif-company-lei-lookup
+Actor ID for MCP: gouda_studios/gleif-company-lei-lookup
+Pricing: $0.001 per run start + $0.003 per company, no platform usage fee.
+
+Use cases:
+- KYB, onboarding and compliance checks
+- CRM and lead enrichment with verified legal names, addresses and parents
+- AI agents that must confirm a company exists and who owns it
+
+Input parameters:
+- companyNames (array, default []): Legal names to look up, e.g. ["Apple Inc.","Siemens AG"]. Exact legal name match first, then fuzzy full-text.
+- leis (array, default []): Optional 20-character LEIs to fetch directly.
+- registrationNumbers (array, default []): Optional company-registry numbers as reported to GLEIF (registeredAs), e.g. a UK Companies House number.
+- country (string): Optional ISO 2-letter country of the legal address, e.g. US, GB, DE. Improves name matching.
+- activeOnly (boolean, default true): true (default) = skip lapsed/inactive entities for name and registration searches.
+- maxMatchesPerName (integer, default 3): How many candidate entities to return per name or registration number (1-50).
+- includeParents (boolean, default true): true (default) = add direct and ultimate parent (LEI, name, country) where reported.
+- maxResults (integer, default 100): Maximum rows overall (1-5000). You pay per row: 100 rows = $0.30.
+
+Output fields: query, lei, legalName, otherNames, status, registrationStatus, category, legalFormId, jurisdiction, registeredAs, registrationAuthorityId, legalAddress, headquartersAddress, entityCreatedAt, initialRegistrationDate, lastUpdateDate, nextRenewalDate, bic, successorLei, url, directParent, ultimateParent
+
+Example input:
+```json
+{
+  "companyNames": [
+    "Apple Inc."
+  ],
+  "country": "US",
+  "maxResults": 10
+}
+```
+
+Call:
+```bash
+curl -X POST "https://api.apify.com/v2/acts/gouda_studios~gleif-company-lei-lookup/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"companyNames": ["Apple Inc."], "country": "US", "maxResults": 10}'
+```
+
+Sample output row:
+```json
+{
+  "query": "HWUPKR0MPOU8FGXBT394",
+  "lei": "HWUPKR0MPOU8FGXBT394",
+  "legalName": "Apple Inc.",
+  "otherNames": [
+    "Apple Computer, Inc."
+  ],
+  "status": "ACTIVE",
+  "registrationStatus": "ISSUED",
+  "category": "GENERAL",
+  "legalFormId": "H1UM",
+  "jurisdiction": "US-CA",
+  "registeredAs": "806592",
+  "registrationAuthorityId": "RA000598",
+  "legalAddress": {
+    "lines": [
+      "C/O C T Corporation System",
+      "330 N. Brand Blvd",
+      "Suite 700"
+    ],
+    "city": "Glendale",
+    "region": "US-CA",
+    "postalCode": "91203",
+    "country": "US"
+  },
+  "headquartersAddress": {
+    "lines": [
+      "One Apple Park Way"
+    ],
+    "city": "Cupertino",
+    "region": "US-CA",
+    "postalCode": "95014",
+    "country": "US"
+  },
+  "entityCreatedAt": "1977-01-03T00:00:00Z",
+  "initialRegistrationDate": "2012-06-06T15:53:00Z",
+  "lastUpdateDate": "2026-03-03T16:34:33Z",
+  "nextRenewalDate": "2027-03-08T17:27:20Z",
+  "bic": [
+    "APLEUS66XXX"
+  ],
+  "successorLei": null,
+  "url": "https://search.gleif.org/#/record/HWUPKR0MPOU8FGXBT394",
+  "directParent": null,
+  "ultimateParent": null
+}
+```
