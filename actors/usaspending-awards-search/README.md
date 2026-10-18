@@ -1,10 +1,66 @@
-# USAspending Federal Awards Search: Contracts, Grants, Recipients
+# USAspending Federal Awards Search: Contracts, Grants, Winners
 
 Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links.
 
 
 ## For AI agents and developers
 Agent-ready docs, pricing, an OpenAPI spec and example calls for this tool live on [Gouda Studios Agent Tools](https://gouda-studios-agent-tools.vercel.app/tools/usaspending-awards-search/). The full catalog is at [gouda-studios-agent-tools.vercel.app](https://gouda-studios-agent-tools.vercel.app) and [llms.txt](https://gouda-studios-agent-tools.vercel.app/llms.txt).
+
+## Example inputs
+
+**Cybersecurity contracts awarded in 2026 over $1M**
+```json
+{
+  "keywords": [
+    "cybersecurity"
+  ],
+  "awardType": "contracts",
+  "startDate": "2026-01-01",
+  "minAmount": 1000000
+}
+```
+
+**All awards to a competitor**
+```json
+{
+  "recipientNames": [
+    "Booz Allen Hamilton"
+  ],
+  "maxResults": 200
+}
+```
+
+**New HHS research grants, only new since last run**
+```json
+{
+  "awardingAgencies": [
+    "Department of Health and Human Services"
+  ],
+  "awardType": "grants",
+  "keywords": [
+    "research"
+  ],
+  "onlyNew": true
+}
+```
+
+## Questions this actor answers
+
+**How do I track federal contract awards?**
+Search by keyword, NAICS or agency with a date range, or schedule the actor with onlyNew to get newly reported awards as they appear.
+
+**How do I see which companies won government contracts?**
+Each row includes the recipient name, award amount, awarding agency and performance period. Filter by recipientNames to follow a specific competitor.
+
+**Does it cover grants as well as contracts?**
+Yes. Set awardType to contracts or grants.
+
+**Can an AI agent call this?**
+Yes. Use it through the MCP endpoint at https://gouda-studios-agent-tools.vercel.app/mcp, the Apify API, or agentic payments (x402, Skyfire).
+
+## Use from Claude, Cursor or any MCP client
+
+Add `https://gouda-studios-agent-tools.vercel.app/mcp` as a remote MCP server (Streamable HTTP) in Claude, Cursor or any MCP client. Sign in with your Apify account or pass an Apify API token. Step by step guide: [https://gouda-studios-agent-tools.vercel.app/guides/use-public-data-tools-in-claude-and-cursor-with-mcp/](https://gouda-studios-agent-tools.vercel.app/guides/use-public-data-tools-in-claude-and-cursor-with-mcp/).
 
 ## Who uses it
 - GovCon BD teams researching competitors' wins and incumbents

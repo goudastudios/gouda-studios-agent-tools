@@ -6,6 +6,69 @@ New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: fo
 ## For AI agents and developers
 Agent-ready docs, pricing, an OpenAPI spec and example calls for this tool live on [Gouda Studios Agent Tools](https://gouda-studios-agent-tools.vercel.app/tools/sec-edgar-filings-feed/). The full catalog is at [gouda-studios-agent-tools.vercel.app](https://gouda-studios-agent-tools.vercel.app) and [llms.txt](https://gouda-studios-agent-tools.vercel.app/llms.txt).
 
+## Example inputs
+
+**New 8-K filings for Apple and Tesla this week**
+```json
+{
+  "tickers": [
+    "AAPL",
+    "TSLA"
+  ],
+  "formTypes": [
+    "8-K"
+  ],
+  "filedWithinDays": 7
+}
+```
+
+**Insider trades (Form 4) for a watchlist, only new since last run**
+```json
+{
+  "tickers": [
+    "NVDA",
+    "MSFT",
+    "AMZN"
+  ],
+  "formTypes": [
+    "4"
+  ],
+  "onlyNew": true
+}
+```
+
+**Quarterly and annual reports by CIK**
+```json
+{
+  "ciks": [
+    "320193"
+  ],
+  "formTypes": [
+    "10-Q",
+    "10-K"
+  ],
+  "filedWithinDays": 365
+}
+```
+
+## Questions this actor answers
+
+**How do I monitor SEC filings automatically?**
+Schedule this actor with your tickers and form types and set onlyNew to true. Each run returns only filings that are new since the last run.
+
+**How do I track insider trading filings?**
+Use formTypes ["4"] with your tickers. Each row links to the Form 4 document on EDGAR.
+
+**Can I look up a company by CIK instead of ticker?**
+Yes. Put CIK numbers in ciks; tickers and CIKs can be mixed.
+
+**Can an AI agent call this?**
+Yes. Use it through the MCP endpoint at https://gouda-studios-agent-tools.vercel.app/mcp, the Apify API, or agentic payments (x402, Skyfire).
+
+## Use from Claude, Cursor or any MCP client
+
+Add `https://gouda-studios-agent-tools.vercel.app/mcp` as a remote MCP server (Streamable HTTP) in Claude, Cursor or any MCP client. Sign in with your Apify account or pass an Apify API token. Step by step guide: [https://gouda-studios-agent-tools.vercel.app/guides/use-public-data-tools-in-claude-and-cursor-with-mcp/](https://gouda-studios-agent-tools.vercel.app/guides/use-public-data-tools-in-claude-and-cursor-with-mcp/).
+
 ## Who uses it
 - Investors and analysts watching 8-Ks and insider Form 4s for a watchlist
 - AI research agents that need "what did company X file this week" as JSON

@@ -1,4 +1,4 @@
-# SAM.gov Contract Opportunities Feed: RFPs, Set-Asides, Deadlines
+# SAM.gov Contract Opportunities Feed: RFPs, Set-Asides, Alerts
 
 Get every U.S. federal contract opportunity from **SAM.gov** as clean rows: solicitations, RFQs, sources sought, presolicitations and award notices. Each row has the NAICS code, PSC code, set-aside, place of performance, response deadline, **days left to respond**, contracting officer contacts and a direct SAM.gov link.
 
@@ -7,6 +7,64 @@ No SAM.gov account or API key needed. Schedule it daily with **Only new since la
 
 ## For AI agents and developers
 Agent-ready docs, pricing, an OpenAPI spec and example calls for this tool live on [Gouda Studios Agent Tools](https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed/). The full catalog is at [gouda-studios-agent-tools.vercel.app](https://gouda-studios-agent-tools.vercel.app) and [llms.txt](https://gouda-studios-agent-tools.vercel.app/llms.txt).
+
+## Example inputs
+
+**Daily feed of new IT software RFPs**
+```json
+{
+  "keywords": "software",
+  "naicsCodes": [
+    "541511",
+    "541512"
+  ],
+  "onlyNew": true,
+  "maxResults": 50
+}
+```
+
+**Small business set-asides in Virginia closing in at least 10 days**
+```json
+{
+  "setAsides": [
+    "SBA"
+  ],
+  "states": [
+    "VA"
+  ],
+  "minDaysUntilResponse": 10,
+  "maxResults": 100
+}
+```
+
+**Sources sought notices from the Department of Veterans Affairs**
+```json
+{
+  "agencyContains": "Veterans Affairs",
+  "noticeTypes": [
+    "r"
+  ],
+  "postedWithinDays": 14
+}
+```
+
+## Questions this actor answers
+
+**How do I get SAM.gov contract opportunities as a feed?**
+Schedule this actor daily with onlyNew set to true. Each run returns only notices that were not in the previous run, as JSON rows you can send to Slack, email, a sheet or a CRM.
+
+**Do I need a SAM.gov API key?**
+No. The actor works without a key. You can add your own SAM.gov key in apiKey for higher rate limits.
+
+**How do I find set-aside contracts for my NAICS code?**
+Put your NAICS codes in naicsCodes and the set-aside types (for example SBA, 8A, HZC, SDVOSBC, WOSB) in setAsides.
+
+**Can an AI agent call this?**
+Yes. Use it through the MCP endpoint at https://gouda-studios-agent-tools.vercel.app/mcp, the Apify API, or agentic payments (x402, Skyfire).
+
+## Use from Claude, Cursor or any MCP client
+
+Add `https://gouda-studios-agent-tools.vercel.app/mcp` as a remote MCP server (Streamable HTTP) in Claude, Cursor or any MCP client. Sign in with your Apify account or pass an Apify API token. Step by step guide: [https://gouda-studios-agent-tools.vercel.app/guides/use-public-data-tools-in-claude-and-cursor-with-mcp/](https://gouda-studios-agent-tools.vercel.app/guides/use-public-data-tools-in-claude-and-cursor-with-mcp/).
 
 ## Who uses it
 - **Small businesses and 8(a), HUBZone, SDVOSB and WOSB firms** watching set-asides in their NAICS codes

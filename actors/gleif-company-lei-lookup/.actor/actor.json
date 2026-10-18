@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "gleif-company-lei-lookup",
-  "title": "Company Lookup by Name or LEI: Entity, Address, Parent (GLEIF)",
-  "description": "Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities.",
+  "title": "Company LEI Lookup by Name or LEI: Entity, Address, Parent",
+  "description": "Find any company LEI number by name, or look up an LEI, in the official GLEIF global registry. Get the legal name, status, jurisdiction, registration number, legal and HQ address, and direct and ultimate parent companies. For KYC, KYB, vendor checks and data enrichment.",
   "version": "0.1",
   "buildTag": "latest",
   "input": "./input_schema.json",

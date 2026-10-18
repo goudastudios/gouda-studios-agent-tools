@@ -71,13 +71,14 @@ for t in TOOLS:
     call={"apifyApi":{"method":"POST","url":f"https://api.apify.com/v2/acts/gouda_studios~{t['slug']}/run-sync-get-dataset-items","auth":"Bearer APIFY_TOKEN or ?token=","body":"input JSON"},"mcp":{"server":"https://mcp.apify.com","actor":t['actor']},"agenticPayments":["x402","Skyfire"]},
     exampleInput=t['ex'],sampleOutput=t['sample'],inputSchema=t['input_schema'],contact=EMAIL)
   t['json']=j; json.dump(j,open(f"{OUT}/tools/{t['slug']}.json",'w'),indent=2)
+exec(open('guides.py').read())
 cards=''.join(f"<h2><a href=\"/tools/{t['slug']}/\">{E(t['name'])}</a></h2><p>{E(t['desc'])}</p><p>${START} per run + ${t['price']} per {t['unit']}. <a href=\"{t['apify']}\">Apify</a> | <a href=\"/tools/{t['slug']}.json\">JSON</a></p>" for t in TOOLS)
 idx_ld={"@context":"https://schema.org","@type":"WebSite","name":"Gouda Studios Agent Tools","url":BASE+"/","publisher":{"@type":"Organization","name":"Gouda Studios","email":EMAIL},"hasPart":[ld(t) for t in TOOLS]}
 open(OUT+'/index.html','w').write(page("Gouda Studios Agent Tools: public records APIs for AI agents","Four agent-payable data tools for SAM.gov, SEC EDGAR, USAspending and GLEIF. Pay per result, JSON output, Apify API and MCP.",
- f"<h1>Gouda Studios Agent Tools</h1><p>Clean, low-cost data tools for public government and company records, built for people and AI agents. All four run on Apify. {E(HOWPAY)}</p>{cards}",idx_ld,"/"))
+ f"<h1>Gouda Studios Agent Tools</h1><p>Clean, low-cost data tools for public government and company records, built for people and AI agents. All four run on Apify. {E(HOWPAY)}</p>{cards}{GUIDE_HTML}",idx_ld,"/"))
 cat={"name":"Gouda Studios Agent Tools","url":BASE+"/","repository":"https://github.com/goudastudios/gouda-studios-agent-tools","contact":EMAIL,"payment":HOWPAY,"tools":[{k:t['json'][k] for k in ('slug','name','description','actor','apify','page','pricing','call')}|{"json":f"{BASE}/tools/{t['slug']}.json"} for t in TOOLS]}
 json.dump(cat,open(OUT+'/tools.json','w'),indent=2)
-llms="# Gouda Studios Agent Tools\n\n> Agent-payable data tools for SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards and GLEIF company LEI lookup. "+HOWPAY+"\n\nContact: "+EMAIL+"\n\n## Tools\n\n"+''.join(f"- [{t['name']}]({BASE}/tools/{t['slug']}/): {t['desc']} Pricing: ${START} per run + ${t['price']} per {t['unit']}. Apify actor: {t['actor']} ({t['apify']}). JSON: {BASE}/tools/{t['slug']}.json\n" for t in TOOLS)+f"\n## Machine-readable\n\n- [Tool catalog]({BASE}/tools.json)\n- [OpenAPI 3.1]({BASE}/openapi.json)\n- [Full docs]({BASE}/llms-full.txt)\n- [GitHub repo](https://github.com/goudastudios/gouda-studios-agent-tools)\n"
+llms="# Gouda Studios Agent Tools\n\n> Agent-payable data tools for SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards and GLEIF company LEI lookup. "+HOWPAY+"\n\nContact: "+EMAIL+"\n\n## Tools\n\n"+''.join(f"- [{t['name']}]({BASE}/tools/{t['slug']}/): {t['desc']} Pricing: ${START} per run + ${t['price']} per {t['unit']}. Apify actor: {t['actor']} ({t['apify']}). JSON: {BASE}/tools/{t['slug']}.json\n" for t in TOOLS)+f"\n## Machine-readable\n\n- [Tool catalog]({BASE}/tools.json)\n- [OpenAPI 3.1]({BASE}/openapi.json)\n- [Full docs]({BASE}/llms-full.txt)\n- [GitHub repo](https://github.com/goudastudios/gouda-studios-agent-tools)\n"+GUIDE_LLMS
 open(OUT+'/llms.txt','w').write(llms)
 full="# Gouda Studios Agent Tools (full)\n\n"+HOWPAY+"\nContact: "+EMAIL+"\n"
 for t in TOOLS:
@@ -96,7 +97,7 @@ json.dump({"name":"Gouda Studios Agent Tools","description":"Agent-payable publi
 open(OUT+'/favicon.svg','w').write('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><path d="M2 24 L16 6 L30 24 Z" fill="#f2c14e"/></svg>')
 bots=["GPTBot","ChatGPT-User","OAI-SearchBot","ClaudeBot","Claude-Web","anthropic-ai","PerplexityBot","Google-Extended","CCBot","Applebot-Extended","Bytespider","cohere-ai","*"]
 open(OUT+'/robots.txt','w').write(''.join(f"User-agent: {b}\nAllow: /\n\n" for b in bots)+f"Sitemap: {BASE}/sitemap.xml\n")
-urls=['/','/llms.txt','/llms-full.txt','/tools.json','/openapi.json']+[f"/tools/{t['slug']}/" for t in TOOLS]+[f"/tools/{t['slug']}.json" for t in TOOLS]
+urls=['/','/llms.txt','/llms-full.txt','/tools.json','/openapi.json']+[f"/tools/{t['slug']}/" for t in TOOLS]+[f"/tools/{t['slug']}.json" for t in TOOLS]+GUIDE_URLS
 open(OUT+'/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f"<url><loc>{BASE}{u}</loc><lastmod>2026-10-16</lastmod></url>" for u in urls)+'</urlset>\n')
 json.dump({"headers":[{"source":"/(.*)\\.(json|txt)","headers":[{"key":"Access-Control-Allow-Origin","value":"*"}]}]},open(OUT+'/vercel.json','w'),indent=2)
 open('urls.txt','w').write('\n'.join(urls+['/robots.txt','/sitemap.xml','/.well-known/ai-plugin.json','/.well-known/agents.json']))
@@ -122,3 +123,5 @@ json.dump({"serverInfo":{"name":"gouda-studios-agent-tools","version":"1.0.0"},"
 open(OUT+'/.well-known/glama.json','w').write('{\n  "$schema": "https://glama.ai/mcp/schemas/connector.json",\n  "claim": "glama_claim_5LOKEA2JmFwW533jziqAJqtT-KMEJZgk"\n}\n')
 # aiagentslisting verification (no trailing newline)
 open(OUT+'/.well-known/aiagentslisting-verify.txt','w').write('190d96e100c67cadba422e4ee564f233')
+# Official MCP Registry HTTP domain auth (public key only)
+open(OUT+'/.well-known/mcp-registry-auth','w').write('v=MCPv1; k=ed25519; p=O7427JLRcAZO71ZbpFrH++cSn89hzv1h3OBZki8HyTI=')

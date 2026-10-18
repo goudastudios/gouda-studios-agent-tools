@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "usaspending-awards-search",
-  "title": "USAspending Federal Awards: Contracts, Grants, Recipients",
-  "description": "Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links.",
+  "title": "USAspending Federal Awards Search: Contracts, Grants, Winners",
+  "description": "Search USAspending.gov federal awards by keyword, recipient, agency, NAICS, state, date and amount. Get contracts and grants with amounts, recipients, awarding agency and performance dates as JSON. Track competitors, find who won contracts and build sales prospect lists.",
   "version": "0.1",
   "buildTag": "latest",
   "input": "./input_schema.json",

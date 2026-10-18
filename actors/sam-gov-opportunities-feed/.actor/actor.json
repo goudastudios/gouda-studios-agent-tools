@@ -1,8 +1,8 @@
 {
   "actorSpecification": 1,
   "name": "sam-gov-opportunities-feed",
-  "title": "SAM.gov Contract Opportunities: RFPs, Set-Asides, Deadlines",
-  "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed.",
+  "title": "SAM.gov Contract Opportunities Feed: RFPs, Set-Asides, Alerts",
+  "description": "Get new federal contract opportunities from SAM.gov as clean JSON, no API key needed. Filter by keyword, NAICS, set-aside, notice type, agency and state. Includes deadlines, days left and contracting officer contacts. Monitor mode returns only new notices.",
   "version": "0.1",
   "buildTag": "latest",
   "input": "./input_schema.json",

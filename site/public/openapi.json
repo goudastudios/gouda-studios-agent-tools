@@ -33,7 +33,7 @@
       "post": {
         "operationId": "run_sam_gov_opportunities_feed",
         "summary": "Run SAM.gov Contract Opportunities and return dataset items",
-        "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed. Pricing: $0.001 per run + $0.002 per opportunity.",
+        "description": "Get new federal contract opportunities from SAM.gov as clean JSON, no API key needed. Filter by keyword, NAICS, set-aside, notice type, agency and state. Includes deadlines, days left and contracting officer contacts. Monitor mode returns only new notices. Pricing: $0.001 per run + $0.002 per opportunity.",
         "externalDocs": {
           "url": "https://apify.com/gouda_studios/sam-gov-opportunities-feed"
         },
@@ -257,7 +257,7 @@
       "post": {
         "operationId": "run_sec_edgar_filings_feed",
         "summary": "Run SEC EDGAR Filings and return dataset items",
-        "description": "New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode. Pricing: $0.001 per run + $0.002 per filing.",
+        "description": "Monitor SEC EDGAR filings by ticker or CIK, including 8-K, 10-Q, 10-K, Form 4 insider trades, Form D and S-1. Each result has the company, form type, filing date and document links. Only-new mode turns it into an alert feed for investors, research and AI agents. Pricing: $0.001 per run + $0.002 per filing.",
         "externalDocs": {
           "url": "https://apify.com/gouda_studios/sec-edgar-filings-feed"
         },
@@ -390,7 +390,7 @@
       "post": {
         "operationId": "run_usaspending_awards_search",
         "summary": "Run USAspending Federal Awards and return dataset items",
-        "description": "Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links. Pricing: $0.001 per run + $0.0015 per award.",
+        "description": "Search USAspending.gov federal awards by keyword, recipient, agency, NAICS, state, date and amount. Get contracts and grants with amounts, recipients, awarding agency and performance dates as JSON. Track competitors, find who won contracts and build sales prospect lists. Pricing: $0.001 per run + $0.0015 per award.",
         "externalDocs": {
           "url": "https://apify.com/gouda_studios/usaspending-awards-search"
         },
@@ -576,7 +576,7 @@
       "post": {
         "operationId": "run_gleif_company_lei_lookup",
         "summary": "Run GLEIF Company LEI Lookup and return dataset items",
-        "description": "Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities. Pricing: $0.001 per run + $0.003 per company.",
+        "description": "Find any company LEI number by name, or look up an LEI, in the official GLEIF global registry. Get the legal name, status, jurisdiction, registration number, legal and HQ address, and direct and ultimate parent companies. For KYC, KYB, vendor checks and data enrichment. Pricing: $0.001 per run + $0.003 per company.",
         "externalDocs": {
           "url": "https://apify.com/gouda_studios/gleif-company-lei-lookup"
         },

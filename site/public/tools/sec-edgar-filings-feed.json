@@ -142,7 +142,7 @@
       "description": ""
     }
   ],
-  "description": "New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode.",
+  "description": "Monitor SEC EDGAR filings by ticker or CIK, including 8-K, 10-Q, 10-K, Form 4 insider trades, Form D and S-1. Each result has the company, form type, filing date and document links. Only-new mode turns it into an alert feed for investors, research and AI agents.",
   "page": "https://gouda-studios-agent-tools.vercel.app/tools/sec-edgar-filings-feed/",
   "pricing": {
     "model": "pay-per-event",

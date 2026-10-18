@@ -11,6 +11,15 @@
 /tools/sec-edgar-filings-feed.json
 /tools/usaspending-awards-search.json
 /tools/gleif-company-lei-lookup.json
+/guides/how-to-find-a-company-lei-number/
+/guides/how-to-check-if-an-lei-is-valid-and-find-the-parent-company/
+/guides/how-to-track-federal-contract-awards/
+/guides/how-to-see-who-won-a-government-contract/
+/guides/how-to-get-sam-gov-opportunities-as-a-feed/
+/guides/how-to-find-small-business-set-aside-contracts/
+/guides/how-to-monitor-sec-filings-automatically/
+/guides/how-to-track-insider-trading-form-4-filings/
+/guides/use-public-data-tools-in-claude-and-cursor-with-mcp/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json

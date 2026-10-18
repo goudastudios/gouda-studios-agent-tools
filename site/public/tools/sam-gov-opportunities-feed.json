@@ -1,7 +1,7 @@
 {
   "slug": "sam-gov-opportunities-feed",
   "name": "SAM.gov Contract Opportunities",
-  "title": "SAM.gov Contract Opportunities: RFPs, Set-Asides, Deadlines",
+  "title": "SAM.gov Contract Opportunities Feed: RFPs, Set-Asides, Alerts",
   "actor": "gouda_studios/sam-gov-opportunities-feed",
   "apify": "https://apify.com/gouda_studios/sam-gov-opportunities-feed",
   "cat": "Government contracting",
@@ -353,7 +353,7 @@
       "description": ""
     }
   ],
-  "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed.",
+  "description": "Get new federal contract opportunities from SAM.gov as clean JSON, no API key needed. Filter by keyword, NAICS, set-aside, notice type, agency and state. Includes deadlines, days left and contracting officer contacts. Monitor mode returns only new notices.",
   "page": "https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed/",
   "pricing": {
     "model": "pay-per-event",

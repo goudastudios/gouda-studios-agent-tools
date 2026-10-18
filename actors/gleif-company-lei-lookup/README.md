@@ -1,10 +1,60 @@
-# Company Lookup by Name or LEI: Legal Entity, Address, Parent (GLEIF)
+# Company LEI Lookup by Name or LEI: Entity, Address, Parent
 
 Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities.
 
 
 ## For AI agents and developers
 Agent-ready docs, pricing, an OpenAPI spec and example calls for this tool live on [Gouda Studios Agent Tools](https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup/). The full catalog is at [gouda-studios-agent-tools.vercel.app](https://gouda-studios-agent-tools.vercel.app) and [llms.txt](https://gouda-studios-agent-tools.vercel.app/llms.txt).
+
+## Example inputs
+
+**Find the LEI for a company name**
+```json
+{
+  "companyNames": [
+    "Apple Inc."
+  ],
+  "country": "US"
+}
+```
+
+**Verify a list of LEIs and get parents**
+```json
+{
+  "leis": [
+    "HWUPKR0MPOU8FGXBT394"
+  ],
+  "includeParents": true
+}
+```
+
+**Look up by UK Companies House number (Tesco PLC)**
+```json
+{
+  "registrationNumbers": [
+    "00445790"
+  ],
+  "country": "GB"
+}
+```
+
+## Questions this actor answers
+
+**How do I find a company LEI number?**
+Put the company legal name in companyNames, optionally with a country code. The actor returns the best matching LEI records with status and address.
+
+**How do I check whether an LEI is valid and active?**
+Put the LEI in leis. Each row shows status, registrationStatus and nextRenewalDate.
+
+**Who owns a company?**
+Keep includeParents on. Rows include the direct and ultimate parent entity where GLEIF has that relationship.
+
+**Can an AI agent call this?**
+Yes. Use it through the MCP endpoint at https://gouda-studios-agent-tools.vercel.app/mcp, the Apify API, or agentic payments (x402, Skyfire).
+
+## Use from Claude, Cursor or any MCP client
+
+Add `https://gouda-studios-agent-tools.vercel.app/mcp` as a remote MCP server (Streamable HTTP) in Claude, Cursor or any MCP client. Sign in with your Apify account or pass an Apify API token. Step by step guide: [https://gouda-studios-agent-tools.vercel.app/guides/use-public-data-tools-in-claude-and-cursor-with-mcp/](https://gouda-studios-agent-tools.vercel.app/guides/use-public-data-tools-in-claude-and-cursor-with-mcp/).
 
 ## Who uses it
 - KYB/onboarding and compliance checks

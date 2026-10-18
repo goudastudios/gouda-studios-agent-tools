@@ -8,7 +8,7 @@
     {
       "slug": "sam-gov-opportunities-feed",
       "name": "SAM.gov Contract Opportunities",
-      "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed.",
+      "description": "Get new federal contract opportunities from SAM.gov as clean JSON, no API key needed. Filter by keyword, NAICS, set-aside, notice type, agency and state. Includes deadlines, days left and contracting officer contacts. Monitor mode returns only new notices.",
       "actor": "gouda_studios/sam-gov-opportunities-feed",
       "apify": "https://apify.com/gouda_studios/sam-gov-opportunities-feed",
       "page": "https://gouda-studios-agent-tools.vercel.app/tools/sam-gov-opportunities-feed/",
@@ -49,7 +49,7 @@
     {
       "slug": "sec-edgar-filings-feed",
       "name": "SEC EDGAR Filings",
-      "description": "New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode.",
+      "description": "Monitor SEC EDGAR filings by ticker or CIK, including 8-K, 10-Q, 10-K, Form 4 insider trades, Form D and S-1. Each result has the company, form type, filing date and document links. Only-new mode turns it into an alert feed for investors, research and AI agents.",
       "actor": "gouda_studios/sec-edgar-filings-feed",
       "apify": "https://apify.com/gouda_studios/sec-edgar-filings-feed",
       "page": "https://gouda-studios-agent-tools.vercel.app/tools/sec-edgar-filings-feed/",
@@ -90,7 +90,7 @@
     {
       "slug": "usaspending-awards-search",
       "name": "USAspending Federal Awards",
-      "description": "Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links.",
+      "description": "Search USAspending.gov federal awards by keyword, recipient, agency, NAICS, state, date and amount. Get contracts and grants with amounts, recipients, awarding agency and performance dates as JSON. Track competitors, find who won contracts and build sales prospect lists.",
       "actor": "gouda_studios/usaspending-awards-search",
       "apify": "https://apify.com/gouda_studios/usaspending-awards-search",
       "page": "https://gouda-studios-agent-tools.vercel.app/tools/usaspending-awards-search/",
@@ -131,7 +131,7 @@
     {
       "slug": "gleif-company-lei-lookup",
       "name": "GLEIF Company LEI Lookup",
-      "description": "Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities.",
+      "description": "Find any company LEI number by name, or look up an LEI, in the official GLEIF global registry. Get the legal name, status, jurisdiction, registration number, legal and HQ address, and direct and ultimate parent companies. For KYC, KYB, vendor checks and data enrichment.",
       "actor": "gouda_studios/gleif-company-lei-lookup",
       "apify": "https://apify.com/gouda_studios/gleif-company-lei-lookup",
       "page": "https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup/",
