@@ -117,3 +117,5 @@ _prm={"resource":MCPURL,"authorization_servers":["https://console-backend.apify.
 json.dump(_prm,open(OUT+'/.well-known/oauth-protected-resource/mcp','w'),indent=2)
 _by={t['actor']:t for t in TOOLS}
 json.dump({"serverInfo":{"name":"gouda-studios-agent-tools","version":"1.0.0"},"name":"Gouda Studios Agent Tools","description":"Agent-payable public records data tools (SAM.gov, SEC EDGAR, USAspending, GLEIF) via Apify's hosted MCP server.","url":MCPURL,"transport":{"type":"streamable-http","url":MCPURL},"authentication":{"required":True,"schemes":["oauth2","bearer"],"protectedResourceMetadata":BASE+"/.well-known/oauth-protected-resource/mcp"},"tools":[{"name":a,"description":_by[a]['desc'] if a in _by else a} for a in MCPT],"resources":[],"prompts":[]},open(OUT+'/.well-known/mcp/server-card.json','w'),indent=2)
+# Glama connector ownership claim
+open(OUT+'/.well-known/glama.json','w').write('{\n  "$schema": "https://glama.ai/mcp/schemas/connector.json",\n  "claim": "glama_claim_5LOKEA2JmFwW533jziqAJqtT-KMEJZgk"\n}\n')
