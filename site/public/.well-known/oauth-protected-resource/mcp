@@ -1,0 +1,13 @@
+{
+  "resource": "https://gouda-studios-agent-tools.vercel.app/mcp",
+  "authorization_servers": [
+    "https://console-backend.apify.com"
+  ],
+  "scopes_supported": [
+    "full_api_access"
+  ],
+  "bearer_methods_supported": [
+    "header"
+  ],
+  "resource_name": "Gouda Studios Agent Tools MCP"
+}

@@ -1,0 +1,41 @@
+{
+  "serverInfo": {
+    "name": "gouda-studios-agent-tools",
+    "version": "1.0.0"
+  },
+  "name": "Gouda Studios Agent Tools",
+  "description": "Agent-payable public records data tools (SAM.gov, SEC EDGAR, USAspending, GLEIF) via Apify's hosted MCP server.",
+  "url": "https://gouda-studios-agent-tools.vercel.app/mcp",
+  "transport": {
+    "type": "streamable-http",
+    "url": "https://gouda-studios-agent-tools.vercel.app/mcp"
+  },
+  "authentication": {
+    "required": true,
+    "schemes": [
+      "oauth2",
+      "bearer"
+    ],
+    "protectedResourceMetadata": "https://gouda-studios-agent-tools.vercel.app/.well-known/oauth-protected-resource/mcp"
+  },
+  "tools": [
+    {
+      "name": "gouda_studios/sam-gov-opportunities-feed",
+      "description": "Federal contract opportunities from SAM.gov with NAICS, PSC, set-aside, place of performance, response deadline and days left, contracting contacts, and a new-only monitoring mode. No API key needed."
+    },
+    {
+      "name": "gouda_studios/sec-edgar-filings-feed",
+      "description": "New SEC EDGAR filings by ticker, CIK or form type from the official SEC APIs: form, filing date, 8-K items, company, SIC and direct document links. Change-only monitoring mode."
+    },
+    {
+      "name": "gouda_studios/usaspending-awards-search",
+      "description": "Search U.S. federal contract and grant awards from the official USAspending.gov API by keyword, recipient, agency, NAICS, state, date and amount. Award amount, recipient UEI, agency and links."
+    },
+    {
+      "name": "gouda_studios/gleif-company-lei-lookup",
+      "description": "Verify companies worldwide from the official GLEIF LEI API: legal name, status, jurisdiction, registration number, legal and HQ address, direct and ultimate parent. KYB and enrichment for 2.9M+ entities."
+    }
+  ],
+  "resources": [],
+  "prompts": []
+}

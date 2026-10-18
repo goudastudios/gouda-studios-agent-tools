@@ -1,6 +1,6 @@
 # Gouda Studios Agent Tools
 
-> Agent-payable data tools for SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards and GLEIF company LEI lookup. Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com.
+> Agent-payable data tools for SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards and GLEIF company LEI lookup. Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com. One-URL MCP endpoint for all tools: https://gouda-studios-agent-tools.vercel.app/mcp (Streamable HTTP, Apify OAuth or Bearer Apify token).
 
 Contact: m0f@mail.grokbot.com
 

@@ -1,6 +1,27 @@
 {
   "cleanUrls": false,
-  "trailingSlash": true,
+  "rewrites": [
+    {
+      "source": "/mcp",
+      "destination": "/api/mcp"
+    },
+    {
+      "source": "/mcp/",
+      "destination": "/api/mcp"
+    },
+    {
+      "source": "/.well-known/oauth-protected-resource",
+      "destination": "/.well-known/oauth-protected-resource/mcp"
+    },
+    {
+      "source": "/.well-known/oauth-authorization-server",
+      "destination": "https://console-backend.apify.com/.well-known/oauth-authorization-server"
+    },
+    {
+      "source": "/.well-known/oauth-authorization-server/mcp",
+      "destination": "https://console-backend.apify.com/.well-known/oauth-authorization-server"
+    }
+  ],
   "headers": [
     {
       "source": "/(.*)\\.(json|txt)",
@@ -8,6 +29,19 @@
         {
           "key": "Access-Control-Allow-Origin",
           "value": "*"
+        }
+      ]
+    },
+    {
+      "source": "/.well-known/(.*)",
+      "headers": [
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Content-Type",
+          "value": "application/json"
         }
       ]
     }

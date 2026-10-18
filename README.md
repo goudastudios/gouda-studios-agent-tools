@@ -34,6 +34,9 @@ Replace the actor name with any tool above. Input fields for each tool are in `a
 
 ### Apify MCP server
 
+One stable URL for all tools: `https://gouda-studios-agent-tools.vercel.app/mcp` (Streamable HTTP, sign in with your Apify account via OAuth or pass `Authorization: Bearer <APIFY_TOKEN>`). The actor list lives in `site/mcp-tools.json`.
+
+
 Add the hosted Apify MCP server to any MCP client (Claude, Cursor, Cline, and others) and load the tools by name:
 
 ```json

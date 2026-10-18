@@ -48,7 +48,7 @@ def page(title,desc,body,jl,path):
   return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="google-site-verification" content="_Ybr6wmY-W34MNXBKQ_hFFmODi8KMyzlrg7Q5fC0v-k"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title><meta name="description" content="{html.escape(desc)}"><link rel="canonical" href="{BASE}{path}"><link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt"><link rel="alternate" type="application/json" href="/tools.json" title="Tool catalog"><style>{CSS}</style><script type="application/ld+json">{json.dumps(jl)}</script></head><body><p><a href="/">Gouda Studios Agent Tools</a></p>{body}<hr><p>Contact: <a href="mailto:{EMAIL}">{EMAIL}</a> | Machine-readable: <a href="/llms.txt">llms.txt</a>, <a href="/llms-full.txt">llms-full.txt</a>, <a href="/tools.json">tools.json</a>, <a href="/openapi.json">openapi.json</a> | Source: <a href="https://github.com/goudastudios/gouda-studios-agent-tools">GitHub</a></p>{BADGE if path=="/" else ""}</body></html>"""
 E=html.escape
 shutil.rmtree(OUT,ignore_errors=True); os.makedirs(OUT+'/tools'); os.makedirs(OUT+'/.well-known')
-HOWPAY="Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com."
+HOWPAY="Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com. One-URL MCP endpoint for all tools: https://gouda-studios-agent-tools.vercel.app/mcp (Streamable HTTP, Apify OAuth or Bearer Apify token)."
 for t in TOOLS:
   ins=''.join(f"<tr><td><code>{E(p['name'])}</code></td><td>{E(str(p['type']))}</td><td>{E(json.dumps(p['default'])) if p['default'] is not None else ''}</td><td>{E(p['description'])}</td></tr>" for p in t['inputs'])
   outs=''.join(f"<tr><td><code>{E(o['name'])}</code></td><td>{E(str(o['type']))}</td><td>{E(o['description'])}</td></tr>" for o in t['outputs'])
@@ -108,3 +108,12 @@ apisj={"aid":"gouda-studios-agent-tools.vercel.app","name":"Gouda Studios Agent 
  "maintainers":[{"FN":"Gouda Studios","email":EMAIL,"url":BASE}]}
 json.dump(apisj,open(OUT+'/apis.json','w'),indent=2); json.dump(apisj,open(OUT+'/.well-known/apis.json','w'),indent=2)
 open('urls.txt','a').write('\n/apis.json\n/.well-known/apis.json')
+
+# MCP proxy discovery (actor list: mcp-tools.json)
+import shutil as _sh
+MCPT=json.load(open('mcp-tools.json')); _sh.copy('mcp-tools.json',OUT+'/mcp-tools.json')
+MCPURL=BASE+'/mcp'; os.makedirs(OUT+'/.well-known/mcp',exist_ok=True); os.makedirs(OUT+'/.well-known/oauth-protected-resource',exist_ok=True)
+_prm={"resource":MCPURL,"authorization_servers":["https://console-backend.apify.com"],"scopes_supported":["full_api_access"],"bearer_methods_supported":["header"],"resource_name":"Gouda Studios Agent Tools MCP"}
+json.dump(_prm,open(OUT+'/.well-known/oauth-protected-resource/mcp','w'),indent=2)
+_by={t['actor']:t for t in TOOLS}
+json.dump({"serverInfo":{"name":"gouda-studios-agent-tools","version":"1.0.0"},"name":"Gouda Studios Agent Tools","description":"Agent-payable public records data tools (SAM.gov, SEC EDGAR, USAspending, GLEIF) via Apify's hosted MCP server.","url":MCPURL,"transport":{"type":"streamable-http","url":MCPURL},"authentication":{"required":True,"schemes":["oauth2","bearer"],"protectedResourceMetadata":BASE+"/.well-known/oauth-protected-resource/mcp"},"tools":[{"name":a,"description":_by[a]['desc'] if a in _by else a} for a in MCPT],"resources":[],"prompts":[]},open(OUT+'/.well-known/mcp/server-card.json','w'),indent=2)
