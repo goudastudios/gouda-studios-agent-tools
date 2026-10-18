@@ -111,7 +111,7 @@ open('urls.txt','a').write('\n/apis.json\n/.well-known/apis.json')
 
 # MCP proxy discovery (actor list: mcp-tools.json)
 import shutil as _sh
-MCPT=json.load(open('mcp-tools.json')); _sh.copy('mcp-tools.json',OUT+'/mcp-tools.json')
+MCPT=json.load(open('mcp-tools.json')); _sh.copy('mcp-tools.json',OUT+'/mcp-tools.json'); _sh.copy('mcp-static.json',OUT+'/mcp-static.json')
 MCPURL=BASE+'/mcp'; os.makedirs(OUT+'/.well-known/mcp',exist_ok=True); os.makedirs(OUT+'/.well-known/oauth-protected-resource',exist_ok=True)
 _prm={"resource":MCPURL,"authorization_servers":["https://console-backend.apify.com"],"scopes_supported":["full_api_access"],"bearer_methods_supported":["header"],"resource_name":"Gouda Studios Agent Tools MCP"}
 json.dump(_prm,open(OUT+'/.well-known/oauth-protected-resource/mcp','w'),indent=2)
