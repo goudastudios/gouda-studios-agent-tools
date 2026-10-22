@@ -1,0 +1,153 @@
+{
+  "actorSpecification": 1,
+  "views": {
+    "overview": {
+      "title": "Transcripts",
+      "transformation": {
+        "fields": [
+          "videoId",
+          "title",
+          "channel",
+          "status",
+          "languageCode",
+          "isGenerated",
+          "wordCount",
+          "durationSeconds",
+          "text",
+          "url",
+          "error"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "videoId": {
+            "label": "Video ID"
+          },
+          "title": {
+            "label": "Title"
+          },
+          "channel": {
+            "label": "Channel"
+          },
+          "status": {
+            "label": "Status"
+          },
+          "languageCode": {
+            "label": "Lang"
+          },
+          "isGenerated": {
+            "label": "Auto captions"
+          },
+          "wordCount": {
+            "label": "Words",
+            "format": "number"
+          },
+          "durationSeconds": {
+            "label": "Seconds",
+            "format": "number"
+          },
+          "text": {
+            "label": "Transcript"
+          },
+          "url": {
+            "label": "URL",
+            "format": "link"
+          },
+          "error": {
+            "label": "Error"
+          }
+        }
+      }
+    }
+  },
+  "fields": {
+    "type": "object",
+    "properties": {
+      "videoId": {
+        "type": "string",
+        "description": "YouTube video ID"
+      },
+      "url": {
+        "type": "string",
+        "description": "Watch URL"
+      },
+      "title": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Video title"
+      },
+      "channel": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Channel name"
+      },
+      "channelUrl": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Channel URL"
+      },
+      "status": {
+        "type": "string",
+        "description": "ok or error"
+      },
+      "languageCode": {
+        "type": "string",
+        "description": "Transcript language code"
+      },
+      "language": {
+        "type": "string",
+        "description": "Transcript language name"
+      },
+      "isGenerated": {
+        "type": "boolean",
+        "description": "True for auto-generated captions"
+      },
+      "translatedTo": {
+        "type": [
+          "string",
+          "null"
+        ],
+        "description": "Translation target if requested"
+      },
+      "wordCount": {
+        "type": "integer",
+        "description": "Words in transcript"
+      },
+      "durationSeconds": {
+        "type": "number",
+        "description": "End time of last caption"
+      },
+      "text": {
+        "type": "string",
+        "description": "Full transcript as one string"
+      },
+      "timestampedText": {
+        "type": "string",
+        "description": "Transcript lines prefixed with [m:ss]"
+      },
+      "segments": {
+        "type": "array",
+        "description": "Timed caption segments {start, duration, text}"
+      },
+      "srt": {
+        "type": "string",
+        "description": "SRT subtitles (if requested)"
+      },
+      "availableLanguages": {
+        "type": "array",
+        "description": "All caption tracks on the video"
+      },
+      "error": {
+        "type": "string",
+        "description": "Why the video failed (not charged)"
+      }
+    }
+  }
+}

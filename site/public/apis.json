@@ -1,7 +1,7 @@
 {
   "aid": "gouda-studios-agent-tools.vercel.app",
   "name": "Gouda Studios Agent Tools",
-  "description": "Agent-payable data tools on Apify: SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards, GLEIF company LEI lookup and website contact extraction. Clean JSON, pay per result.",
+  "description": "Agent-payable data tools on Apify: SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards, GLEIF company LEI lookup, website contact extraction and YouTube transcripts. Clean JSON, pay per result.",
   "image": "https://gouda-studios-agent-tools.vercel.app/favicon.svg",
   "url": "https://gouda-studios-agent-tools.vercel.app/apis.json",
   "created": "2026-10-17",
@@ -15,6 +15,7 @@
     "company data",
     "lead generation",
     "contact extraction",
+    "YouTube transcripts",
     "MCP",
     "Apify",
     "AI agents"
@@ -209,6 +210,44 @@
           "url": "https://apify.com/gouda_studios/website-contact-extractor/pricing"
         }
       ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:youtube-transcript-extractor",
+      "name": "YouTube Transcript Extractor",
+      "description": "Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free. Pricing: $0.0005 per run + $0.004 per transcript.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-transcript-extractor/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Video / AI",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/youtube-transcript-extractor"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-transcript-extractor.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/youtube-transcript-extractor"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/youtube-transcript-extractor/pricing"
+        }
+      ]
     }
   ],
   "common": [
@@ -226,7 +265,7 @@
     },
     {
       "type": "MCPServer",
-      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup,gouda_studios/website-contact-extractor"
+      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup,gouda_studios/website-contact-extractor,gouda_studios/youtube-transcript-extractor"
     }
   ],
   "maintainers": [

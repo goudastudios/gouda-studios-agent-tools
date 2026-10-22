@@ -1,6 +1,6 @@
 # Gouda Studios Agent Tools
 
-Pay-per-result data tools for AI agents and developers: U.S. federal contract opportunities (SAM.gov), SEC EDGAR filings, USAspending federal awards, global company LEI lookup (GLEIF), and website contact extraction (emails, phones, social links). Every tool runs on [Apify](https://apify.com/gouda_studios), returns clean JSON, and can be called by an agent with an Apify token, through the Apify MCP server, or paid per run with x402 or Skyfire.
+Pay-per-result data tools for AI agents and developers: U.S. federal contract opportunities (SAM.gov), SEC EDGAR filings, USAspending federal awards, global company LEI lookup (GLEIF), website contact extraction (emails, phones, social links), and YouTube transcripts. Every tool runs on [Apify](https://apify.com/gouda_studios), returns clean JSON, and can be called by an agent with an Apify token, through the Apify MCP server, or paid per run with x402 or Skyfire.
 
 - Agent site: https://gouda-studios-agent-tools.vercel.app
 - llms.txt: https://gouda-studios-agent-tools.vercel.app/llms.txt
@@ -16,6 +16,7 @@ Pay-per-result data tools for AI agents and developers: U.S. federal contract op
 | USAspending Federal Awards | [gouda_studios/usaspending-awards-search](https://apify.com/gouda_studios/usaspending-awards-search) | Contract and grant awards by keyword, recipient, agency, NAICS, state, date and amount. | $0.001 per run + $0.0015 per award |
 | GLEIF Company LEI Lookup | [gouda_studios/gleif-company-lei-lookup](https://apify.com/gouda_studios/gleif-company-lei-lookup) | Legal name, status, jurisdiction, registration number, addresses, direct and ultimate parent for 2.9M+ entities. | $0.001 per run + $0.003 per company |
 | Website Contact Extractor | [gouda_studios/website-contact-extractor](https://apify.com/gouda_studios/website-contact-extractor) | One row per website: emails (Cloudflare-protected ones decoded, MX checked), validated phones, social profiles, address. Only sites with contacts are charged. | $0.0005 per run + $0.0025 per website with contacts |
+| YouTube Transcript Extractor | [gouda_studios/youtube-transcript-extractor](https://apify.com/gouda_studios/youtube-transcript-extractor) | Transcript of any YouTube video or Short as text, timestamped text, segments and SRT. Any language, auto-translate, residential proxy built in. Failed videos are free. | $0.0005 per run + $0.004 per transcript |
 
 Pricing is Apify pay per event: a small start charge per run plus the per-result price. No platform usage fee is added.
 

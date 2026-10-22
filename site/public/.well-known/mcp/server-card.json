@@ -4,7 +4,7 @@
     "version": "1.0.0"
   },
   "name": "Gouda Studios Agent Tools",
-  "description": "Agent-payable data tools (SAM.gov, SEC EDGAR, USAspending, GLEIF, website contact extractor) via Apify's hosted MCP server.",
+  "description": "Agent-payable data tools (SAM.gov, SEC EDGAR, USAspending, GLEIF, website contact extractor, YouTube transcript extractor) via Apify's hosted MCP server.",
   "url": "https://gouda-studios-agent-tools.vercel.app/mcp",
   "transport": {
     "type": "streamable-http",
@@ -714,7 +714,7 @@
     {
       "name": "gouda_studios--website-contact-extractor",
       "title": "gouda_studios/website-contact-extractor",
-      "description": "This tool calls the Actor \"gouda_studios/website-contact-extractor\" and retrieves its output results.\nActor description: Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found.",
+      "description": "This tool calls the Actor \"gouda_studios/website-contact-extractor\" and retrieves its output results.\nActor description: Email extractor and contact scraper for lead gen. Give it any list of websites and get emails, phones, LinkedIn, Facebook, Instagram, X and TikTok links and addresses, one deduplicated row per site. Cloudflare emails decoded, phones validated. Pay only for sites where contacts are found.",
       "inputSchema": {
         "title": "Website Contact Extractor",
         "type": "object",
@@ -836,6 +836,155 @@
       },
       "annotations": {
         "title": "gouda_studios/website-contact-extractor",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "gouda_studios--youtube-transcript-extractor",
+      "title": "gouda_studios/youtube-transcript-extractor",
+      "description": "This tool calls the Actor \"gouda_studios/youtube-transcript-extractor\" and retrieves its output results.\nActor description: Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free.",
+      "inputSchema": {
+        "title": "YouTube Transcript Extractor input",
+        "type": "object",
+        "properties": {
+          "videos": {
+            "title": "YouTube video URLs or IDs",
+            "description": "**REQUIRED** Watch URLs, youtu.be links, Shorts, live or embed URLs, or bare 11-character video IDs.\nExample values: [\"https://www.youtube.com/watch?v=dQw4w9WgXcQ\"]",
+            "type": "array",
+            "prefill": [
+              "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            ],
+            "items": {
+              "title": "YouTube video URLs or IDs",
+              "description": "**REQUIRED** Watch URLs, youtu.be links, Shorts, live or embed URLs, or bare 11-character video IDs.",
+              "type": "string"
+            },
+            "examples": [
+              "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+            ]
+          },
+          "languages": {
+            "title": "Preferred languages",
+            "description": "Language codes in priority order, e.g. en, es, de. If none match, the first available transcript is returned.\nExample values: [\"en\"]",
+            "type": "array",
+            "default": [
+              "en"
+            ],
+            "items": {
+              "title": "Preferred languages",
+              "description": "Language codes in priority order, e.g. en, es, de. If none match, the first available transcript is returned.",
+              "type": "string"
+            },
+            "examples": [
+              "en"
+            ]
+          },
+          "translateTo": {
+            "title": "Translate to (optional)",
+            "description": "Language code to auto-translate the transcript into using YouTube's translation, e.g. en.",
+            "type": "string"
+          },
+          "preferManual": {
+            "title": "Prefer human-made captions",
+            "description": "Use manually created captions over auto-generated ones when both exist.\nExample values: true",
+            "type": "boolean",
+            "default": true,
+            "examples": [
+              true
+            ]
+          },
+          "includeSegments": {
+            "title": "Include timed segments",
+            "description": "Add an array of segments with start time and duration.\nExample values: true",
+            "type": "boolean",
+            "default": true,
+            "examples": [
+              true
+            ]
+          },
+          "includeSrt": {
+            "title": "Include SRT subtitles",
+            "description": "Add an SRT subtitle file as a string.",
+            "type": "boolean",
+            "default": false
+          },
+          "maxVideos": {
+            "title": "Max videos",
+            "description": "Stop after this many videos.\nExample values: 1000",
+            "type": "integer",
+            "default": 1000,
+            "examples": [
+              1000
+            ]
+          },
+          "proxyConfiguration": {
+            "title": "Proxy",
+            "description": "Optional. Leave off to use our built-in residential proxy, included in the price. Set your own only if you want to.\nExample values: {\"useApifyProxy\":false}",
+            "type": "object",
+            "default": {
+              "useApifyProxy": false
+            },
+            "prefill": {
+              "useApifyProxy": false
+            },
+            "properties": {
+              "useApifyProxy": {
+                "title": "Use Apify Proxy",
+                "type": "boolean",
+                "description": "Whether to use Apify Proxy. Set this to false when you want to use custom proxy URLs.",
+                "default": true
+              },
+              "apifyProxyGroups": {
+                "title": "Apify Proxy Groups",
+                "type": "array",
+                "description": "Select specific Apify Proxy groups to use (e.g., RESIDENTIAL, DATACENTER).\n**DATACENTER:**\nThe fastest and cheapest option. It uses datacenters to change your IP address. Note that there is a chance of being blocked because of the activity of other users.\n\n**RESIDENTIAL:**\nIP addresses located in homes and offices around the world. These IPs are the least likely to be blocked.",
+                "items": {
+                  "type": "string",
+                  "title": "Proxy group name",
+                  "description": "Proxy group name",
+                  "enum": [
+                    "RESIDENTIAL",
+                    "DATACENTER"
+                  ]
+                }
+              },
+              "proxyUrls": {
+                "title": "Proxy URLs",
+                "type": "array",
+                "description": "List of custom proxy URLs to be used instead of the Apify Proxy.",
+                "items": {
+                  "type": "string",
+                  "title": "Custom proxy URL",
+                  "description": "Custom proxy URL"
+                }
+              }
+            },
+            "required": [
+              "useApifyProxy"
+            ],
+            "examples": [
+              {
+                "useApifyProxy": false
+              }
+            ]
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+          }
+        },
+        "required": [
+          "videos"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--youtube-transcript-extractor/schema.json"
+      },
+      "annotations": {
+        "title": "gouda_studios/youtube-transcript-extractor",
         "readOnlyHint": false,
         "destructiveHint": true,
         "openWorldHint": true

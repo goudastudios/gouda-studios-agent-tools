@@ -1,0 +1,71 @@
+{
+  "title": "YouTube Transcript Extractor input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "videos": {
+      "title": "YouTube video URLs or IDs",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Watch URLs, youtu.be links, Shorts, live or embed URLs, or bare 11-character video IDs.",
+      "prefill": [
+        "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+      ]
+    },
+    "languages": {
+      "title": "Preferred languages",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Language codes in priority order, e.g. en, es, de. If none match, the first available transcript is returned.",
+      "default": [
+        "en"
+      ]
+    },
+    "translateTo": {
+      "title": "Translate to (optional)",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Language code to auto-translate the transcript into using YouTube's translation, e.g. en."
+    },
+    "preferManual": {
+      "title": "Prefer human-made captions",
+      "type": "boolean",
+      "description": "Use manually created captions over auto-generated ones when both exist.",
+      "default": true
+    },
+    "includeSegments": {
+      "title": "Include timed segments",
+      "type": "boolean",
+      "description": "Add an array of segments with start time and duration.",
+      "default": true
+    },
+    "includeSrt": {
+      "title": "Include SRT subtitles",
+      "type": "boolean",
+      "description": "Add an SRT subtitle file as a string.",
+      "default": false
+    },
+    "maxVideos": {
+      "title": "Max videos",
+      "type": "integer",
+      "description": "Stop after this many videos.",
+      "default": 1000,
+      "minimum": 1
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Optional. Leave off to use our built-in residential proxy, included in the price. Set your own only if you want to.",
+      "prefill": {
+        "useApifyProxy": false
+      },
+      "default": {
+        "useApifyProxy": false
+      }
+    }
+  },
+  "required": [
+    "videos"
+  ]
+}

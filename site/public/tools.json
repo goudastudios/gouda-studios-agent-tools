@@ -209,6 +209,47 @@
         ]
       },
       "json": "https://gouda-studios-agent-tools.vercel.app/tools/website-contact-extractor.json"
+    },
+    {
+      "slug": "youtube-transcript-extractor",
+      "name": "YouTube Transcript Extractor",
+      "description": "Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free.",
+      "actor": "gouda_studios/youtube-transcript-extractor",
+      "apify": "https://apify.com/gouda_studios/youtube-transcript-extractor",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-transcript-extractor/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 0.0005
+          },
+          {
+            "name": "transcript",
+            "price": 0.004,
+            "per": "transcript"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~youtube-transcript-extractor/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/youtube-transcript-extractor"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-transcript-extractor.json"
     }
   ]
 }

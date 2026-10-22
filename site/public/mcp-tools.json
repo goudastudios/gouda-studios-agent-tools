@@ -3,5 +3,6 @@
   "gouda_studios/sec-edgar-filings-feed",
   "gouda_studios/usaspending-awards-search",
   "gouda_studios/gleif-company-lei-lookup",
-  "gouda_studios/website-contact-extractor"
+  "gouda_studios/website-contact-extractor",
+  "gouda_studios/youtube-transcript-extractor"
 ]

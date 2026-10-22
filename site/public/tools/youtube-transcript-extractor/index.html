@@ -1,0 +1,72 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="google-site-verification" content="_Ybr6wmY-W34MNXBKQ_hFFmODi8KMyzlrg7Q5fC0v-k"><meta name="viewport" content="width=device-width,initial-scale=1"><title>YouTube Transcript Extractor API | Gouda Studios Agent Tools</title><meta name="description" content="Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free."><link rel="canonical" href="https://gouda-studios-agent-tools.vercel.app/tools/youtube-transcript-extractor/"><link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt"><link rel="alternate" type="application/json" href="/tools.json" title="Tool catalog"><style>body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}pre{background:#f5f5f5;padding:1rem;overflow:auto;font-size:.85rem}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border:1px solid #ddd;padding:.35rem;text-align:left;vertical-align:top}code{background:#f0f0f0;padding:0 .2rem}a{color:#0a58ca}</style><script defer src="/_vercel/insights/script.js"></script><script type="application/ld+json">{"@context": "https://schema.org", "@type": ["SoftwareApplication", "WebAPI"], "name": "YouTube Transcript Extractor", "alternateName": "YouTube Transcript Extractor: Captions, Subtitles, SRT", "description": "Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free.", "url": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-transcript-extractor/", "sameAs": "https://apify.com/gouda_studios/youtube-transcript-extractor", "applicationCategory": "BusinessApplication", "operatingSystem": "Cloud (Apify)", "documentation": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-transcript-extractor.json", "provider": {"@type": "Organization", "name": "Gouda Studios", "email": "m0f@mail.grokbot.com", "url": "https://apify.com/gouda_studios"}, "offers": [{"@type": "Offer", "name": "Actor start", "price": "0.0005", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Per transcript", "price": "0.004", "priceCurrency": "USD", "priceSpecification": {"@type": "UnitPriceSpecification", "price": 0.004, "priceCurrency": "USD", "unitText": "transcript"}}]}</script></head><body><p><a href="/">Gouda Studios Agent Tools</a></p><h1>YouTube Transcript Extractor</h1><p>Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free.</p><p><a href="https://apify.com/gouda_studios/youtube-transcript-extractor">Open on Apify: gouda_studios/youtube-transcript-extractor</a></p>
+<h2>Use cases</h2><ul><li>AI agents and LLM apps that summarize or answer questions about YouTube videos</li><li>Content teams repurposing videos and Shorts into posts, newsletters and blogs</li><li>RAG pipelines and datasets built from spoken content</li><li>Exporting SRT subtitles for editing and accessibility</li></ul>
+<h2>Pricing</h2><ul><li>Actor start: $0.0005 per run</li><li>$0.004 per transcript returned ($4.0 per 1,000)</li><li>No platform usage fee. Set <code>maxResults</code> to cap spend.</li></ul>
+<h2>Input parameters</h2><table><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr><tr><td><code>videos</code></td><td>array</td><td></td><td>Watch URLs, youtu.be links, Shorts, live or embed URLs, or bare 11-character video IDs.</td></tr><tr><td><code>languages</code></td><td>array</td><td>[&quot;en&quot;]</td><td>Language codes in priority order, e.g. en, es, de. If none match, the first available transcript is returned.</td></tr><tr><td><code>translateTo</code></td><td>string</td><td></td><td>Language code to auto-translate the transcript into using YouTube&#x27;s translation, e.g. en.</td></tr><tr><td><code>preferManual</code></td><td>boolean</td><td>true</td><td>Use manually created captions over auto-generated ones when both exist.</td></tr><tr><td><code>includeSegments</code></td><td>boolean</td><td>true</td><td>Add an array of segments with start time and duration.</td></tr><tr><td><code>includeSrt</code></td><td>boolean</td><td>false</td><td>Add an SRT subtitle file as a string.</td></tr><tr><td><code>maxVideos</code></td><td>integer</td><td>1000</td><td>Stop after this many videos.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>{&quot;useApifyProxy&quot;: false}</td><td>Optional. Leave off to use our built-in residential proxy, included in the price. Set your own only if you want to.</td></tr></table>
+<h2>Example input</h2><pre>{
+  &quot;videos&quot;: [
+    &quot;https://www.youtube.com/watch?v=UF8uR6Z6KLc&quot;
+  ],
+  &quot;languages&quot;: [
+    &quot;en&quot;
+  ],
+  &quot;includeSrt&quot;: false
+}</pre>
+<h2>Output fields (one row per transcript)</h2><table><tr><th>Field</th><th>Type</th><th>Description</th></tr><tr><td><code>videoId</code></td><td>string</td><td>YouTube video ID</td></tr><tr><td><code>url</code></td><td>string</td><td>Watch URL</td></tr><tr><td><code>title</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td>Video title</td></tr><tr><td><code>channel</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td>Channel name</td></tr><tr><td><code>channelUrl</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td>Channel URL</td></tr><tr><td><code>status</code></td><td>string</td><td>ok or error</td></tr><tr><td><code>languageCode</code></td><td>string</td><td>Transcript language code</td></tr><tr><td><code>language</code></td><td>string</td><td>Transcript language name</td></tr><tr><td><code>isGenerated</code></td><td>boolean</td><td>True for auto-generated captions</td></tr><tr><td><code>translatedTo</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td>Translation target if requested</td></tr><tr><td><code>wordCount</code></td><td>integer</td><td>Words in transcript</td></tr><tr><td><code>durationSeconds</code></td><td>number</td><td>End time of last caption</td></tr><tr><td><code>text</code></td><td>string</td><td>Full transcript as one string</td></tr><tr><td><code>timestampedText</code></td><td>string</td><td>Transcript lines prefixed with [m:ss]</td></tr><tr><td><code>segments</code></td><td>array</td><td>Timed caption segments {start, duration, text}</td></tr><tr><td><code>srt</code></td><td>string</td><td>SRT subtitles (if requested)</td></tr><tr><td><code>availableLanguages</code></td><td>array</td><td>All caption tracks on the video</td></tr><tr><td><code>error</code></td><td>string</td><td>Why the video failed (not charged)</td></tr></table>
+<h2>Sample output row</h2><pre>{
+  &quot;videoId&quot;: &quot;UF8uR6Z6KLc&quot;,
+  &quot;url&quot;: &quot;https://www.youtube.com/watch?v=UF8uR6Z6KLc&quot;,
+  &quot;title&quot;: &quot;Steve Jobs&#x27; 2005 Stanford Commencement Address&quot;,
+  &quot;channel&quot;: &quot;Stanford&quot;,
+  &quot;channelUrl&quot;: &quot;https://www.youtube.com/@stanford&quot;,
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;languageCode&quot;: &quot;en&quot;,
+  &quot;language&quot;: &quot;English - English&quot;,
+  &quot;isGenerated&quot;: false,
+  &quot;translatedTo&quot;: &quot;en&quot;,
+  &quot;wordCount&quot;: 2298,
+  &quot;durationSeconds&quot;: 903.76,
+  &quot;text&quot;: &quot;This program is brought to you by Stanford University. Please visit us at stanford.edu Thank You. I am honored to be with you today at your commencement from one of the finest universities in the world. Truth be told I never graduated from college and this is the closest I&#x27;ve ever gotten to a colleg...&quot;,
+  &quot;timestampedText&quot;: &quot;[0:07] This program is brought to you by Stanford University.\n[0:10] Please visit us at stanford.edu\n[0:22] Thank You. I am honored to be with you today at your commencement\n[0:30] from one of the fin ...&quot;,
+  &quot;availableLanguages&quot;: [
+    {
+      &quot;languageCode&quot;: &quot;ar&quot;,
+      &quot;language&quot;: &quot;Arabic&quot;,
+      &quot;isGenerated&quot;: false
+    },
+    {
+      &quot;languageCode&quot;: &quot;en&quot;,
+      &quot;language&quot;: &quot;English (auto-generated)&quot;,
+      &quot;isGenerated&quot;: true
+    },
+    {
+      &quot;languageCode&quot;: &quot;en&quot;,
+      &quot;language&quot;: &quot;English - English&quot;,
+      &quot;isGenerated&quot;: false
+    }
+  ],
+  &quot;segments&quot;: [
+    {
+      &quot;start&quot;: 7.47,
+      &quot;duration&quot;: 2.899,
+      &quot;text&quot;: &quot;This program is brought to you by Stanford University.&quot;
+    },
+    {
+      &quot;start&quot;: 10.47,
+      &quot;duration&quot;: 3.973,
+      &quot;text&quot;: &quot;Please visit us at stanford.edu&quot;
+    },
+    {
+      &quot;start&quot;: 22.492,
+      &quot;duration&quot;: 7.527,
+      &quot;text&quot;: &quot;Thank You. I am honored to be with you today at your commencement&quot;
+    }
+  ]
+}</pre>
+<h2>How to call</h2><h3>Apify API (synchronous, returns dataset items)</h3><pre>curl -X POST &quot;https://api.apify.com/v2/acts/gouda_studios~youtube-transcript-extractor/run-sync-get-dataset-items?token=$APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;videos&quot;: [&quot;https://www.youtube.com/watch?v=UF8uR6Z6KLc&quot;], &quot;languages&quot;: [&quot;en&quot;], &quot;includeSrt&quot;: false}&#x27;</pre>
+<h3>Apify MCP server</h3><p>Connect an MCP client to <code>https://mcp.apify.com</code> and add the actor <code>gouda_studios/youtube-transcript-extractor</code>, for example <code>https://mcp.apify.com/?tools=gouda_studios/youtube-transcript-extractor</code>.</p>
+<h3>Agentic payments (x402 / Skyfire)</h3><p>This actor is eligible for Apify agentic payments, so an AI agent can pay per run without an Apify account. See <a href="https://docs.apify.com/platform/integrations/x402">Apify x402 docs</a>.</p>
+<p>Machine-readable: <a href="/tools/youtube-transcript-extractor.json">/tools/youtube-transcript-extractor.json</a></p><hr><p>Contact: <a href="mailto:m0f@mail.grokbot.com">m0f@mail.grokbot.com</a> | Machine-readable: <a href="/llms.txt">llms.txt</a>, <a href="/llms-full.txt">llms-full.txt</a>, <a href="/tools.json">tools.json</a>, <a href="/openapi.json">openapi.json</a> | Source: <a href="https://github.com/goudastudios/gouda-studios-agent-tools">GitHub</a></p><p><a href="https://aiagentslisting.com/gouda-studios-agent-tools">
+  <img src="https://aiagentslisting.com/gouda-studios-agent-tools/badge.svg?theme=light" alt="Gouda Studios Agent Tools badge" width="200" height="50" loading="lazy" />
+</a></p></body></html>

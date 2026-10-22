@@ -1,0 +1,17 @@
+{
+  "actorSpecification": 1,
+  "name": "youtube-transcript-extractor",
+  "title": "YouTube Transcript Extractor: Captions, Subtitles, SRT",
+  "description": "Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "minMemoryMbytes": 256,
+  "maxMemoryMbytes": 1024,
+  "defaultMemoryMbytes": 256,
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "output": "./output_schema.json"
+}

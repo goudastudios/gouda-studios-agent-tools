@@ -1,6 +1,6 @@
 {
   "name": "Gouda Studios Agent Tools",
-  "description": "Agent-payable data tools on Apify: public records and website contacts.",
+  "description": "Agent-payable data tools on Apify: public records, website contacts and YouTube transcripts.",
   "url": "https://gouda-studios-agent-tools.vercel.app",
   "contact": "m0f@mail.grokbot.com",
   "catalog": "https://gouda-studios-agent-tools.vercel.app/tools.json",
@@ -14,7 +14,8 @@
       "gouda_studios/sec-edgar-filings-feed",
       "gouda_studios/usaspending-awards-search",
       "gouda_studios/gleif-company-lei-lookup",
-      "gouda_studios/website-contact-extractor"
+      "gouda_studios/website-contact-extractor",
+      "gouda_studios/youtube-transcript-extractor"
     ]
   },
   "payments": [

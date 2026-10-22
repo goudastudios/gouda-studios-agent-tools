@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "YouTube transcripts",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Transcripts (one row per video)",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
+  }
+}

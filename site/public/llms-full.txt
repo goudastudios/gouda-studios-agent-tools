@@ -478,3 +478,104 @@ Sample output row:
   "scrapedAt": "2026-10-22T05:44:44.947Z"
 }
 ```
+
+
+## YouTube Transcript Extractor
+
+Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free.
+
+Apify: https://apify.com/gouda_studios/youtube-transcript-extractor
+Actor ID for MCP: gouda_studios/youtube-transcript-extractor
+Pricing: $0.0005 per run start + $0.004 per transcript, no platform usage fee.
+
+Use cases:
+- AI agents and LLM apps that summarize or answer questions about YouTube videos
+- Content teams repurposing videos and Shorts into posts, newsletters and blogs
+- RAG pipelines and datasets built from spoken content
+- Exporting SRT subtitles for editing and accessibility
+
+Input parameters:
+- videos (array): Watch URLs, youtu.be links, Shorts, live or embed URLs, or bare 11-character video IDs.
+- languages (array, default ["en"]): Language codes in priority order, e.g. en, es, de. If none match, the first available transcript is returned.
+- translateTo (string): Language code to auto-translate the transcript into using YouTube's translation, e.g. en.
+- preferManual (boolean, default true): Use manually created captions over auto-generated ones when both exist.
+- includeSegments (boolean, default true): Add an array of segments with start time and duration.
+- includeSrt (boolean, default false): Add an SRT subtitle file as a string.
+- maxVideos (integer, default 1000): Stop after this many videos.
+- proxyConfiguration (object, default {"useApifyProxy": false}): Optional. Leave off to use our built-in residential proxy, included in the price. Set your own only if you want to.
+
+Output fields: videoId, url, title, channel, channelUrl, status, languageCode, language, isGenerated, translatedTo, wordCount, durationSeconds, text, timestampedText, segments, srt, availableLanguages, error
+
+Example input:
+```json
+{
+  "videos": [
+    "https://www.youtube.com/watch?v=UF8uR6Z6KLc"
+  ],
+  "languages": [
+    "en"
+  ],
+  "includeSrt": false
+}
+```
+
+Call:
+```bash
+curl -X POST "https://api.apify.com/v2/acts/gouda_studios~youtube-transcript-extractor/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"videos": ["https://www.youtube.com/watch?v=UF8uR6Z6KLc"], "languages": ["en"], "includeSrt": false}'
+```
+
+Sample output row:
+```json
+{
+  "videoId": "UF8uR6Z6KLc",
+  "url": "https://www.youtube.com/watch?v=UF8uR6Z6KLc",
+  "title": "Steve Jobs' 2005 Stanford Commencement Address",
+  "channel": "Stanford",
+  "channelUrl": "https://www.youtube.com/@stanford",
+  "status": "ok",
+  "languageCode": "en",
+  "language": "English - English",
+  "isGenerated": false,
+  "translatedTo": "en",
+  "wordCount": 2298,
+  "durationSeconds": 903.76,
+  "text": "This program is brought to you by Stanford University. Please visit us at stanford.edu Thank You. I am honored to be with you today at your commencement from one of the finest universities in the world. Truth be told I never graduated from college and this is the closest I've ever gotten to a colleg...",
+  "timestampedText": "[0:07] This program is brought to you by Stanford University.\n[0:10] Please visit us at stanford.edu\n[0:22] Thank You. I am honored to be with you today at your commencement\n[0:30] from one of the fin ...",
+  "availableLanguages": [
+    {
+      "languageCode": "ar",
+      "language": "Arabic",
+      "isGenerated": false
+    },
+    {
+      "languageCode": "en",
+      "language": "English (auto-generated)",
+      "isGenerated": true
+    },
+    {
+      "languageCode": "en",
+      "language": "English - English",
+      "isGenerated": false
+    }
+  ],
+  "segments": [
+    {
+      "start": 7.47,
+      "duration": 2.899,
+      "text": "This program is brought to you by Stanford University."
+    },
+    {
+      "start": 10.47,
+      "duration": 3.973,
+      "text": "Please visit us at stanford.edu"
+    },
+    {
+      "start": 22.492,
+      "duration": 7.527,
+      "text": "Thank You. I am honored to be with you today at your commencement"
+    }
+  ]
+}
+```

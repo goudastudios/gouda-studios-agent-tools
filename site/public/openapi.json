@@ -931,6 +931,182 @@
           }
         }
       }
+    },
+    "/acts/gouda_studios~youtube-transcript-extractor/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_youtube_transcript_extractor",
+        "summary": "Run YouTube Transcript Extractor and return dataset items",
+        "description": "Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free. Pricing: $0.0005 per run + $0.004 per transcript.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/youtube-transcript-extractor"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "videos": {
+                    "type": "array",
+                    "description": "Watch URLs, youtu.be links, Shorts, live or embed URLs, or bare 11-character video IDs."
+                  },
+                  "languages": {
+                    "type": "array",
+                    "description": "Language codes in priority order, e.g. en, es, de. If none match, the first available transcript is returned.",
+                    "default": [
+                      "en"
+                    ]
+                  },
+                  "translateTo": {
+                    "type": "string",
+                    "description": "Language code to auto-translate the transcript into using YouTube's translation, e.g. en."
+                  },
+                  "preferManual": {
+                    "type": "boolean",
+                    "description": "Use manually created captions over auto-generated ones when both exist.",
+                    "default": true
+                  },
+                  "includeSegments": {
+                    "type": "boolean",
+                    "description": "Add an array of segments with start time and duration.",
+                    "default": true
+                  },
+                  "includeSrt": {
+                    "type": "boolean",
+                    "description": "Add an SRT subtitle file as a string.",
+                    "default": false
+                  },
+                  "maxVideos": {
+                    "type": "integer",
+                    "description": "Stop after this many videos.",
+                    "default": 1000
+                  },
+                  "proxyConfiguration": {
+                    "type": "object",
+                    "description": "Optional. Leave off to use our built-in residential proxy, included in the price. Set your own only if you want to.",
+                    "default": {
+                      "useApifyProxy": false
+                    }
+                  }
+                }
+              },
+              "example": {
+                "videos": [
+                  "https://www.youtube.com/watch?v=UF8uR6Z6KLc"
+                ],
+                "languages": [
+                  "en"
+                ],
+                "includeSrt": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "videoId": {
+                        "type": "string",
+                        "description": "YouTube video ID"
+                      },
+                      "url": {
+                        "type": "string",
+                        "description": "Watch URL"
+                      },
+                      "title": {
+                        "description": "Video title"
+                      },
+                      "channel": {
+                        "description": "Channel name"
+                      },
+                      "channelUrl": {
+                        "description": "Channel URL"
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "ok or error"
+                      },
+                      "languageCode": {
+                        "type": "string",
+                        "description": "Transcript language code"
+                      },
+                      "language": {
+                        "type": "string",
+                        "description": "Transcript language name"
+                      },
+                      "isGenerated": {
+                        "type": "boolean",
+                        "description": "True for auto-generated captions"
+                      },
+                      "translatedTo": {
+                        "description": "Translation target if requested"
+                      },
+                      "wordCount": {
+                        "type": "integer",
+                        "description": "Words in transcript"
+                      },
+                      "durationSeconds": {
+                        "type": "number",
+                        "description": "End time of last caption"
+                      },
+                      "text": {
+                        "type": "string",
+                        "description": "Full transcript as one string"
+                      },
+                      "timestampedText": {
+                        "type": "string",
+                        "description": "Transcript lines prefixed with [m:ss]"
+                      },
+                      "segments": {
+                        "type": "array",
+                        "description": "Timed caption segments {start, duration, text}"
+                      },
+                      "srt": {
+                        "type": "string",
+                        "description": "SRT subtitles (if requested)"
+                      },
+                      "availableLanguages": {
+                        "type": "array",
+                        "description": "All caption tracks on the video"
+                      },
+                      "error": {
+                        "type": "string",
+                        "description": "Why the video failed (not charged)"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
