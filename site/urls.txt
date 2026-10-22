@@ -23,6 +23,10 @@
 /guides/how-to-find-small-business-set-aside-contracts/
 /guides/how-to-monitor-sec-filings-automatically/
 /guides/how-to-track-insider-trading-form-4-filings/
+/guides/how-to-get-a-youtube-video-transcript/
+/guides/how-to-download-youtube-transcripts-in-bulk/
+/guides/how-to-scrape-emails-from-a-list-of-websites/
+/guides/how-to-find-contact-emails-for-google-maps-leads/
 /guides/use-public-data-tools-in-claude-and-cursor-with-mcp/
 /robots.txt
 /sitemap.xml
