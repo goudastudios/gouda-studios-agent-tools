@@ -109,7 +109,8 @@ urls=['/','/llms.txt','/llms-full.txt','/tools.json','/openapi.json']+[f"/tools/
 open(OUT+'/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f"<url><loc>{BASE}{u}</loc><lastmod>2026-10-22</lastmod></url>" for u in urls)+'</urlset>\n')
 json.dump({"headers":[{"source":"/(.*)\\.(json|txt)","headers":[{"key":"Access-Control-Allow-Origin","value":"*"}]}]},open(OUT+'/vercel.json','w'),indent=2)
 open('urls.txt','w').write('\n'.join(urls+['/robots.txt','/sitemap.xml','/.well-known/ai-plugin.json','/.well-known/agents.json']))
-open(OUT+'/e8cf6b9751f94a61bbcae58f0d4ec4b0.txt','w').write('e8cf6b9751f94a61bbcae58f0d4ec4b0')
+INDEXNOW_KEY='e8cf6b9751f94a61bbcae58f0d4ec4b0'  # IndexNow key file; ping with indexnow.py after deploy
+open(f"{OUT}/{INDEXNOW_KEY}.txt",'w').write(INDEXNOW_KEY)
 # APIs.json (apisjson.org v0.19) for APIs.io and other API search engines
 apisj={"aid":"gouda-studios-agent-tools.vercel.app","name":"Gouda Studios Agent Tools","description":"Agent-payable data tools on Apify: SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards, GLEIF company LEI lookup, website contact extraction and YouTube transcripts. Clean JSON, pay per result.","image":BASE+"/favicon.svg","url":BASE+"/apis.json","created":"2026-10-17","modified":"2026-10-17","specificationVersion":"0.19","tags":["government data","SEC","federal contracts","KYB","company data","lead generation","contact extraction","YouTube transcripts","MCP","Apify","AI agents"],
  "apis":[{"aid":"gouda-studios-agent-tools.vercel.app:"+t['slug'],"name":t['name'],"description":t['desc']+f" Pricing: ${t['start']} per run + ${t['price']} per {t['unit']}.","humanURL":BASE+f"/tools/{t['slug']}/","baseURL":"https://api.apify.com/v2","tags":[t['cat'],"Apify","JSON"],
