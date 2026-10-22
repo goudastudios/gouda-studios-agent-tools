@@ -28,6 +28,9 @@
 /guides/how-to-scrape-emails-from-a-list-of-websites/
 /guides/how-to-find-contact-emails-for-google-maps-leads/
 /guides/use-public-data-tools-in-claude-and-cursor-with-mcp/
+/guides/credit-card-benefits-tracker-spreadsheet/
+/guides/credit-card-churning-spreadsheet-template/
+/guides/rental-property-analysis-spreadsheet/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json

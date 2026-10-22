@@ -79,6 +79,7 @@ for t in TOOLS:
     exampleInput=t['ex'],sampleOutput=t['sample'],inputSchema=t['input_schema'],contact=EMAIL)
   t['json']=j; json.dump(j,open(f"{OUT}/tools/{t['slug']}.json",'w'),indent=2)
 exec(open('guides.py').read())
+exec(open('sheets_guides.py').read())
 cards=''.join(f"<h2><a href=\"/tools/{t['slug']}/\">{E(t['name'])}</a></h2><p>{E(t['desc'])}</p><p>${t['start']} per run + ${t['price']} per {t['unit']}. <a href=\"{t['apify']}\">Apify</a> | <a href=\"/tools/{t['slug']}.json\">JSON</a></p>" for t in TOOLS)
 idx_ld={"@context":"https://schema.org","@type":"WebSite","name":"Gouda Studios Agent Tools","url":BASE+"/","publisher":{"@type":"Organization","name":"Gouda Studios","email":EMAIL},"hasPart":[ld(t) for t in TOOLS]}
 open(OUT+'/index.html','w').write(page("Gouda Studios Agent Tools: data APIs for AI agents","Agent-payable data tools for SAM.gov, SEC EDGAR, USAspending, GLEIF and website contact extraction. Pay per result, JSON output, Apify API and MCP.",

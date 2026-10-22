@@ -39,3 +39,9 @@ Contact: m0f@mail.grokbot.com
 ## MCP
 
 - Remote MCP endpoint (Streamable HTTP, Apify OAuth or Bearer token): https://gouda-studios-agent-tools.vercel.app/mcp
+
+## Spreadsheet guides
+
+- [Credit card benefits tracker spreadsheet: how to track statement credits and annual fees](https://gouda-studios-agent-tools.vercel.app/guides/credit-card-benefits-tracker-spreadsheet/): How to build a credit card benefits tracker in Google Sheets or Excel: the columns to use, copy-paste formulas for monthly, quarterly and semiannual credit resets, and a simple keep or cancel test for each annual fee card. Template: https://goudastudios.gumroad.com/l/uurml
+- [Credit card churning spreadsheet template: track bonuses, minimum spend and your x/24 count](https://gouda-studios-agent-tools.vercel.app/guides/credit-card-churning-spreadsheet-template/): How to set up a credit card churning spreadsheet in Google Sheets or Excel: the application log columns, formulas for minimum spend remaining and deadlines, a rolling 24-month card counter and points valuation. Template: https://goudastudios.gumroad.com/l/xjmqe
+- [Rental property analysis spreadsheet: cash flow, cap rate and cash-on-cash return formulas](https://gouda-studios-agent-tools.vercel.app/guides/rental-property-analysis-spreadsheet/): How to analyze a rental property in Google Sheets or Excel: the inputs, the mortgage, NOI, cap rate, cash flow, cash-on-cash and break-even rent formulas, and a worked example with real numbers. Template: https://goudastudios.gumroad.com/l/pcoxn
