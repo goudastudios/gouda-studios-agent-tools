@@ -52,6 +52,11 @@ Call it from the Apify API, the Python or JavaScript client, Make, Zapier, n8n, 
 { "videos": ["https://www.youtube.com/watch?v=dQw4w9WgXcQ", "https://youtu.be/9bZkp7q19f0"], "languages": ["en"], "includeSrt": true }
 ```
 
+## Step-by-step guides
+
+- [How to get a YouTube video transcript](https://gouda-studios-agent-tools.vercel.app/guides/how-to-get-a-youtube-video-transcript/), with or without code.
+- [How to download YouTube transcripts in bulk](https://gouda-studios-agent-tools.vercel.app/guides/how-to-download-youtube-transcripts-in-bulk/) for a whole list of videos at once.
+
 ## Pricing
 
 Pay per event: **$0.004 per transcript extracted** plus a tiny start fee per run. Failed videos cost nothing.

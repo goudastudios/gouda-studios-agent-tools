@@ -1,10 +1,10 @@
-# Website Contact Extractor: Emails, Phones and Social Links per Site
+# Email Extractor and Contact Scraper: Emails, Phones and Social Links from Any Website
 
-Turn a list of websites into a clean lead sheet. Paste domains or URLs, and get **one deduplicated row per website** with emails, phone numbers, social media profiles and the business address.
+This **email extractor** turns a list of websites into a clean lead sheet. Paste domains or URLs, and the contact scraper returns **one deduplicated row per website** with email addresses, phone numbers, social media profiles and the business address. Use it as an email scraper for lead generation, a contact finder for B2B prospecting, or a bulk website email finder for a CRM import.
 
 **You pay only for websites where we find at least one email or phone number.** Sites that fail to load or have no contact details are still returned so you can see what happened, but they are free.
 
-## Why use this contact extractor?
+## Why use this email extractor?
 
 - **One row per website, not per page.** No merge or dedupe step. Ready for CSV, Excel, Google Sheets or your CRM.
 - **Priced per website, not per page.** $2.50 per 1,000 websites with contacts found, no matter how many pages we read on each site (up to 40).
@@ -32,11 +32,14 @@ Turn a list of websites into a clean lead sheet. Paste domains or URLs, and get 
 | `status` | `ok`, `no_contacts_found` or `failed` |
 | `charged` | `true` only for rows you paid for |
 
-## How to use it
+## How to scrape emails from websites
 
 1. Paste your websites into **Websites**, one per line. Bare domains like `example.com` work.
 2. Optional: change **Max pages per site** (default 8), **Default phone country** (default US) or turn on a proxy.
-3. Click **Start**. Download results as CSV, Excel, JSON or HTML, or pull them with the API.
+3. Click **Start**. Download the emails and phone numbers as CSV, Excel, JSON or HTML, or pull them with the API.
+
+Got leads from Google Maps, Yelp, a directory or a trade show list? Export the website column and paste it here to get the emails those sources leave out.
+
 
 ### Input example
 
@@ -70,6 +73,11 @@ Turn a list of websites into a clean lead sheet. Paste domains or URLs, and get 
 }
 ```
 
+## Step-by-step guides
+
+- [How to scrape emails from a list of websites](https://gouda-studios-agent-tools.vercel.app/guides/how-to-scrape-emails-from-a-list-of-websites/).
+- [How to find contact emails for Google Maps leads](https://gouda-studios-agent-tools.vercel.app/guides/how-to-find-contact-emails-for-google-maps-leads/), by feeding the websites from a Google Maps scrape into this actor.
+
 ## Pricing
 
 Pay per event:
@@ -82,6 +90,8 @@ Example: 1,000 websites where 700 have contacts costs about $1.75. Set a maximum
 
 ## Use cases
 
+- **Lead generation:** scrape emails and phone numbers from prospect websites and load them into your outreach tool or CRM
+- **Google Maps lead enrichment:** add emails and social profiles to business lists exported from Google Maps or other map scrapers
 - Enrich a list of company domains from a CRM, trade show or directory export
 - Find contact emails and phones for local businesses, agencies, law firms, clinics and contractors
 - Collect official social media profiles for brand monitoring or outreach
@@ -92,6 +102,10 @@ Example: 1,000 websites where 700 have contacts costs about $1.75. Set a maximum
 This Actor works through the Apify MCP server and the Apify API, so agents like Claude or ChatGPT can call it with a list of URLs and get JSON back. It is also listed on [Gouda Studios Agent Tools](https://gouda-studios-agent-tools.vercel.app/).
 
 ## FAQ
+
+**How is this different from a Google Maps email extractor?** Map scrapers find businesses; this Actor finds the contact details on each business's own website. Run a map scraper first, then feed its website column here.
+
+**Can I extract emails from thousands of websites at once?** Yes. Paste or upload as many URLs as you like; sites are crawled in parallel and you pay only for sites where contacts are found.
 
 **Does it log in to sites or bypass paywalls?** No. It reads only public pages that any visitor can see, and it respects robots.txt by default.
 
