@@ -1,7 +1,7 @@
 # Spreadsheet template guides (search-intent pages for the Gumroad templates). Exec'd from build.py after guides.py.
 GUM='https://goudastudios.gumroad.com/l/'
 SG=[
- dict(slug='credit-card-benefits-tracker-spreadsheet',prod='uurml',pname='Credit Card Benefits Tracker Spreadsheet',price=19,
+ dict(slug='credit-card-benefits-tracker-spreadsheet',prod='uurml',pname='Credit Card Benefits Tracker Spreadsheet',price='3.99',
   q='Credit card benefits tracker spreadsheet: how to track statement credits and annual fees',
   d='How to build a credit card benefits tracker in Google Sheets or Excel: the columns to use, copy-paste formulas for monthly, quarterly and semiannual credit resets, and a simple keep or cancel test for each annual fee card.',
   a='List every statement credit as its own row with its card, value, reset cadence, amount used and next reset date. Add one formula for the reset date, one for the amount left, and a conditional format that turns a row red when unused value expires within 14 days. Then total the credits you actually used per card and subtract the annual fee to see if the card pays for itself.',
@@ -14,7 +14,7 @@ SG=[
    ('Never get surprised by an annual fee','Keep each card\'s fee date in its own column and add Days until fee = FeeDate minus TODAY(). Sort by it, or filter for anything under 60 days, so you can decide to keep, downgrade or cancel before the charge lands.',None),
   ],
   faq=[('Is there a free credit card benefits tracker?','Yes, you can build one in about 15 minutes with the columns and formulas on this page. If you would rather not build it, the ready-made template below includes the reset logic, red alerts, a per-card value dashboard and a fee calendar.'),('Should I track credits by card or by credit?','By credit. Each credit has its own value and reset schedule, so one row per credit is the only way to show the right deadline. Roll it up by card in a summary table.'),('Does this work in Excel and Google Sheets?','Yes. EOMONTH, EDATE, CEILING, DATEDIF and SUMIFS work in both.'),('Do I need to connect my bank?','No. A spreadsheet tracker needs no logins or bank connections. You just tick off a credit when you use it.')]),
- dict(slug='credit-card-churning-spreadsheet-template',prod='xjmqe',pname='Credit Card Churning Tracker Spreadsheet',price=24,
+ dict(slug='credit-card-churning-spreadsheet-template',prod='xjmqe',pname='Credit Card Churning Tracker Spreadsheet',price='4.49',
   q='Credit card churning spreadsheet template: track bonuses, minimum spend and your x/24 count',
   d='How to set up a credit card churning spreadsheet in Google Sheets or Excel: the application log columns, formulas for minimum spend remaining and deadlines, a rolling 24-month card counter and points valuation.',
   a='Keep one row per application with the date, issuer, personal or business, status, bonus, minimum spend, spend so far and deadline. Formulas then show spend remaining and days left, a COUNTIFS gives your rolling 24-month personal card count, and a MINIFS tells you when the oldest card drops out of the window.',
@@ -26,7 +26,7 @@ SG=[
    ('Value your points','Keep a balances tab with each program and your own cents-per-point estimate. Bonus value in dollars = Bonus points x cents per point / 100. Summing that across approved cards gives you what churning actually earned you this year, which helps when you weigh annual fees.',None),
   ],
   faq=[('Is there a churning spreadsheet template for Google Sheets?','Yes. You can build the core of one with the formulas on this page. The ready-made template below adds a deadline-sorted dashboard, issuer rule cells, a points balance tab and the x/24 counter, and works in Google Sheets and Excel.'),('Does the spreadsheet know each bank\'s rules?','No spreadsheet should hard-code them, because issuers change rules and do not publish all of them. Keep every rule as a cell you can edit when new data points appear.'),('Does churning hurt my credit score?','Each application usually adds a hard inquiry and a new account lowers your average account age, which can lower your score for a while. Paying in full every month matters far more. This is general information, not financial advice.')]),
- dict(slug='rental-property-analysis-spreadsheet',prod='pcoxn',pname='Rental Property Investment Analyzer Spreadsheet',price=34,
+ dict(slug='rental-property-analysis-spreadsheet',prod='pcoxn',pname='Rental Property Investment Analyzer Spreadsheet',price='6.99',
   q='Rental property analysis spreadsheet: cash flow, cap rate and cash-on-cash return formulas',
   d='How to analyze a rental property in Google Sheets or Excel: the inputs, the mortgage, NOI, cap rate, cash flow, cash-on-cash and break-even rent formulas, and a worked example with real numbers.',
   a='Enter the price, deposit, loan rate and term, rent, vacancy and every operating expense. Net operating income (NOI) is effective rent minus operating expenses. Cash flow is NOI minus the mortgage. Cap rate is NOI divided by price, and cash-on-cash return is yearly cash flow divided by the cash you put in.',
