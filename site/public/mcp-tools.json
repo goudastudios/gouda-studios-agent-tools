@@ -2,5 +2,6 @@
   "gouda_studios/sam-gov-opportunities-feed",
   "gouda_studios/sec-edgar-filings-feed",
   "gouda_studios/usaspending-awards-search",
-  "gouda_studios/gleif-company-lei-lookup"
+  "gouda_studios/gleif-company-lei-lookup",
+  "gouda_studios/website-contact-extractor"
 ]

@@ -4,7 +4,7 @@
     "version": "1.0.0"
   },
   "name": "Gouda Studios Agent Tools",
-  "description": "Agent-payable public records data tools (SAM.gov, SEC EDGAR, USAspending, GLEIF) via Apify's hosted MCP server.",
+  "description": "Agent-payable data tools (SAM.gov, SEC EDGAR, USAspending, GLEIF, website contact extractor) via Apify's hosted MCP server.",
   "url": "https://gouda-studios-agent-tools.vercel.app/mcp",
   "transport": {
     "type": "streamable-http",
@@ -174,7 +174,7 @@
     {
       "name": "gouda_studios--sam-gov-opportunities-feed",
       "title": "gouda_studios/sam-gov-opportunities-feed",
-      "description": "This tool calls the Actor \"gouda_studios/sam-gov-opportunities-feed\" and retrieves its output results.\nActor description: Get new federal contract opportunities from SAM.gov as clean JSON. Filter by keyword, NAICS, set-aside, notice type and state. Includes deadlines, agency and contracting officer contacts. Monitor mode returns only new notices.",
+      "description": "This tool calls the Actor \"gouda_studios/sam-gov-opportunities-feed\" and retrieves its output results.\nActor description: Get new federal contract opportunities from SAM.gov as clean JSON, no API key needed. Filter by keyword, NAICS, set-aside, notice type, agency and state. Includes deadlines, days left and contracting officer contacts. Monitor mode returns only new notices.",
       "inputSchema": {
         "title": "SAM.gov Contract Opportunities Feed",
         "type": "object",
@@ -367,7 +367,7 @@
     {
       "name": "gouda_studios--sec-edgar-filings-feed",
       "title": "gouda_studios/sec-edgar-filings-feed",
-      "description": "This tool calls the Actor \"gouda_studios/sec-edgar-filings-feed\" and retrieves its output results.\nActor description: Pull recent SEC EDGAR filings by ticker or CIK, including 8-K, 10-Q, 10-K and Form 4 insider trades. Each result has the company, form type, filing date and document links. Built for investor alerts, research and AI agents.",
+      "description": "This tool calls the Actor \"gouda_studios/sec-edgar-filings-feed\" and retrieves its output results.\nActor description: Monitor SEC EDGAR filings by ticker or CIK, including 8-K, 10-Q, 10-K, Form 4 insider trades, Form D and S-1. Each result has the company, form type, filing date and document links. Only-new mode turns it into an alert feed for investors, research and AI agents.",
       "inputSchema": {
         "title": "SEC EDGAR Filings Feed: 8-K, 10-K, 10-Q, Form 4, Form D, S-1",
         "type": "object",
@@ -469,7 +469,7 @@
     {
       "name": "gouda_studios--usaspending-awards-search",
       "title": "gouda_studios/usaspending-awards-search",
-      "description": "This tool calls the Actor \"gouda_studios/usaspending-awards-search\" and retrieves its output results.\nActor description: Search USAspending.gov federal awards by keyword, recipient, agency or date. Get contracts and grants with amounts, recipients, awarding agency and performance dates as JSON. Great for competitor research and sales prospecting.",
+      "description": "This tool calls the Actor \"gouda_studios/usaspending-awards-search\" and retrieves its output results.\nActor description: Search USAspending.gov federal awards by keyword, recipient, agency, NAICS, state, date and amount. Get contracts and grants with amounts, recipients, awarding agency and performance dates as JSON. Track competitors, find who won contracts and build sales prospect lists.",
       "inputSchema": {
         "title": "USAspending Federal Awards Search: Contracts, Grants, Recipients",
         "type": "object",
@@ -608,7 +608,7 @@
     {
       "name": "gouda_studios--gleif-company-lei-lookup",
       "title": "gouda_studios/gleif-company-lei-lookup",
-      "description": "This tool calls the Actor \"gouda_studios/gleif-company-lei-lookup\" and retrieves its output results.\nActor description: Look up any company by name or LEI in GLEIF's official global registry. Get the legal name, LEI, status, addresses, jurisdiction and direct and ultimate parent companies. Ideal for KYC, vendor checks and data enrichment.",
+      "description": "This tool calls the Actor \"gouda_studios/gleif-company-lei-lookup\" and retrieves its output results.\nActor description: Find any company LEI number by name, or look up an LEI, in the official GLEIF global registry. Get the legal name, status, jurisdiction, registration number, legal and HQ address, and direct and ultimate parent companies. For KYC, KYB, vendor checks and data enrichment.",
       "inputSchema": {
         "title": "Company Lookup by Name or LEI: Legal Entity, Address, Parent (GLEIF)",
         "type": "object",
@@ -706,6 +706,136 @@
       },
       "annotations": {
         "title": "gouda_studios/gleif-company-lei-lookup",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      }
+    },
+    {
+      "name": "gouda_studios--website-contact-extractor",
+      "title": "gouda_studios/website-contact-extractor",
+      "description": "This tool calls the Actor \"gouda_studios/website-contact-extractor\" and retrieves its output results.\nActor description: Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found.",
+      "inputSchema": {
+        "title": "Website Contact Extractor",
+        "type": "object",
+        "properties": {
+          "startUrls": {
+            "title": "Websites",
+            "description": "**REQUIRED** Websites or domains to extract contacts from, one per line. Examples: https://www.example.com or example.com. Each site becomes exactly one output row.\nExample values: [\"https://apify.com\",\"https://www.python.org\"]",
+            "type": "array",
+            "prefill": [
+              "https://apify.com",
+              "https://www.python.org"
+            ],
+            "items": {
+              "title": "Websites",
+              "description": "**REQUIRED** Websites or domains to extract contacts from, one per line. Examples: https://www.example.com or example.com. Each site becomes exactly one output row.",
+              "type": "string"
+            },
+            "examples": [
+              "https://apify.com",
+              "https://www.python.org"
+            ]
+          },
+          "maxPagesPerSite": {
+            "title": "Max pages per site",
+            "description": "How many pages to read on each site, starting with the homepage and then the most likely contact pages (Contact, About, Team, Impressum, Support). You pay per site, not per page, so higher values only cost more time.\nExample values: 8",
+            "type": "integer",
+            "default": 8,
+            "examples": [
+              8
+            ]
+          },
+          "defaultCountry": {
+            "title": "Default phone country",
+            "description": "Two-letter country code used to read local phone numbers that have no +country prefix, e.g. US, GB, DE, AU.\nExample values: \"US\"",
+            "type": "string",
+            "default": "US",
+            "examples": [
+              "US"
+            ]
+          },
+          "checkMx": {
+            "title": "Check email domains for MX records",
+            "description": "Adds a free DNS check that each email domain can receive mail. Flags typos and dead domains.\nExample values: true",
+            "type": "boolean",
+            "default": true,
+            "examples": [
+              true
+            ]
+          },
+          "respectRobotsTxt": {
+            "title": "Respect robots.txt",
+            "description": "Skip pages that a site's robots.txt asks crawlers not to visit.\nExample values: true",
+            "type": "boolean",
+            "default": true,
+            "examples": [
+              true
+            ]
+          },
+          "proxyConfiguration": {
+            "title": "Proxy",
+            "description": "Optional. Most business sites work without a proxy. Turn on Apify Proxy if many sites time out or block requests.\nExample values: {\"useApifyProxy\":false}",
+            "type": "object",
+            "default": {
+              "useApifyProxy": false
+            },
+            "properties": {
+              "useApifyProxy": {
+                "title": "Use Apify Proxy",
+                "type": "boolean",
+                "description": "Whether to use Apify Proxy. Set this to false when you want to use custom proxy URLs.",
+                "default": true
+              },
+              "apifyProxyGroups": {
+                "title": "Apify Proxy Groups",
+                "type": "array",
+                "description": "Select specific Apify Proxy groups to use (e.g., RESIDENTIAL, DATACENTER).\n**DATACENTER:**\nThe fastest and cheapest option. It uses datacenters to change your IP address. Note that there is a chance of being blocked because of the activity of other users.\n\n**RESIDENTIAL:**\nIP addresses located in homes and offices around the world. These IPs are the least likely to be blocked.",
+                "items": {
+                  "type": "string",
+                  "title": "Proxy group name",
+                  "description": "Proxy group name",
+                  "enum": [
+                    "RESIDENTIAL",
+                    "DATACENTER"
+                  ]
+                }
+              },
+              "proxyUrls": {
+                "title": "Proxy URLs",
+                "type": "array",
+                "description": "List of custom proxy URLs to be used instead of the Apify Proxy.",
+                "items": {
+                  "type": "string",
+                  "title": "Custom proxy URL",
+                  "description": "Custom proxy URL"
+                }
+              }
+            },
+            "required": [
+              "useApifyProxy"
+            ],
+            "examples": [
+              {
+                "useApifyProxy": false
+              }
+            ]
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+          }
+        },
+        "required": [
+          "startUrls"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--website-contact-extractor/schema.json"
+      },
+      "annotations": {
+        "title": "gouda_studios/website-contact-extractor",
         "readOnlyHint": false,
         "destructiveHint": true,
         "openWorldHint": true

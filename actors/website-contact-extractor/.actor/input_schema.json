@@ -1,0 +1,49 @@
+{
+  "title": "Website Contact Extractor",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "startUrls": {
+      "title": "Websites",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Websites or domains to extract contacts from, one per line. Examples: https://www.example.com or example.com. Each site becomes exactly one output row.",
+      "prefill": ["https://apify.com", "https://www.python.org"]
+    },
+    "maxPagesPerSite": {
+      "title": "Max pages per site",
+      "type": "integer",
+      "description": "How many pages to read on each site, starting with the homepage and then the most likely contact pages (Contact, About, Team, Impressum, Support). You pay per site, not per page, so higher values only cost more time.",
+      "default": 8,
+      "minimum": 1,
+      "maximum": 40
+    },
+    "defaultCountry": {
+      "title": "Default phone country",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Two-letter country code used to read local phone numbers that have no +country prefix, e.g. US, GB, DE, AU.",
+      "default": "US"
+    },
+    "checkMx": {
+      "title": "Check email domains for MX records",
+      "type": "boolean",
+      "description": "Adds a free DNS check that each email domain can receive mail. Flags typos and dead domains.",
+      "default": true
+    },
+    "respectRobotsTxt": {
+      "title": "Respect robots.txt",
+      "type": "boolean",
+      "description": "Skip pages that a site's robots.txt asks crawlers not to visit.",
+      "default": true
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Optional. Most business sites work without a proxy. Turn on Apify Proxy if many sites time out or block requests.",
+      "default": { "useApifyProxy": false }
+    }
+  },
+  "required": ["startUrls"]
+}

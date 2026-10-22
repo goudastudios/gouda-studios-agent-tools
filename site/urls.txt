@@ -7,10 +7,12 @@
 /tools/sec-edgar-filings-feed/
 /tools/usaspending-awards-search/
 /tools/gleif-company-lei-lookup/
+/tools/website-contact-extractor/
 /tools/sam-gov-opportunities-feed.json
 /tools/sec-edgar-filings-feed.json
 /tools/usaspending-awards-search.json
 /tools/gleif-company-lei-lookup.json
+/tools/website-contact-extractor.json
 /guides/how-to-find-a-company-lei-number/
 /guides/how-to-check-if-an-lei-is-valid-and-find-the-parent-company/
 /guides/how-to-track-federal-contract-awards/

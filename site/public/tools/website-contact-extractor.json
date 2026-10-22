@@ -1,0 +1,381 @@
+{
+  "slug": "website-contact-extractor",
+  "name": "Website Contact Extractor",
+  "title": "Website Contact Extractor: Emails, Phones, Socials per Site",
+  "actor": "gouda_studios/website-contact-extractor",
+  "apify": "https://apify.com/gouda_studios/website-contact-extractor",
+  "cat": "Lead generation",
+  "uses": [
+    "Sales and agency teams turning a list of company domains into emails, phones and social profiles",
+    "Local business lead lists: clinics, law firms, contractors, restaurants",
+    "CRM enrichment with one clean row per company website",
+    "AI agents that need a company's official contact details as JSON"
+  ],
+  "inputs": [
+    {
+      "name": "startUrls",
+      "type": "array",
+      "title": "Websites",
+      "description": "Websites or domains to extract contacts from, one per line. Examples: https://www.example.com or example.com. Each site becomes exactly one output row.",
+      "default": null
+    },
+    {
+      "name": "maxPagesPerSite",
+      "type": "integer",
+      "title": "Max pages per site",
+      "description": "How many pages to read on each site, starting with the homepage and then the most likely contact pages (Contact, About, Team, Impressum, Support). You pay per site, not per page, so higher values only cost more time.",
+      "default": 8
+    },
+    {
+      "name": "defaultCountry",
+      "type": "string",
+      "title": "Default phone country",
+      "description": "Two-letter country code used to read local phone numbers that have no +country prefix, e.g. US, GB, DE, AU.",
+      "default": "US"
+    },
+    {
+      "name": "checkMx",
+      "type": "boolean",
+      "title": "Check email domains for MX records",
+      "description": "Adds a free DNS check that each email domain can receive mail. Flags typos and dead domains.",
+      "default": true
+    },
+    {
+      "name": "respectRobotsTxt",
+      "type": "boolean",
+      "title": "Respect robots.txt",
+      "description": "Skip pages that a site's robots.txt asks crawlers not to visit.",
+      "default": true
+    },
+    {
+      "name": "proxyConfiguration",
+      "type": "object",
+      "title": "Proxy",
+      "description": "Optional. Most business sites work without a proxy. Turn on Apify Proxy if many sites time out or block requests.",
+      "default": {
+        "useApifyProxy": false
+      }
+    }
+  ],
+  "outputs": [
+    {
+      "name": "inputUrl",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "domain",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "finalUrl",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "siteName",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "primaryEmail",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "primaryPhone",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "emails",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "phones",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "linkedin",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "facebook",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "instagram",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "x",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "youtube",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "tiktok",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "otherSocials",
+      "type": "object",
+      "description": ""
+    },
+    {
+      "name": "addresses",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "contactPageUrls",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "emailDetails",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "phoneDetails",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "pagesScanned",
+      "type": "integer",
+      "description": ""
+    },
+    {
+      "name": "scannedUrls",
+      "type": "array",
+      "description": ""
+    },
+    {
+      "name": "charged",
+      "type": "boolean",
+      "description": ""
+    },
+    {
+      "name": "error",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "scrapedAt",
+      "type": "string",
+      "description": ""
+    }
+  ],
+  "description": "Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/website-contact-extractor/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 0.0005
+      },
+      {
+        "name": "website with contacts",
+        "price": 0.0025,
+        "per": "website with contacts"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~website-contact-extractor/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/website-contact-extractor"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "startUrls": [
+      "https://apify.com",
+      "python.org"
+    ],
+    "maxPagesPerSite": 8,
+    "defaultCountry": "US"
+  },
+  "sampleOutput": {
+    "inputUrl": "https://apify.com",
+    "domain": "apify.com",
+    "finalUrl": "https://apify.com/",
+    "siteName": "Apify",
+    "status": "ok",
+    "primaryEmail": "support@apify.com",
+    "primaryPhone": null,
+    "emails": [
+      "support@apify.com",
+      "hello@apify.com"
+    ],
+    "phones": [],
+    "linkedin": [
+      "https://www.linkedin.com/company/apify",
+      "http://linkedin.com/company/apify"
+    ],
+    "facebook": [],
+    "instagram": [],
+    "x": [
+      "https://x.com/apify"
+    ],
+    "youtube": [],
+    "tiktok": [
+      "https://www.tiktok.com/@apifytech",
+      "https://www.tiktok.com/@apifyoffice"
+    ],
+    "otherSocials": {
+      "github": [
+        "https://github.com/apify"
+      ],
+      "discord": [
+        "https://discord.com/invite/jyEM2PRvMU",
+        "https://discord.gg/w3e2v7rWDw"
+      ]
+    },
+    "addresses": [
+      {
+        "street": "Na P\u0159\u00edkop\u011b 959/27",
+        "city": "Prague",
+        "region": null,
+        "postalCode": "11000",
+        "country": "CZ"
+      }
+    ],
+    "contactPageUrls": [
+      "https://apify.com/contact",
+      "https://apify.com/contact-sales",
+      "https://apify.com/contact-sales/demo"
+    ],
+    "emailDetails": [
+      {
+        "email": "support@apify.com",
+        "foundOn": "https://apify.com/",
+        "source": "schema.org",
+        "isRoleAccount": true,
+        "matchesSiteDomain": true,
+        "domainHasMx": true
+      },
+      {
+        "email": "hello@apify.com",
+        "foundOn": "https://apify.com/contact",
+        "source": "mailto",
+        "isRoleAccount": true,
+        "matchesSiteDomain": true,
+        "domainHasMx": true
+      }
+    ],
+    "phoneDetails": [],
+    "pagesScanned": 4,
+    "scannedUrls": [
+      "https://apify.com/",
+      "https://apify.com/contact",
+      "https://apify.com/contact-sales",
+      "https://apify.com/about"
+    ],
+    "charged": true,
+    "error": null,
+    "scrapedAt": "2026-10-22T05:44:44.947Z"
+  },
+  "inputSchema": {
+    "title": "Website Contact Extractor",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "startUrls": {
+        "title": "Websites",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Websites or domains to extract contacts from, one per line. Examples: https://www.example.com or example.com. Each site becomes exactly one output row.",
+        "prefill": [
+          "https://apify.com",
+          "https://www.python.org"
+        ]
+      },
+      "maxPagesPerSite": {
+        "title": "Max pages per site",
+        "type": "integer",
+        "description": "How many pages to read on each site, starting with the homepage and then the most likely contact pages (Contact, About, Team, Impressum, Support). You pay per site, not per page, so higher values only cost more time.",
+        "default": 8,
+        "minimum": 1,
+        "maximum": 40
+      },
+      "defaultCountry": {
+        "title": "Default phone country",
+        "type": "string",
+        "editor": "textfield",
+        "description": "Two-letter country code used to read local phone numbers that have no +country prefix, e.g. US, GB, DE, AU.",
+        "default": "US"
+      },
+      "checkMx": {
+        "title": "Check email domains for MX records",
+        "type": "boolean",
+        "description": "Adds a free DNS check that each email domain can receive mail. Flags typos and dead domains.",
+        "default": true
+      },
+      "respectRobotsTxt": {
+        "title": "Respect robots.txt",
+        "type": "boolean",
+        "description": "Skip pages that a site's robots.txt asks crawlers not to visit.",
+        "default": true
+      },
+      "proxyConfiguration": {
+        "title": "Proxy",
+        "type": "object",
+        "editor": "proxy",
+        "description": "Optional. Most business sites work without a proxy. Turn on Apify Proxy if many sites time out or block requests.",
+        "default": {
+          "useApifyProxy": false
+        }
+      }
+    },
+    "required": [
+      "startUrls"
+    ]
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

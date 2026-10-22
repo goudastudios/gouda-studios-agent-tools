@@ -61,7 +61,7 @@ G=[
  dict(slug='use-public-data-tools-in-claude-and-cursor-with-mcp',tool=None,
   q='How to use SAM.gov, SEC EDGAR, USAspending and LEI data in Claude or Cursor with MCP',
   d='Connect Claude, Cursor or any MCP client to one remote MCP URL and ask questions about federal contracts, SEC filings, federal awards and company LEIs.',
-  a='Add '+MCP+' as a remote MCP server (Streamable HTTP). Your client signs in with your Apify account through OAuth, or you pass an Apify API token as a Bearer header. The four tools then appear in the client and you pay per result.',
+  a='Add '+MCP+' as a remote MCP server (Streamable HTTP). Your client signs in with your Apify account through OAuth, or you pass an Apify API token as a Bearer header. The tools then appear in the client and you pay per result.',
   steps=['Cursor: add the server to .cursor/mcp.json as {"mcpServers":{"gouda-studios":{"url":"'+MCP+'"}}}.','Claude: add a custom connector with the URL '+MCP+'.','Other clients: use the same URL with Streamable HTTP transport, and either OAuth or an Authorization: Bearer header with your Apify token.','Ask a question, for example "find open SBA set-aside software RFPs on SAM.gov" or "what is the LEI for Siemens AG".'],
   ex={"mcpServers":{"gouda-studios":{"url":MCP}}},
   faq=[('Do I need an Apify account?','For MCP use, yes, a free Apify account. Agents can also pay per run without an account through x402 or Skyfire on the Apify API.'),('Which tools are included?','SAM.gov Contract Opportunities, SEC EDGAR Filings Feed, USAspending Awards Search and Company LEI Lookup, plus Apify helper tools to fetch run results.')]),

@@ -1,0 +1,183 @@
+{
+  "actorSpecification": 1,
+  "views": {
+    "overview": {
+      "title": "Contacts (one row per site)",
+      "transformation": {
+        "fields": [
+          "domain",
+          "siteName",
+          "status",
+          "primaryEmail",
+          "primaryPhone",
+          "emails",
+          "phones",
+          "linkedin",
+          "facebook",
+          "instagram",
+          "x",
+          "youtube",
+          "pagesScanned",
+          "finalUrl"
+        ]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "domain": {
+            "label": "Domain"
+          },
+          "siteName": {
+            "label": "Site name"
+          },
+          "status": {
+            "label": "Status"
+          },
+          "primaryEmail": {
+            "label": "Primary email"
+          },
+          "primaryPhone": {
+            "label": "Primary phone"
+          },
+          "emails": {
+            "label": "Emails",
+            "format": "array"
+          },
+          "phones": {
+            "label": "Phones",
+            "format": "array"
+          },
+          "linkedin": {
+            "label": "Linkedin",
+            "format": "array"
+          },
+          "facebook": {
+            "label": "Facebook",
+            "format": "array"
+          },
+          "instagram": {
+            "label": "Instagram",
+            "format": "array"
+          },
+          "x": {
+            "label": "X",
+            "format": "array"
+          },
+          "youtube": {
+            "label": "Youtube",
+            "format": "array"
+          },
+          "pagesScanned": {
+            "label": "Pages scanned"
+          },
+          "finalUrl": {
+            "label": "Website",
+            "format": "link"
+          }
+        }
+      }
+    }
+  },
+  "fields": {
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+      "inputUrl": {
+        "type": "string"
+      },
+      "domain": {
+        "type": "string"
+      },
+      "finalUrl": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "siteName": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "status": {
+        "type": "string",
+        "enum": [
+          "ok",
+          "no_contacts_found",
+          "failed"
+        ]
+      },
+      "primaryEmail": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "primaryPhone": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "emails": {
+        "type": "array"
+      },
+      "phones": {
+        "type": "array"
+      },
+      "linkedin": {
+        "type": "array"
+      },
+      "facebook": {
+        "type": "array"
+      },
+      "instagram": {
+        "type": "array"
+      },
+      "x": {
+        "type": "array"
+      },
+      "youtube": {
+        "type": "array"
+      },
+      "tiktok": {
+        "type": "array"
+      },
+      "otherSocials": {
+        "type": "object"
+      },
+      "addresses": {
+        "type": "array"
+      },
+      "contactPageUrls": {
+        "type": "array"
+      },
+      "emailDetails": {
+        "type": "array"
+      },
+      "phoneDetails": {
+        "type": "array"
+      },
+      "pagesScanned": {
+        "type": "integer"
+      },
+      "scannedUrls": {
+        "type": "array"
+      },
+      "charged": {
+        "type": "boolean"
+      },
+      "error": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "scrapedAt": {
+        "type": "string"
+      }
+    },
+    "additionalProperties": true
+  }
+}

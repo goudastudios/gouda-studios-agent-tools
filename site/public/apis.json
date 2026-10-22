@@ -1,7 +1,7 @@
 {
   "aid": "gouda-studios-agent-tools.vercel.app",
   "name": "Gouda Studios Agent Tools",
-  "description": "Agent-payable public records data tools on Apify: SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards and GLEIF company LEI lookup. Clean JSON, pay per result.",
+  "description": "Agent-payable data tools on Apify: SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards, GLEIF company LEI lookup and website contact extraction. Clean JSON, pay per result.",
   "image": "https://gouda-studios-agent-tools.vercel.app/favicon.svg",
   "url": "https://gouda-studios-agent-tools.vercel.app/apis.json",
   "created": "2026-10-17",
@@ -13,6 +13,8 @@
     "federal contracts",
     "KYB",
     "company data",
+    "lead generation",
+    "contact extraction",
     "MCP",
     "Apify",
     "AI agents"
@@ -169,6 +171,44 @@
           "url": "https://apify.com/gouda_studios/gleif-company-lei-lookup/pricing"
         }
       ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:website-contact-extractor",
+      "name": "Website Contact Extractor",
+      "description": "Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found. Pricing: $0.0005 per run + $0.0025 per website with contacts.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/website-contact-extractor/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Lead generation",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/website-contact-extractor"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/website-contact-extractor.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/website-contact-extractor"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/website-contact-extractor/pricing"
+        }
+      ]
     }
   ],
   "common": [
@@ -186,7 +226,7 @@
     },
     {
       "type": "MCPServer",
-      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup"
+      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup,gouda_studios/website-contact-extractor"
     }
   ],
   "maintainers": [

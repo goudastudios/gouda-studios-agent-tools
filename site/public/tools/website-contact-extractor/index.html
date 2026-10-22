@@ -1,0 +1,101 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="google-site-verification" content="_Ybr6wmY-W34MNXBKQ_hFFmODi8KMyzlrg7Q5fC0v-k"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Website Contact Extractor API | Gouda Studios Agent Tools</title><meta name="description" content="Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found."><link rel="canonical" href="https://gouda-studios-agent-tools.vercel.app/tools/website-contact-extractor/"><link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt"><link rel="alternate" type="application/json" href="/tools.json" title="Tool catalog"><style>body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}pre{background:#f5f5f5;padding:1rem;overflow:auto;font-size:.85rem}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border:1px solid #ddd;padding:.35rem;text-align:left;vertical-align:top}code{background:#f0f0f0;padding:0 .2rem}a{color:#0a58ca}</style><script defer src="/_vercel/insights/script.js"></script><script type="application/ld+json">{"@context": "https://schema.org", "@type": ["SoftwareApplication", "WebAPI"], "name": "Website Contact Extractor", "alternateName": "Website Contact Extractor: Emails, Phones, Socials per Site", "description": "Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found.", "url": "https://gouda-studios-agent-tools.vercel.app/tools/website-contact-extractor/", "sameAs": "https://apify.com/gouda_studios/website-contact-extractor", "applicationCategory": "BusinessApplication", "operatingSystem": "Cloud (Apify)", "documentation": "https://gouda-studios-agent-tools.vercel.app/tools/website-contact-extractor.json", "provider": {"@type": "Organization", "name": "Gouda Studios", "email": "m0f@mail.grokbot.com", "url": "https://apify.com/gouda_studios"}, "offers": [{"@type": "Offer", "name": "Actor start", "price": "0.0005", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Per website with contacts", "price": "0.0025", "priceCurrency": "USD", "priceSpecification": {"@type": "UnitPriceSpecification", "price": 0.0025, "priceCurrency": "USD", "unitText": "website with contacts"}}]}</script></head><body><p><a href="/">Gouda Studios Agent Tools</a></p><h1>Website Contact Extractor</h1><p>Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found.</p><p><a href="https://apify.com/gouda_studios/website-contact-extractor">Open on Apify: gouda_studios/website-contact-extractor</a></p>
+<h2>Use cases</h2><ul><li>Sales and agency teams turning a list of company domains into emails, phones and social profiles</li><li>Local business lead lists: clinics, law firms, contractors, restaurants</li><li>CRM enrichment with one clean row per company website</li><li>AI agents that need a company&#x27;s official contact details as JSON</li></ul>
+<h2>Pricing</h2><ul><li>Actor start: $0.0005 per run</li><li>$0.0025 per website with contacts returned ($2.5 per 1,000)</li><li>No platform usage fee. Set <code>maxResults</code> to cap spend.</li></ul>
+<h2>Input parameters</h2><table><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr><tr><td><code>startUrls</code></td><td>array</td><td></td><td>Websites or domains to extract contacts from, one per line. Examples: https://www.example.com or example.com. Each site becomes exactly one output row.</td></tr><tr><td><code>maxPagesPerSite</code></td><td>integer</td><td>8</td><td>How many pages to read on each site, starting with the homepage and then the most likely contact pages (Contact, About, Team, Impressum, Support). You pay per site, not per page, so higher values only cost more time.</td></tr><tr><td><code>defaultCountry</code></td><td>string</td><td>&quot;US&quot;</td><td>Two-letter country code used to read local phone numbers that have no +country prefix, e.g. US, GB, DE, AU.</td></tr><tr><td><code>checkMx</code></td><td>boolean</td><td>true</td><td>Adds a free DNS check that each email domain can receive mail. Flags typos and dead domains.</td></tr><tr><td><code>respectRobotsTxt</code></td><td>boolean</td><td>true</td><td>Skip pages that a site&#x27;s robots.txt asks crawlers not to visit.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td>{&quot;useApifyProxy&quot;: false}</td><td>Optional. Most business sites work without a proxy. Turn on Apify Proxy if many sites time out or block requests.</td></tr></table>
+<h2>Example input</h2><pre>{
+  &quot;startUrls&quot;: [
+    &quot;https://apify.com&quot;,
+    &quot;python.org&quot;
+  ],
+  &quot;maxPagesPerSite&quot;: 8,
+  &quot;defaultCountry&quot;: &quot;US&quot;
+}</pre>
+<h2>Output fields (one row per website with contacts)</h2><table><tr><th>Field</th><th>Type</th><th>Description</th></tr><tr><td><code>inputUrl</code></td><td>string</td><td></td></tr><tr><td><code>domain</code></td><td>string</td><td></td></tr><tr><td><code>finalUrl</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>siteName</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>status</code></td><td>string</td><td></td></tr><tr><td><code>primaryEmail</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>primaryPhone</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>emails</code></td><td>array</td><td></td></tr><tr><td><code>phones</code></td><td>array</td><td></td></tr><tr><td><code>linkedin</code></td><td>array</td><td></td></tr><tr><td><code>facebook</code></td><td>array</td><td></td></tr><tr><td><code>instagram</code></td><td>array</td><td></td></tr><tr><td><code>x</code></td><td>array</td><td></td></tr><tr><td><code>youtube</code></td><td>array</td><td></td></tr><tr><td><code>tiktok</code></td><td>array</td><td></td></tr><tr><td><code>otherSocials</code></td><td>object</td><td></td></tr><tr><td><code>addresses</code></td><td>array</td><td></td></tr><tr><td><code>contactPageUrls</code></td><td>array</td><td></td></tr><tr><td><code>emailDetails</code></td><td>array</td><td></td></tr><tr><td><code>phoneDetails</code></td><td>array</td><td></td></tr><tr><td><code>pagesScanned</code></td><td>integer</td><td></td></tr><tr><td><code>scannedUrls</code></td><td>array</td><td></td></tr><tr><td><code>charged</code></td><td>boolean</td><td></td></tr><tr><td><code>error</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>scrapedAt</code></td><td>string</td><td></td></tr></table>
+<h2>Sample output row</h2><pre>{
+  &quot;inputUrl&quot;: &quot;https://apify.com&quot;,
+  &quot;domain&quot;: &quot;apify.com&quot;,
+  &quot;finalUrl&quot;: &quot;https://apify.com/&quot;,
+  &quot;siteName&quot;: &quot;Apify&quot;,
+  &quot;status&quot;: &quot;ok&quot;,
+  &quot;primaryEmail&quot;: &quot;support@apify.com&quot;,
+  &quot;primaryPhone&quot;: null,
+  &quot;emails&quot;: [
+    &quot;support@apify.com&quot;,
+    &quot;hello@apify.com&quot;
+  ],
+  &quot;phones&quot;: [],
+  &quot;linkedin&quot;: [
+    &quot;https://www.linkedin.com/company/apify&quot;,
+    &quot;http://linkedin.com/company/apify&quot;
+  ],
+  &quot;facebook&quot;: [],
+  &quot;instagram&quot;: [],
+  &quot;x&quot;: [
+    &quot;https://x.com/apify&quot;
+  ],
+  &quot;youtube&quot;: [],
+  &quot;tiktok&quot;: [
+    &quot;https://www.tiktok.com/@apifytech&quot;,
+    &quot;https://www.tiktok.com/@apifyoffice&quot;
+  ],
+  &quot;otherSocials&quot;: {
+    &quot;github&quot;: [
+      &quot;https://github.com/apify&quot;
+    ],
+    &quot;discord&quot;: [
+      &quot;https://discord.com/invite/jyEM2PRvMU&quot;,
+      &quot;https://discord.gg/w3e2v7rWDw&quot;
+    ]
+  },
+  &quot;addresses&quot;: [
+    {
+      &quot;street&quot;: &quot;Na P\u0159\u00edkop\u011b 959/27&quot;,
+      &quot;city&quot;: &quot;Prague&quot;,
+      &quot;region&quot;: null,
+      &quot;postalCode&quot;: &quot;11000&quot;,
+      &quot;country&quot;: &quot;CZ&quot;
+    }
+  ],
+  &quot;contactPageUrls&quot;: [
+    &quot;https://apify.com/contact&quot;,
+    &quot;https://apify.com/contact-sales&quot;,
+    &quot;https://apify.com/contact-sales/demo&quot;
+  ],
+  &quot;emailDetails&quot;: [
+    {
+      &quot;email&quot;: &quot;support@apify.com&quot;,
+      &quot;foundOn&quot;: &quot;https://apify.com/&quot;,
+      &quot;source&quot;: &quot;schema.org&quot;,
+      &quot;isRoleAccount&quot;: true,
+      &quot;matchesSiteDomain&quot;: true,
+      &quot;domainHasMx&quot;: true
+    },
+    {
+      &quot;email&quot;: &quot;hello@apify.com&quot;,
+      &quot;foundOn&quot;: &quot;https://apify.com/contact&quot;,
+      &quot;source&quot;: &quot;mailto&quot;,
+      &quot;isRoleAccount&quot;: true,
+      &quot;matchesSiteDomain&quot;: true,
+      &quot;domainHasMx&quot;: true
+    }
+  ],
+  &quot;phoneDetails&quot;: [],
+  &quot;pagesScanned&quot;: 4,
+  &quot;scannedUrls&quot;: [
+    &quot;https://apify.com/&quot;,
+    &quot;https://apify.com/contact&quot;,
+    &quot;https://apify.com/contact-sales&quot;,
+    &quot;https://apify.com/about&quot;
+  ],
+  &quot;charged&quot;: true,
+  &quot;error&quot;: null,
+  &quot;scrapedAt&quot;: &quot;2026-10-22T05:44:44.947Z&quot;
+}</pre>
+<h2>How to call</h2><h3>Apify API (synchronous, returns dataset items)</h3><pre>curl -X POST &quot;https://api.apify.com/v2/acts/gouda_studios~website-contact-extractor/run-sync-get-dataset-items?token=$APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;startUrls&quot;: [&quot;https://apify.com&quot;, &quot;python.org&quot;], &quot;maxPagesPerSite&quot;: 8, &quot;defaultCountry&quot;: &quot;US&quot;}&#x27;</pre>
+<h3>Apify MCP server</h3><p>Connect an MCP client to <code>https://mcp.apify.com</code> and add the actor <code>gouda_studios/website-contact-extractor</code>, for example <code>https://mcp.apify.com/?tools=gouda_studios/website-contact-extractor</code>.</p>
+<h3>Agentic payments (x402 / Skyfire)</h3><p>This actor is eligible for Apify agentic payments, so an AI agent can pay per run without an Apify account. See <a href="https://docs.apify.com/platform/integrations/x402">Apify x402 docs</a>.</p>
+<p>Machine-readable: <a href="/tools/website-contact-extractor.json">/tools/website-contact-extractor.json</a></p><hr><p>Contact: <a href="mailto:m0f@mail.grokbot.com">m0f@mail.grokbot.com</a> | Machine-readable: <a href="/llms.txt">llms.txt</a>, <a href="/llms-full.txt">llms-full.txt</a>, <a href="/tools.json">tools.json</a>, <a href="/openapi.json">openapi.json</a> | Source: <a href="https://github.com/goudastudios/gouda-studios-agent-tools">GitHub</a></p><p><a href="https://aiagentslisting.com/gouda-studios-agent-tools">
+  <img src="https://aiagentslisting.com/gouda-studios-agent-tools/badge.svg?theme=light" alt="Gouda Studios Agent Tools badge" width="200" height="50" loading="lazy" />
+</a></p></body></html>

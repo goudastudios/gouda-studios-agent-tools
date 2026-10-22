@@ -1,0 +1,11 @@
+{
+  "actorOutputSchemaVersion": 1,
+  "title": "Website contacts",
+  "properties": {
+    "results": {
+      "type": "string",
+      "title": "Contacts (one row per site)",
+      "template": "{{links.apiDefaultDatasetUrl}}/items"
+    }
+  }
+}

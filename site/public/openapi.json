@@ -740,6 +740,197 @@
           }
         }
       }
+    },
+    "/acts/gouda_studios~website-contact-extractor/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_website_contact_extractor",
+        "summary": "Run Website Contact Extractor and return dataset items",
+        "description": "Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found. Pricing: $0.0005 per run + $0.0025 per website with contacts.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/website-contact-extractor"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startUrls": {
+                    "type": "array",
+                    "description": "Websites or domains to extract contacts from, one per line. Examples: https://www.example.com or example.com. Each site becomes exactly one output row."
+                  },
+                  "maxPagesPerSite": {
+                    "type": "integer",
+                    "description": "How many pages to read on each site, starting with the homepage and then the most likely contact pages (Contact, About, Team, Impressum, Support). You pay per site, not per page, so higher values only cost more time.",
+                    "default": 8
+                  },
+                  "defaultCountry": {
+                    "type": "string",
+                    "description": "Two-letter country code used to read local phone numbers that have no +country prefix, e.g. US, GB, DE, AU.",
+                    "default": "US"
+                  },
+                  "checkMx": {
+                    "type": "boolean",
+                    "description": "Adds a free DNS check that each email domain can receive mail. Flags typos and dead domains.",
+                    "default": true
+                  },
+                  "respectRobotsTxt": {
+                    "type": "boolean",
+                    "description": "Skip pages that a site's robots.txt asks crawlers not to visit.",
+                    "default": true
+                  },
+                  "proxyConfiguration": {
+                    "type": "object",
+                    "description": "Optional. Most business sites work without a proxy. Turn on Apify Proxy if many sites time out or block requests.",
+                    "default": {
+                      "useApifyProxy": false
+                    }
+                  }
+                }
+              },
+              "example": {
+                "startUrls": [
+                  "https://apify.com",
+                  "python.org"
+                ],
+                "maxPagesPerSite": 8,
+                "defaultCountry": "US"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "inputUrl": {
+                        "type": "string",
+                        "description": ""
+                      },
+                      "domain": {
+                        "type": "string",
+                        "description": ""
+                      },
+                      "finalUrl": {
+                        "description": ""
+                      },
+                      "siteName": {
+                        "description": ""
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": ""
+                      },
+                      "primaryEmail": {
+                        "description": ""
+                      },
+                      "primaryPhone": {
+                        "description": ""
+                      },
+                      "emails": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "phones": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "linkedin": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "facebook": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "instagram": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "x": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "youtube": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "tiktok": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "otherSocials": {
+                        "type": "object",
+                        "description": ""
+                      },
+                      "addresses": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "contactPageUrls": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "emailDetails": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "phoneDetails": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "pagesScanned": {
+                        "type": "integer",
+                        "description": ""
+                      },
+                      "scannedUrls": {
+                        "type": "array",
+                        "description": ""
+                      },
+                      "charged": {
+                        "type": "boolean",
+                        "description": ""
+                      },
+                      "error": {
+                        "description": ""
+                      },
+                      "scrapedAt": {
+                        "type": "string",
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -168,6 +168,47 @@
         ]
       },
       "json": "https://gouda-studios-agent-tools.vercel.app/tools/gleif-company-lei-lookup.json"
+    },
+    {
+      "slug": "website-contact-extractor",
+      "name": "Website Contact Extractor",
+      "description": "Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found.",
+      "actor": "gouda_studios/website-contact-extractor",
+      "apify": "https://apify.com/gouda_studios/website-contact-extractor",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/website-contact-extractor/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 0.0005
+          },
+          {
+            "name": "website with contacts",
+            "price": 0.0025,
+            "per": "website with contacts"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~website-contact-extractor/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/website-contact-extractor"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/website-contact-extractor.json"
     }
   ]
 }

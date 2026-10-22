@@ -1,0 +1,9 @@
+{
+  "name": "website-contact-extractor",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Website contact extractor: one clean row per website with emails, phones, social links and address.",
+  "main": "src/main.js",
+  "scripts": { "start": "node src/main.js" },
+  "dependencies": { "apify": "^3.7.2", "crawlee": "^3.18.2", "libphonenumber-js": "^1.13.15" }
+}

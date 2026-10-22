@@ -1,0 +1,15 @@
+{
+  "actorSpecification": 1,
+  "name": "website-contact-extractor",
+  "title": "Website Contact Extractor: Emails, Phones, Socials per Site",
+  "description": "Extract emails, phone numbers, social media links and addresses from any list of websites. One clean deduplicated row per site, Cloudflare-protected emails decoded, phones validated, MX checked. Pay only for sites where an email or phone is found.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "./Dockerfile",
+  "minMemoryMbytes": 256,
+  "maxMemoryMbytes": 2048,
+  "defaultMemoryMbytes": 512,
+  "output": "./output_schema.json",
+  "storages": { "dataset": "./dataset_schema.json" }
+}
