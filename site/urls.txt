@@ -34,6 +34,7 @@
 /guides/christmas-gift-tracker-spreadsheet/
 /guides/christmas-dinner-planner-timeline/
 /guides/holiday-budget-planner-template/
+/guides/christmas-countdown-checklist-printable/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
