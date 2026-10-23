@@ -55,7 +55,11 @@ CSS="body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padd
 def page(title,desc,body,jl,path):
   return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="google-site-verification" content="_Ybr6wmY-W34MNXBKQ_hFFmODi8KMyzlrg7Q5fC0v-k"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{html.escape(title)}</title><meta name="description" content="{html.escape(desc)}"><link rel="canonical" href="{BASE}{path}"><link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt"><link rel="alternate" type="application/json" href="/tools.json" title="Tool catalog"><style>{CSS}</style><script defer src="/_vercel/insights/script.js"></script><script type="application/ld+json">{json.dumps(jl)}</script></head><body><p><a href="/">Gouda Studios Agent Tools</a></p>{body}<hr><p>Contact: <a href="mailto:{EMAIL}">{EMAIL}</a> | Machine-readable: <a href="/llms.txt">llms.txt</a>, <a href="/llms-full.txt">llms-full.txt</a>, <a href="/tools.json">tools.json</a>, <a href="/openapi.json">openapi.json</a> | Source: <a href="https://github.com/goudastudios/gouda-studios-agent-tools">GitHub</a></p><p>{BADGE if path=="/" else ""}{BADGE2}</p></body></html>"""
 E=html.escape
+_pins=OUT+'/pins'; _keep='/tmp/_gs_pins_keep'
+shutil.rmtree(_keep,ignore_errors=True)
+if os.path.isdir(_pins): shutil.copytree(_pins,_keep)  # pin images are not generated here; keep them across rebuilds
 shutil.rmtree(OUT,ignore_errors=True); os.makedirs(OUT+'/tools'); os.makedirs(OUT+'/.well-known')
+if os.path.isdir(_keep): shutil.copytree(_keep,_pins)
 HOWPAY="Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com. One-URL MCP endpoint for all tools: https://gouda-studios-agent-tools.vercel.app/mcp (Streamable HTTP, Apify OAuth or Bearer Apify token)."
 for t in TOOLS:
   ins=''.join(f"<tr><td><code>{E(p['name'])}</code></td><td>{E(str(p['type']))}</td><td>{E(json.dumps(p['default'])) if p['default'] is not None else ''}</td><td>{E(p['description'])}</td></tr>" for p in t['inputs'])

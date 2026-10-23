@@ -31,6 +31,9 @@
 /guides/credit-card-benefits-tracker-spreadsheet/
 /guides/credit-card-churning-spreadsheet-template/
 /guides/rental-property-analysis-spreadsheet/
+/guides/christmas-gift-tracker-spreadsheet/
+/guides/christmas-dinner-planner-timeline/
+/guides/holiday-budget-planner-template/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
