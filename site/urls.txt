@@ -37,6 +37,8 @@
 /guides/christmas-countdown-checklist-printable/
 /guides/chase-5-24-tracker-spreadsheet/
 /guides/amex-platinum-credits-tracker/
+/guides/brrrr-calculator-spreadsheet/
+/guides/house-hacking-calculator-spreadsheet/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
