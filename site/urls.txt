@@ -35,6 +35,8 @@
 /guides/christmas-dinner-planner-timeline/
 /guides/holiday-budget-planner-template/
 /guides/christmas-countdown-checklist-printable/
+/guides/chase-5-24-tracker-spreadsheet/
+/guides/amex-platinum-credits-tracker/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
