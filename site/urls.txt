@@ -43,6 +43,8 @@
 /guides/credit-card-minimum-spend-tracker/
 /guides/christmas-card-list-template/
 /guides/holiday-baking-plan-printable/
+/guides/stocking-stuffer-list-template/
+/guides/christmas-dinner-shopping-list/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
