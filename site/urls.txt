@@ -41,6 +41,8 @@
 /guides/house-hacking-calculator-spreadsheet/
 /guides/credit-card-annual-fee-tracker-spreadsheet/
 /guides/credit-card-minimum-spend-tracker/
+/guides/christmas-card-list-template/
+/guides/holiday-baking-plan-printable/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
