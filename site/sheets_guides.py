@@ -190,7 +190,7 @@ dict(slug='holiday-baking-plan-printable',prod='xmas-planner',pname='Printable C
 SH='<h2>Spreadsheet guides</h2><ul>'+''.join(f'<li><a href="/guides/{g["slug"]}/">{E(g["q"])}</a></li>' for g in SG)+'</ul>'
 for g in SG:
   url=GUM+g['prod']
-  cta=f'<div style="border:1px solid #ccc;padding:1rem;margin:1.5rem 0;background:#fafafa"><strong>Skip the setup:</strong> the <a href="{url}">{E(g["pname"])}</a> ({g.get("fmt","Google Sheets + Excel")}, ${g["price"]}, {g.get("fmt2","no macros, no logins")}) has all of this built in, with a dashboard and example rows. <a href="{url}">Get it on Gumroad</a>.</div>'
+  cta=f'<div style="border:1px solid #ccc;padding:1rem;margin:1.5rem 0;background:#fafafa"><strong>Skip the setup:</strong> the <a href="{url}">{E(g["pname"])}</a> ({g.get("fmt","Google Sheets + Excel")}, ${g["price"]}, {g.get("fmt2","no macros, no logins")}) has all of this built in{', with a dashboard and example rows' if 'PDF' not in g.get('fmt','') else ', ready to print'}. <a href="{url}">Get it on Gumroad</a>.</div>'
   body=f'<h1>{E(g["q"])}</h1><p><strong>Short answer:</strong> {E(g["a"])}</p>{cta}'
   for h,p,li in g['secs']:
     body+=f'<h2>{E(h)}</h2>'+(f'<p>{E(p)}</p>' if p else '')+(('<ul>'+''.join(f'<li><code>{E(x)}</code></li>' if x.startswith('=') or ': =' in x else f'<li>{E(x)}</li>' for x in li)+'</ul>') if li else '')
