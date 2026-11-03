@@ -1,6 +1,6 @@
 # Gouda Studios Agent Tools
 
-Pay-per-result data tools for AI agents and developers: U.S. federal contract opportunities (SAM.gov), SEC EDGAR filings, USAspending federal awards, global company LEI lookup (GLEIF), website contact extraction (emails, phones, social links), and YouTube transcripts. Every tool runs on [Apify](https://apify.com/gouda_studios), returns clean JSON, and can be called by an agent with an Apify token, through the Apify MCP server, or paid per run with x402 or Skyfire.
+Pay-per-result data tools for AI agents and developers: U.S. federal contract opportunities (SAM.gov), SEC EDGAR filings, USAspending federal awards, global company LEI lookup (GLEIF), website contact extraction (emails, phones, social links), YouTube transcripts, and Google Trends data (interest over time, by region, related queries). Every tool runs on [Apify](https://apify.com/gouda_studios), returns clean JSON, and can be called by an agent with an Apify token, through the Apify MCP server, or paid per run with x402 or Skyfire.
 
 - Agent site: https://gouda-studios-agent-tools.vercel.app
 - llms.txt: https://gouda-studios-agent-tools.vercel.app/llms.txt
@@ -17,6 +17,7 @@ Pay-per-result data tools for AI agents and developers: U.S. federal contract op
 | GLEIF Company LEI Lookup | [gouda_studios/gleif-company-lei-lookup](https://apify.com/gouda_studios/gleif-company-lei-lookup) | Legal name, status, jurisdiction, registration number, addresses, direct and ultimate parent for 2.9M+ entities. | $0.001 per run + $0.003 per company |
 | Website Contact Extractor | [gouda_studios/website-contact-extractor](https://apify.com/gouda_studios/website-contact-extractor) | One row per website: emails (Cloudflare-protected ones decoded, MX checked), validated phones, social profiles, address. Only sites with contacts are charged. | $0.0005 per run + $0.0025 per website with contacts |
 | YouTube Transcript Extractor | [gouda_studios/youtube-transcript-extractor](https://apify.com/gouda_studios/youtube-transcript-extractor) | Transcript of any YouTube video or Short as text, timestamped text, segments and SRT. Any language, auto-translate, residential proxy built in. Failed videos are free. | $0.0005 per run + $0.004 per transcript |
+| Google Trends Scraper | [gouda_studios/google-trends-explorer](https://apify.com/gouda_studios/google-trends-explorer) | Google Trends API alternative: interest over time (0-100 timeline, average, peak), interest by region, top and rising related queries, optional trending now. Many keywords per run, any country and time range, residential proxy built in. Blocked terms are free. | $0.0005 per run + $0.004 per keyword |
 
 Pricing is Apify pay per event: a small start charge per run plus the per-result price. No platform usage fee is added.
 
@@ -45,7 +46,7 @@ Add the hosted Apify MCP server to any MCP client (Claude, Cursor, Cline, and ot
 {
   "mcpServers": {
     "gouda-studios": {
-      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup",
+      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup,gouda_studios/website-contact-extractor,gouda_studios/youtube-transcript-extractor,gouda_studios/google-trends-explorer",
       "headers": { "Authorization": "Bearer <APIFY_TOKEN>" }
     }
   }
@@ -58,13 +59,13 @@ These actors are listed for Apify agentic payments, so an AI agent can pay per r
 
 ## Repository layout
 
-- `actors/` - source for the four Apify actors (Node.js, Apify SDK)
+- `actors/` - source for the seven Apify actors (Node.js and Python, Apify SDK)
 - `openapi.json` - OpenAPI 3.1 description of the tools
 - `llms.txt` - summary for LLMs and AI agents
 
 ## Data sources
 
-All data comes from official public sources: SAM.gov, SEC EDGAR, USAspending.gov and GLEIF.
+All data comes from official public sources: SAM.gov, SEC EDGAR, USAspending.gov, GLEIF, public websites, YouTube and Google Trends.
 
 ## Contact
 

@@ -1,0 +1,17 @@
+{
+  "actorSpecification": 1,
+  "name": "google-trends-explorer",
+  "title": "Google Trends Scraper: Interest, Regions, Related Queries",
+  "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.",
+  "version": "0.1",
+  "buildTag": "latest",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "minMemoryMbytes": 256,
+  "maxMemoryMbytes": 1024,
+  "defaultMemoryMbytes": 256,
+  "storages": {
+    "dataset": "./dataset_schema.json"
+  },
+  "output": "./output_schema.json"
+}

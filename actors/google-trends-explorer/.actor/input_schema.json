@@ -1,0 +1,133 @@
+{
+  "title": "Google Trends input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "searchTerms": {
+      "title": "Search terms",
+      "type": "array",
+      "editor": "stringList",
+      "description": "Keywords or phrases. Each one is fetched separately and returns one result row.",
+      "prefill": [
+        "bitcoin",
+        "ai agents"
+      ]
+    },
+    "geo": {
+      "title": "Country or region code",
+      "type": "string",
+      "editor": "textfield",
+      "description": "ISO code like US, GB, DE, or US-CA. Leave empty for worldwide.",
+      "default": "US"
+    },
+    "timeRange": {
+      "title": "Time range",
+      "type": "string",
+      "editor": "select",
+      "default": "today 12-m",
+      "enum": [
+        "now 1-H",
+        "now 4-H",
+        "now 1-d",
+        "now 7-d",
+        "today 1-m",
+        "today 3-m",
+        "today 12-m",
+        "today 5-y",
+        "all"
+      ],
+      "enumTitles": [
+        "Past hour",
+        "Past 4 hours",
+        "Past day",
+        "Past 7 days",
+        "Past 30 days",
+        "Past 90 days",
+        "Past 12 months",
+        "Past 5 years",
+        "2004 to present"
+      ],
+      "description": "How far back to look."
+    },
+    "category": {
+      "title": "Category ID",
+      "type": "integer",
+      "description": "Google Trends category number, 0 for all categories.",
+      "default": 0
+    },
+    "property": {
+      "title": "Search type",
+      "type": "string",
+      "editor": "select",
+      "default": "",
+      "enum": [
+        "",
+        "images",
+        "news",
+        "froogle",
+        "youtube"
+      ],
+      "enumTitles": [
+        "Web search",
+        "Image search",
+        "News search",
+        "Google Shopping",
+        "YouTube search"
+      ],
+      "description": "Which Google search the trend data comes from."
+    },
+    "interestOverTime": {
+      "title": "Interest over time",
+      "type": "boolean",
+      "default": true,
+      "description": "Timeline of 0-100 interest values."
+    },
+    "interestByRegion": {
+      "title": "Interest by region",
+      "type": "boolean",
+      "default": true,
+      "description": "0-100 interest for each subregion."
+    },
+    "relatedQueries": {
+      "title": "Related queries",
+      "type": "boolean",
+      "default": true,
+      "description": "Top and rising related searches."
+    },
+    "relatedTopics": {
+      "title": "Related topics",
+      "type": "boolean",
+      "default": true,
+      "description": "Top and rising related topics (best effort: Google often withholds these from automated sessions, so the field may be empty)."
+    },
+    "trendingNow": {
+      "title": "Also get today's trending searches",
+      "type": "boolean",
+      "default": false,
+      "description": "Adds one row per currently trending search in the chosen country, with traffic and news links."
+    },
+    "language": {
+      "title": "Language",
+      "type": "string",
+      "editor": "textfield",
+      "default": "en-US",
+      "description": "Interface language for names, e.g. en-US, de, es."
+    },
+    "maxTerms": {
+      "title": "Max search terms",
+      "type": "integer",
+      "default": 100,
+      "minimum": 1,
+      "description": "Stop after this many terms."
+    },
+    "proxyConfiguration": {
+      "title": "Proxy",
+      "type": "object",
+      "editor": "proxy",
+      "description": "Optional. Leave off to use our built-in residential proxy, included in the price.",
+      "prefill": {
+        "useApifyProxy": false
+      }
+    }
+  }
+}

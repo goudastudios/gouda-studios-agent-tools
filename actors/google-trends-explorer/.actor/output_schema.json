@@ -1,0 +1,1 @@
+{"actorOutputSchemaVersion": 1, "title": "Google Trends results", "properties": {"results": {"type": "string", "title": "Results (one row per search term)", "template": "{{links.apiDefaultDatasetUrl}}/items"}}}

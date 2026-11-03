@@ -1,0 +1,4 @@
+{"actorSpecification": 1,
+ "fields": {"type": "object", "properties": {"type": {"type": "string"}, "searchTerm": {"type": ["string","null"]}, "title": {"type": ["string","null"]}, "status": {"type": ["string","null"]}}},
+ "views": {"overview": {"title": "Results", "transformation": {"fields": ["type","searchTerm","title","geo","timeRange","averageInterest","peakInterest","peakDate","approxTraffic","status","error"]},
+  "display": {"component": "table", "properties": {"type": {"label": "Row type"}, "searchTerm": {"label": "Search term"}, "title": {"label": "Trending search"}, "geo": {"label": "Geo"}, "timeRange": {"label": "Range"}, "averageInterest": {"label": "Avg interest", "format": "number"}, "peakInterest": {"label": "Peak", "format": "number"}, "peakDate": {"label": "Peak date"}, "approxTraffic": {"label": "Traffic"}, "status": {"label": "Status"}, "error": {"label": "Error"}}}}}}
