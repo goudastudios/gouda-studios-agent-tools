@@ -579,3 +579,196 @@ Sample output row:
   ]
 }
 ```
+
+
+## Google Trends Scraper
+
+Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.
+
+Apify: https://apify.com/gouda_studios/google-trends-explorer
+Actor ID for MCP: gouda_studios/google-trends-explorer
+Pricing: $0.0005 per run start + $0.004 per search term, no platform usage fee.
+
+Use cases:
+- SEO and content teams finding rising keywords and seasonality
+- Product and ecommerce researchers checking demand before they build or stock
+- Investors and analysts tracking search interest as a market signal
+- AI agents answering whether a topic is growing, and where, with real Google Trends data
+
+Input parameters:
+- searchTerms (array): Keywords or phrases. Each one is fetched separately and returns one result row.
+- geo (string, default "US"): ISO code like US, GB, DE, or US-CA. Leave empty for worldwide.
+- timeRange (string, default "today 12-m"): How far back to look.
+- category (integer, default 0): Google Trends category number, 0 for all categories.
+- property (string, default ""): Which Google search the trend data comes from.
+- interestOverTime (boolean, default true): Timeline of 0-100 interest values.
+- interestByRegion (boolean, default true): 0-100 interest for each subregion.
+- relatedQueries (boolean, default true): Top and rising related searches.
+- relatedTopics (boolean, default true): Top and rising related topics.
+- trendingNow (boolean, default false): Adds one row per currently trending search in the chosen country, with traffic and news links.
+- language (string, default "en-US"): Interface language for names, e.g. en-US, de, es.
+- maxTerms (integer, default 100): Stop after this many terms.
+- proxyConfiguration (object): Optional. Leave off to use our built-in residential proxy, included in the price.
+
+Output fields: type, searchTerm, title, status
+
+Example input:
+```json
+{
+  "searchTerms": [
+    "ai agents",
+    "bitcoin"
+  ],
+  "geo": "US",
+  "timeRange": "today 12-m"
+}
+```
+
+Call:
+```bash
+curl -X POST "https://api.apify.com/v2/acts/gouda_studios~google-trends-explorer/run-sync-get-dataset-items?token=$APIFY_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"searchTerms": ["ai agents", "bitcoin"], "geo": "US", "timeRange": "today 12-m"}'
+```
+
+Sample output row:
+```json
+{
+  "type": "keyword",
+  "searchTerm": "ai agents",
+  "geo": "US",
+  "timeRange": "today 12-m",
+  "category": 0,
+  "property": "web",
+  "interestOverTime": [
+    {
+      "date": "Nov 2\u2009-\u20098, 2025",
+      "timestamp": 1762041600,
+      "value": 25,
+      "isPartial": false
+    },
+    {
+      "date": "Nov 9\u2009-\u200915, 2025",
+      "timestamp": 1762646400,
+      "value": 26,
+      "isPartial": false
+    },
+    {
+      "date": "Nov 16\u2009-\u200922, 2025",
+      "timestamp": 1763251200,
+      "value": 26,
+      "isPartial": false
+    },
+    {
+      "date": "Nov 23\u2009-\u200929, 2025",
+      "timestamp": 1763856000,
+      "value": 22,
+      "isPartial": false
+    },
+    {
+      "date": "Nov 30\u2009-\u2009Dec 6, 2025",
+      "timestamp": 1764460800,
+      "value": 25,
+      "isPartial": false
+    }
+  ],
+  "interestByRegion": [
+    {
+      "geoCode": "US-WY",
+      "geoName": "Wyoming",
+      "value": 100
+    },
+    {
+      "geoCode": "US-KS",
+      "geoName": "Kansas",
+      "value": 24
+    },
+    {
+      "geoCode": "US-CA",
+      "geoName": "California",
+      "value": 21
+    },
+    {
+      "geoCode": "US-DC",
+      "geoName": "District of Columbia",
+      "value": 20
+    },
+    {
+      "geoCode": "US-WA",
+      "geoName": "Washington",
+      "value": 20
+    }
+  ],
+  "relatedTopics": {},
+  "relatedQueries": {
+    "top": [
+      {
+        "query": "best ai agents",
+        "value": 100,
+        "formattedValue": "100",
+        "link": "https://trends.google.com/trends/explore?q=best+ai+agents&date=today+12-m&geo=US"
+      },
+      {
+        "query": "ai agent",
+        "value": 48,
+        "formattedValue": "48",
+        "link": "https://trends.google.com/trends/explore?q=ai+agent&date=today+12-m&geo=US"
+      },
+      {
+        "query": "free ai agents",
+        "value": 33,
+        "formattedValue": "33",
+        "link": "https://trends.google.com/trends/explore?q=free+ai+agents&date=today+12-m&geo=US"
+      },
+      {
+        "query": "what are ai agents",
+        "value": 27,
+        "formattedValue": "27",
+        "link": "https://trends.google.com/trends/explore?q=what+are+ai+agents&date=today+12-m&geo=US"
+      },
+      {
+        "query": "open ai agents",
+        "value": 27,
+        "formattedValue": "27",
+        "link": "https://trends.google.com/trends/explore?q=open+ai+agents&date=today+12-m&geo=US"
+      }
+    ],
+    "rising": [
+      {
+        "query": "hermes agent",
+        "value": 25000,
+        "formattedValue": "Breakout",
+        "link": "https://trends.google.com/trends/explore?q=hermes+agent&date=today+12-m&geo=US"
+      },
+      {
+        "query": "openclaw",
+        "value": 15450,
+        "formattedValue": "Breakout",
+        "link": "https://trends.google.com/trends/explore?q=openclaw&date=today+12-m&geo=US"
+      },
+      {
+        "query": "viral tiktok trends",
+        "value": 6100,
+        "formattedValue": "Breakout",
+        "link": "https://trends.google.com/trends/explore?q=viral+tiktok+trends&date=today+12-m&geo=US"
+      },
+      {
+        "query": "how to bake a cake",
+        "value": 5450,
+        "formattedValue": "Breakout",
+        "link": "https://trends.google.com/trends/explore?q=how+to+bake+a+cake&date=today+12-m&geo=US"
+      },
+      {
+        "query": "top tourist attractions in paris",
+        "value": 5350,
+        "formattedValue": "Breakout",
+        "link": "https://trends.google.com/trends/explore?q=top+tourist+attractions+in+paris&date=today+12-m&geo=US"
+      }
+    ]
+  },
+  "averageInterest": 45,
+  "peakInterest": 100,
+  "peakDate": "Jun 7\u2009-\u200913, 2026",
+  "status": "ok"
+}
+```

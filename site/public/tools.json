@@ -250,6 +250,47 @@
         ]
       },
       "json": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-transcript-extractor.json"
+    },
+    {
+      "slug": "google-trends-explorer",
+      "name": "Google Trends Scraper",
+      "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.",
+      "actor": "gouda_studios/google-trends-explorer",
+      "apify": "https://apify.com/gouda_studios/google-trends-explorer",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 0.0005
+          },
+          {
+            "name": "search term",
+            "price": 0.004,
+            "per": "search term"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~google-trends-explorer/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/google-trends-explorer"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer.json"
     }
   ]
 }

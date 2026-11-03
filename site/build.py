@@ -21,6 +21,9 @@ TOOLS=[
  dict(slug='youtube-transcript-extractor',name='YouTube Transcript Extractor',unit='transcript',price=0.004,start=0.0005,cat='Video / AI',
   ex={"videos":["https://www.youtube.com/watch?v=UF8uR6Z6KLc"],"languages":["en"],"includeSrt":False},
   uses=["AI agents and LLM apps that summarize or answer questions about YouTube videos","Content teams repurposing videos and Shorts into posts, newsletters and blogs","RAG pipelines and datasets built from spoken content","Exporting SRT subtitles for editing and accessibility"]),
+ dict(slug='google-trends-explorer',name='Google Trends Scraper',unit='search term',price=0.004,start=0.0005,cat='SEO and market research',
+  ex={"searchTerms":["ai agents","bitcoin"],"geo":"US","timeRange":"today 12-m"},
+  uses=["SEO and content teams finding rising keywords and seasonality","Product and ecommerce researchers checking demand before they build or stock","Investors and analysts tracking search interest as a market signal","AI agents answering whether a topic is growing, and where, with real Google Trends data"]),
 ]
 START=0.001
 def clean(s):

@@ -1,0 +1,159 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="google-site-verification" content="_Ybr6wmY-W34MNXBKQ_hFFmODi8KMyzlrg7Q5fC0v-k"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Google Trends Scraper API | Gouda Studios Agent Tools</title><meta name="description" content="Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today&#x27;s trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free."><link rel="canonical" href="https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer/"><link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt"><link rel="alternate" type="application/json" href="/tools.json" title="Tool catalog"><style>body{font-family:system-ui,sans-serif;max-width:860px;margin:2rem auto;padding:0 1rem;line-height:1.5;color:#222}pre{background:#f5f5f5;padding:1rem;overflow:auto;font-size:.85rem}table{border-collapse:collapse;width:100%;font-size:.9rem}td,th{border:1px solid #ddd;padding:.35rem;text-align:left;vertical-align:top}code{background:#f0f0f0;padding:0 .2rem}a{color:#0a58ca}</style><script defer src="/_vercel/insights/script.js"></script><script type="application/ld+json">{"@context": "https://schema.org", "@type": ["SoftwareApplication", "WebAPI"], "name": "Google Trends Scraper", "alternateName": "Google Trends Scraper: Interest, Regions, Related Queries", "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.", "url": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer/", "sameAs": "https://apify.com/gouda_studios/google-trends-explorer", "applicationCategory": "BusinessApplication", "operatingSystem": "Cloud (Apify)", "documentation": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer.json", "provider": {"@type": "Organization", "name": "Gouda Studios", "email": "m0f@mail.grokbot.com", "url": "https://apify.com/gouda_studios"}, "offers": [{"@type": "Offer", "name": "Actor start", "price": "0.0005", "priceCurrency": "USD"}, {"@type": "Offer", "name": "Per search term", "price": "0.004", "priceCurrency": "USD", "priceSpecification": {"@type": "UnitPriceSpecification", "price": 0.004, "priceCurrency": "USD", "unitText": "search term"}}]}</script></head><body><p><a href="/">Gouda Studios Agent Tools</a></p><h1>Google Trends Scraper</h1><p>Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today&#x27;s trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.</p><p><a href="https://apify.com/gouda_studios/google-trends-explorer">Open on Apify: gouda_studios/google-trends-explorer</a></p>
+<h2>Use cases</h2><ul><li>SEO and content teams finding rising keywords and seasonality</li><li>Product and ecommerce researchers checking demand before they build or stock</li><li>Investors and analysts tracking search interest as a market signal</li><li>AI agents answering whether a topic is growing, and where, with real Google Trends data</li></ul>
+<h2>Pricing</h2><ul><li>Actor start: $0.0005 per run</li><li>$0.004 per search term returned ($4.0 per 1,000)</li><li>No platform usage fee. Set <code>maxResults</code> to cap spend.</li></ul>
+<h2>Input parameters</h2><table><tr><th>Name</th><th>Type</th><th>Default</th><th>Description</th></tr><tr><td><code>searchTerms</code></td><td>array</td><td></td><td>Keywords or phrases. Each one is fetched separately and returns one result row.</td></tr><tr><td><code>geo</code></td><td>string</td><td>&quot;US&quot;</td><td>ISO code like US, GB, DE, or US-CA. Leave empty for worldwide.</td></tr><tr><td><code>timeRange</code></td><td>string</td><td>&quot;today 12-m&quot;</td><td>How far back to look.</td></tr><tr><td><code>category</code></td><td>integer</td><td>0</td><td>Google Trends category number, 0 for all categories.</td></tr><tr><td><code>property</code></td><td>string</td><td>&quot;&quot;</td><td>Which Google search the trend data comes from.</td></tr><tr><td><code>interestOverTime</code></td><td>boolean</td><td>true</td><td>Timeline of 0-100 interest values.</td></tr><tr><td><code>interestByRegion</code></td><td>boolean</td><td>true</td><td>0-100 interest for each subregion.</td></tr><tr><td><code>relatedQueries</code></td><td>boolean</td><td>true</td><td>Top and rising related searches.</td></tr><tr><td><code>relatedTopics</code></td><td>boolean</td><td>true</td><td>Top and rising related topics.</td></tr><tr><td><code>trendingNow</code></td><td>boolean</td><td>false</td><td>Adds one row per currently trending search in the chosen country, with traffic and news links.</td></tr><tr><td><code>language</code></td><td>string</td><td>&quot;en-US&quot;</td><td>Interface language for names, e.g. en-US, de, es.</td></tr><tr><td><code>maxTerms</code></td><td>integer</td><td>100</td><td>Stop after this many terms.</td></tr><tr><td><code>proxyConfiguration</code></td><td>object</td><td></td><td>Optional. Leave off to use our built-in residential proxy, included in the price.</td></tr></table>
+<h2>Example input</h2><pre>{
+  &quot;searchTerms&quot;: [
+    &quot;ai agents&quot;,
+    &quot;bitcoin&quot;
+  ],
+  &quot;geo&quot;: &quot;US&quot;,
+  &quot;timeRange&quot;: &quot;today 12-m&quot;
+}</pre>
+<h2>Output fields (one row per search term)</h2><table><tr><th>Field</th><th>Type</th><th>Description</th></tr><tr><td><code>type</code></td><td>string</td><td></td></tr><tr><td><code>searchTerm</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>title</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td></td></tr><tr><td><code>status</code></td><td>[&#x27;string&#x27;, &#x27;null&#x27;]</td><td></td></tr></table>
+<h2>Sample output row</h2><pre>{
+  &quot;type&quot;: &quot;keyword&quot;,
+  &quot;searchTerm&quot;: &quot;ai agents&quot;,
+  &quot;geo&quot;: &quot;US&quot;,
+  &quot;timeRange&quot;: &quot;today 12-m&quot;,
+  &quot;category&quot;: 0,
+  &quot;property&quot;: &quot;web&quot;,
+  &quot;interestOverTime&quot;: [
+    {
+      &quot;date&quot;: &quot;Nov 2\u2009-\u20098, 2025&quot;,
+      &quot;timestamp&quot;: 1762041600,
+      &quot;value&quot;: 25,
+      &quot;isPartial&quot;: false
+    },
+    {
+      &quot;date&quot;: &quot;Nov 9\u2009-\u200915, 2025&quot;,
+      &quot;timestamp&quot;: 1762646400,
+      &quot;value&quot;: 26,
+      &quot;isPartial&quot;: false
+    },
+    {
+      &quot;date&quot;: &quot;Nov 16\u2009-\u200922, 2025&quot;,
+      &quot;timestamp&quot;: 1763251200,
+      &quot;value&quot;: 26,
+      &quot;isPartial&quot;: false
+    },
+    {
+      &quot;date&quot;: &quot;Nov 23\u2009-\u200929, 2025&quot;,
+      &quot;timestamp&quot;: 1763856000,
+      &quot;value&quot;: 22,
+      &quot;isPartial&quot;: false
+    },
+    {
+      &quot;date&quot;: &quot;Nov 30\u2009-\u2009Dec 6, 2025&quot;,
+      &quot;timestamp&quot;: 1764460800,
+      &quot;value&quot;: 25,
+      &quot;isPartial&quot;: false
+    }
+  ],
+  &quot;interestByRegion&quot;: [
+    {
+      &quot;geoCode&quot;: &quot;US-WY&quot;,
+      &quot;geoName&quot;: &quot;Wyoming&quot;,
+      &quot;value&quot;: 100
+    },
+    {
+      &quot;geoCode&quot;: &quot;US-KS&quot;,
+      &quot;geoName&quot;: &quot;Kansas&quot;,
+      &quot;value&quot;: 24
+    },
+    {
+      &quot;geoCode&quot;: &quot;US-CA&quot;,
+      &quot;geoName&quot;: &quot;California&quot;,
+      &quot;value&quot;: 21
+    },
+    {
+      &quot;geoCode&quot;: &quot;US-DC&quot;,
+      &quot;geoName&quot;: &quot;District of Columbia&quot;,
+      &quot;value&quot;: 20
+    },
+    {
+      &quot;geoCode&quot;: &quot;US-WA&quot;,
+      &quot;geoName&quot;: &quot;Washington&quot;,
+      &quot;value&quot;: 20
+    }
+  ],
+  &quot;relatedTopics&quot;: {},
+  &quot;relatedQueries&quot;: {
+    &quot;top&quot;: [
+      {
+        &quot;query&quot;: &quot;best ai agents&quot;,
+        &quot;value&quot;: 100,
+        &quot;formattedValue&quot;: &quot;100&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=best+ai+agents&amp;date=today+12-m&amp;geo=US&quot;
+      },
+      {
+        &quot;query&quot;: &quot;ai agent&quot;,
+        &quot;value&quot;: 48,
+        &quot;formattedValue&quot;: &quot;48&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=ai+agent&amp;date=today+12-m&amp;geo=US&quot;
+      },
+      {
+        &quot;query&quot;: &quot;free ai agents&quot;,
+        &quot;value&quot;: 33,
+        &quot;formattedValue&quot;: &quot;33&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=free+ai+agents&amp;date=today+12-m&amp;geo=US&quot;
+      },
+      {
+        &quot;query&quot;: &quot;what are ai agents&quot;,
+        &quot;value&quot;: 27,
+        &quot;formattedValue&quot;: &quot;27&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=what+are+ai+agents&amp;date=today+12-m&amp;geo=US&quot;
+      },
+      {
+        &quot;query&quot;: &quot;open ai agents&quot;,
+        &quot;value&quot;: 27,
+        &quot;formattedValue&quot;: &quot;27&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=open+ai+agents&amp;date=today+12-m&amp;geo=US&quot;
+      }
+    ],
+    &quot;rising&quot;: [
+      {
+        &quot;query&quot;: &quot;hermes agent&quot;,
+        &quot;value&quot;: 25000,
+        &quot;formattedValue&quot;: &quot;Breakout&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=hermes+agent&amp;date=today+12-m&amp;geo=US&quot;
+      },
+      {
+        &quot;query&quot;: &quot;openclaw&quot;,
+        &quot;value&quot;: 15450,
+        &quot;formattedValue&quot;: &quot;Breakout&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=openclaw&amp;date=today+12-m&amp;geo=US&quot;
+      },
+      {
+        &quot;query&quot;: &quot;viral tiktok trends&quot;,
+        &quot;value&quot;: 6100,
+        &quot;formattedValue&quot;: &quot;Breakout&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=viral+tiktok+trends&amp;date=today+12-m&amp;geo=US&quot;
+      },
+      {
+        &quot;query&quot;: &quot;how to bake a cake&quot;,
+        &quot;value&quot;: 5450,
+        &quot;formattedValue&quot;: &quot;Breakout&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=how+to+bake+a+cake&amp;date=today+12-m&amp;geo=US&quot;
+      },
+      {
+        &quot;query&quot;: &quot;top tourist attractions in paris&quot;,
+        &quot;value&quot;: 5350,
+        &quot;formattedValue&quot;: &quot;Breakout&quot;,
+        &quot;link&quot;: &quot;https://trends.google.com/trends/explore?q=top+tourist+attractions+in+paris&amp;date=today+12-m&amp;geo=US&quot;
+      }
+    ]
+  },
+  &quot;averageInterest&quot;: 45,
+  &quot;peakInterest&quot;: 100,
+  &quot;peakDate&quot;: &quot;Jun 7\u2009-\u200913, 2026&quot;,
+  &quot;status&quot;: &quot;ok&quot;
+}</pre>
+<h2>How to call</h2><h3>Apify API (synchronous, returns dataset items)</h3><pre>curl -X POST &quot;https://api.apify.com/v2/acts/gouda_studios~google-trends-explorer/run-sync-get-dataset-items?token=$APIFY_TOKEN&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &#x27;{&quot;searchTerms&quot;: [&quot;ai agents&quot;, &quot;bitcoin&quot;], &quot;geo&quot;: &quot;US&quot;, &quot;timeRange&quot;: &quot;today 12-m&quot;}&#x27;</pre>
+<h3>Apify MCP server</h3><p>Connect an MCP client to <code>https://mcp.apify.com</code> and add the actor <code>gouda_studios/google-trends-explorer</code>, for example <code>https://mcp.apify.com/?tools=gouda_studios/google-trends-explorer</code>.</p>
+<h3>Agentic payments (x402 / Skyfire)</h3><p>This actor is eligible for Apify agentic payments, so an AI agent can pay per run without an Apify account. See <a href="https://docs.apify.com/platform/integrations/x402">Apify x402 docs</a>.</p>
+<p>Machine-readable: <a href="/tools/google-trends-explorer.json">/tools/google-trends-explorer.json</a></p><hr><p>Contact: <a href="mailto:m0f@mail.grokbot.com">m0f@mail.grokbot.com</a> | Machine-readable: <a href="/llms.txt">llms.txt</a>, <a href="/llms-full.txt">llms-full.txt</a>, <a href="/tools.json">tools.json</a>, <a href="/openapi.json">openapi.json</a> | Source: <a href="https://github.com/goudastudios/gouda-studios-agent-tools">GitHub</a></p><p><a href="https://aiagentslisting.com/gouda-studios-agent-tools">
+  <img src="https://aiagentslisting.com/gouda-studios-agent-tools/badge.svg?theme=light" alt="Gouda Studios Agent Tools badge" width="200" height="50" loading="lazy" />
+</a></p></body></html>

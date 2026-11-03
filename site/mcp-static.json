@@ -3685,6 +3685,515 @@
       "execution": {
         "taskSupport": "optional"
       }
+    },
+    {
+      "name": "gouda_studios--google-trends-explorer",
+      "title": "gouda_studios/google-trends-explorer",
+      "description": "This tool calls the Actor \"gouda_studios/google-trends-explorer\" and retrieves its output results.\nActor description: Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.",
+      "inputSchema": {
+        "title": "Google Trends Scraper: Interest, Regions, Related Queries",
+        "type": "object",
+        "description": "Fetches Google Trends data per search term: interest over time, interest by region, top and rising related queries and topics, optionally today's trending searches. Example: {\"searchTerms\":[\"ai agents\"],\"geo\":\"US\",\"timeRange\":\"today 12-m\"}. Pricing: $0.004 per search term with data.",
+        "properties": {
+          "searchTerms": {
+            "title": "Search terms",
+            "description": "Keywords or phrases. Each one is fetched separately and returns one result row.",
+            "type": "array",
+            "prefill": [
+              "bitcoin",
+              "ai agents"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "geo": {
+            "title": "Country or region code",
+            "description": "ISO code like US, GB, DE, or US-CA. Leave empty for worldwide.",
+            "type": "string",
+            "default": "US"
+          },
+          "timeRange": {
+            "title": "Time range",
+            "description": "How far back to look.",
+            "type": "string",
+            "default": "today 12-m",
+            "enum": [
+              "now 1-H",
+              "now 4-H",
+              "now 1-d",
+              "now 7-d",
+              "today 1-m",
+              "today 3-m",
+              "today 12-m",
+              "today 5-y",
+              "all"
+            ]
+          },
+          "category": {
+            "title": "Category ID",
+            "description": "Google Trends category number, 0 for all categories.",
+            "type": "integer",
+            "default": 0
+          },
+          "property": {
+            "title": "Search type",
+            "description": "Which Google search the trend data comes from.",
+            "type": "string",
+            "default": "",
+            "enum": [
+              "",
+              "images",
+              "news",
+              "froogle",
+              "youtube"
+            ]
+          },
+          "interestOverTime": {
+            "title": "Interest over time",
+            "description": "Timeline of 0-100 interest values.",
+            "type": "boolean",
+            "default": true
+          },
+          "interestByRegion": {
+            "title": "Interest by region",
+            "description": "0-100 interest for each subregion.",
+            "type": "boolean",
+            "default": true
+          },
+          "relatedQueries": {
+            "title": "Related queries",
+            "description": "Top and rising related searches.",
+            "type": "boolean",
+            "default": true
+          },
+          "relatedTopics": {
+            "title": "Related topics",
+            "description": "Top and rising related topics.",
+            "type": "boolean",
+            "default": true
+          },
+          "trendingNow": {
+            "title": "Also get today's trending searches",
+            "description": "Adds one row per currently trending search in the chosen country, with traffic and news links.",
+            "type": "boolean",
+            "default": false
+          },
+          "language": {
+            "title": "Language",
+            "description": "Interface language for names, e.g. en-US, de, es.",
+            "type": "string",
+            "default": "en-US"
+          },
+          "maxTerms": {
+            "title": "Max search terms",
+            "description": "Stop after this many terms.",
+            "type": "integer",
+            "default": 100
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+          }
+        },
+        "$id": "https://apify.com/mcp/gouda_studios--google-trends-explorer/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only for Console sessions"
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT | ABORTING | ABORTED | SUCCEEDED | FAILED"
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states (especially FAILED)"
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias. \"default\" is always the primary entry.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always the run's primary dataset.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present only for Console sessions"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use with itemCount to pick limit/fields before fetching."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      },
+                      "itemsSchema": {
+                        "type": "object",
+                        "description": "JSON Schema for rows in the dataset at `storages.datasets.default.id` \u2014 describes row shape only; the rows themselves are NOT returned inline in this response. Inferred from this Actor's historical successful runs. To fetch actual rows, call `get-dataset-items` with the dataset id and a `fields` projection drawn from this schema.",
+                        "properties": {
+                          "bic": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "otherNames": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "directParent": {
+                            "type": "null"
+                          },
+                          "entityCreatedAt": {
+                            "type": [
+                              "null",
+                              "string"
+                            ]
+                          },
+                          "successorLei": {
+                            "type": "null"
+                          },
+                          "ultimateParent": {
+                            "type": "null"
+                          },
+                          "headquartersAddress": {
+                            "type": "object",
+                            "properties": {
+                              "lines": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "city": {
+                                "type": "string"
+                              },
+                              "country": {
+                                "type": "string"
+                              },
+                              "postalCode": {
+                                "type": "string"
+                              },
+                              "region": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "legalAddress": {
+                            "type": "object",
+                            "properties": {
+                              "lines": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              },
+                              "city": {
+                                "type": "string"
+                              },
+                              "country": {
+                                "type": "string"
+                              },
+                              "postalCode": {
+                                "type": "string"
+                              },
+                              "region": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "category": {
+                            "type": "string"
+                          },
+                          "initialRegistrationDate": {
+                            "type": "string"
+                          },
+                          "jurisdiction": {
+                            "type": "string"
+                          },
+                          "lastUpdateDate": {
+                            "type": "string"
+                          },
+                          "legalFormId": {
+                            "type": "string"
+                          },
+                          "legalName": {
+                            "type": "string"
+                          },
+                          "lei": {
+                            "type": "string"
+                          },
+                          "nextRenewalDate": {
+                            "type": "string"
+                          },
+                          "query": {
+                            "type": "string"
+                          },
+                          "registeredAs": {
+                            "type": "string"
+                          },
+                          "registrationAuthorityId": {
+                            "type": "string"
+                          },
+                          "registrationStatus": {
+                            "type": "string"
+                          },
+                          "status": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present only for Console sessions"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use with itemCount to pick limit/fields before fetching."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\" is always the run's primary store.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present only for Console sessions"
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present only for Console sessions"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value store under the reserved \"TIP\" key",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if the Actor's message was longer"
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip recommends"
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/google-trends-explorer",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
     }
   ]
 }

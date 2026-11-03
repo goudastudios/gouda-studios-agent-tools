@@ -1,0 +1,470 @@
+{
+  "slug": "google-trends-explorer",
+  "name": "Google Trends Scraper",
+  "title": "Google Trends Scraper: Interest, Regions, Related Queries",
+  "actor": "gouda_studios/google-trends-explorer",
+  "apify": "https://apify.com/gouda_studios/google-trends-explorer",
+  "cat": "SEO and market research",
+  "uses": [
+    "SEO and content teams finding rising keywords and seasonality",
+    "Product and ecommerce researchers checking demand before they build or stock",
+    "Investors and analysts tracking search interest as a market signal",
+    "AI agents answering whether a topic is growing, and where, with real Google Trends data"
+  ],
+  "inputs": [
+    {
+      "name": "searchTerms",
+      "type": "array",
+      "title": "Search terms",
+      "description": "Keywords or phrases. Each one is fetched separately and returns one result row.",
+      "default": null
+    },
+    {
+      "name": "geo",
+      "type": "string",
+      "title": "Country or region code",
+      "description": "ISO code like US, GB, DE, or US-CA. Leave empty for worldwide.",
+      "default": "US"
+    },
+    {
+      "name": "timeRange",
+      "type": "string",
+      "title": "Time range",
+      "description": "How far back to look.",
+      "default": "today 12-m",
+      "enum": [
+        "now 1-H",
+        "now 4-H",
+        "now 1-d",
+        "now 7-d",
+        "today 1-m",
+        "today 3-m",
+        "today 12-m",
+        "today 5-y",
+        "all"
+      ]
+    },
+    {
+      "name": "category",
+      "type": "integer",
+      "title": "Category ID",
+      "description": "Google Trends category number, 0 for all categories.",
+      "default": 0
+    },
+    {
+      "name": "property",
+      "type": "string",
+      "title": "Search type",
+      "description": "Which Google search the trend data comes from.",
+      "default": "",
+      "enum": [
+        "",
+        "images",
+        "news",
+        "froogle",
+        "youtube"
+      ]
+    },
+    {
+      "name": "interestOverTime",
+      "type": "boolean",
+      "title": "Interest over time",
+      "description": "Timeline of 0-100 interest values.",
+      "default": true
+    },
+    {
+      "name": "interestByRegion",
+      "type": "boolean",
+      "title": "Interest by region",
+      "description": "0-100 interest for each subregion.",
+      "default": true
+    },
+    {
+      "name": "relatedQueries",
+      "type": "boolean",
+      "title": "Related queries",
+      "description": "Top and rising related searches.",
+      "default": true
+    },
+    {
+      "name": "relatedTopics",
+      "type": "boolean",
+      "title": "Related topics",
+      "description": "Top and rising related topics.",
+      "default": true
+    },
+    {
+      "name": "trendingNow",
+      "type": "boolean",
+      "title": "Also get today's trending searches",
+      "description": "Adds one row per currently trending search in the chosen country, with traffic and news links.",
+      "default": false
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "title": "Language",
+      "description": "Interface language for names, e.g. en-US, de, es.",
+      "default": "en-US"
+    },
+    {
+      "name": "maxTerms",
+      "type": "integer",
+      "title": "Max search terms",
+      "description": "Stop after this many terms.",
+      "default": 100
+    },
+    {
+      "name": "proxyConfiguration",
+      "type": "object",
+      "title": "Proxy",
+      "description": "Optional. Leave off to use our built-in residential proxy, included in the price.",
+      "default": null
+    }
+  ],
+  "outputs": [
+    {
+      "name": "type",
+      "type": "string",
+      "description": ""
+    },
+    {
+      "name": "searchTerm",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "title",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": ""
+    },
+    {
+      "name": "status",
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": ""
+    }
+  ],
+  "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 0.0005
+      },
+      {
+        "name": "search term",
+        "price": 0.004,
+        "per": "search term"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~google-trends-explorer/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/google-trends-explorer"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "searchTerms": [
+      "ai agents",
+      "bitcoin"
+    ],
+    "geo": "US",
+    "timeRange": "today 12-m"
+  },
+  "sampleOutput": {
+    "type": "keyword",
+    "searchTerm": "ai agents",
+    "geo": "US",
+    "timeRange": "today 12-m",
+    "category": 0,
+    "property": "web",
+    "interestOverTime": [
+      {
+        "date": "Nov 2\u2009-\u20098, 2025",
+        "timestamp": 1762041600,
+        "value": 25,
+        "isPartial": false
+      },
+      {
+        "date": "Nov 9\u2009-\u200915, 2025",
+        "timestamp": 1762646400,
+        "value": 26,
+        "isPartial": false
+      },
+      {
+        "date": "Nov 16\u2009-\u200922, 2025",
+        "timestamp": 1763251200,
+        "value": 26,
+        "isPartial": false
+      },
+      {
+        "date": "Nov 23\u2009-\u200929, 2025",
+        "timestamp": 1763856000,
+        "value": 22,
+        "isPartial": false
+      },
+      {
+        "date": "Nov 30\u2009-\u2009Dec 6, 2025",
+        "timestamp": 1764460800,
+        "value": 25,
+        "isPartial": false
+      }
+    ],
+    "interestByRegion": [
+      {
+        "geoCode": "US-WY",
+        "geoName": "Wyoming",
+        "value": 100
+      },
+      {
+        "geoCode": "US-KS",
+        "geoName": "Kansas",
+        "value": 24
+      },
+      {
+        "geoCode": "US-CA",
+        "geoName": "California",
+        "value": 21
+      },
+      {
+        "geoCode": "US-DC",
+        "geoName": "District of Columbia",
+        "value": 20
+      },
+      {
+        "geoCode": "US-WA",
+        "geoName": "Washington",
+        "value": 20
+      }
+    ],
+    "relatedTopics": {},
+    "relatedQueries": {
+      "top": [
+        {
+          "query": "best ai agents",
+          "value": 100,
+          "formattedValue": "100",
+          "link": "https://trends.google.com/trends/explore?q=best+ai+agents&date=today+12-m&geo=US"
+        },
+        {
+          "query": "ai agent",
+          "value": 48,
+          "formattedValue": "48",
+          "link": "https://trends.google.com/trends/explore?q=ai+agent&date=today+12-m&geo=US"
+        },
+        {
+          "query": "free ai agents",
+          "value": 33,
+          "formattedValue": "33",
+          "link": "https://trends.google.com/trends/explore?q=free+ai+agents&date=today+12-m&geo=US"
+        },
+        {
+          "query": "what are ai agents",
+          "value": 27,
+          "formattedValue": "27",
+          "link": "https://trends.google.com/trends/explore?q=what+are+ai+agents&date=today+12-m&geo=US"
+        },
+        {
+          "query": "open ai agents",
+          "value": 27,
+          "formattedValue": "27",
+          "link": "https://trends.google.com/trends/explore?q=open+ai+agents&date=today+12-m&geo=US"
+        }
+      ],
+      "rising": [
+        {
+          "query": "hermes agent",
+          "value": 25000,
+          "formattedValue": "Breakout",
+          "link": "https://trends.google.com/trends/explore?q=hermes+agent&date=today+12-m&geo=US"
+        },
+        {
+          "query": "openclaw",
+          "value": 15450,
+          "formattedValue": "Breakout",
+          "link": "https://trends.google.com/trends/explore?q=openclaw&date=today+12-m&geo=US"
+        },
+        {
+          "query": "viral tiktok trends",
+          "value": 6100,
+          "formattedValue": "Breakout",
+          "link": "https://trends.google.com/trends/explore?q=viral+tiktok+trends&date=today+12-m&geo=US"
+        },
+        {
+          "query": "how to bake a cake",
+          "value": 5450,
+          "formattedValue": "Breakout",
+          "link": "https://trends.google.com/trends/explore?q=how+to+bake+a+cake&date=today+12-m&geo=US"
+        },
+        {
+          "query": "top tourist attractions in paris",
+          "value": 5350,
+          "formattedValue": "Breakout",
+          "link": "https://trends.google.com/trends/explore?q=top+tourist+attractions+in+paris&date=today+12-m&geo=US"
+        }
+      ]
+    },
+    "averageInterest": 45,
+    "peakInterest": 100,
+    "peakDate": "Jun 7\u2009-\u200913, 2026",
+    "status": "ok"
+  },
+  "inputSchema": {
+    "title": "Google Trends input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "searchTerms": {
+        "title": "Search terms",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Keywords or phrases. Each one is fetched separately and returns one result row.",
+        "prefill": [
+          "bitcoin",
+          "ai agents"
+        ]
+      },
+      "geo": {
+        "title": "Country or region code",
+        "type": "string",
+        "editor": "textfield",
+        "description": "ISO code like US, GB, DE, or US-CA. Leave empty for worldwide.",
+        "default": "US"
+      },
+      "timeRange": {
+        "title": "Time range",
+        "type": "string",
+        "editor": "select",
+        "default": "today 12-m",
+        "enum": [
+          "now 1-H",
+          "now 4-H",
+          "now 1-d",
+          "now 7-d",
+          "today 1-m",
+          "today 3-m",
+          "today 12-m",
+          "today 5-y",
+          "all"
+        ],
+        "enumTitles": [
+          "Past hour",
+          "Past 4 hours",
+          "Past day",
+          "Past 7 days",
+          "Past 30 days",
+          "Past 90 days",
+          "Past 12 months",
+          "Past 5 years",
+          "2004 to present"
+        ],
+        "description": "How far back to look."
+      },
+      "category": {
+        "title": "Category ID",
+        "type": "integer",
+        "description": "Google Trends category number, 0 for all categories.",
+        "default": 0
+      },
+      "property": {
+        "title": "Search type",
+        "type": "string",
+        "editor": "select",
+        "default": "",
+        "enum": [
+          "",
+          "images",
+          "news",
+          "froogle",
+          "youtube"
+        ],
+        "enumTitles": [
+          "Web search",
+          "Image search",
+          "News search",
+          "Google Shopping",
+          "YouTube search"
+        ],
+        "description": "Which Google search the trend data comes from."
+      },
+      "interestOverTime": {
+        "title": "Interest over time",
+        "type": "boolean",
+        "default": true,
+        "description": "Timeline of 0-100 interest values."
+      },
+      "interestByRegion": {
+        "title": "Interest by region",
+        "type": "boolean",
+        "default": true,
+        "description": "0-100 interest for each subregion."
+      },
+      "relatedQueries": {
+        "title": "Related queries",
+        "type": "boolean",
+        "default": true,
+        "description": "Top and rising related searches."
+      },
+      "relatedTopics": {
+        "title": "Related topics",
+        "type": "boolean",
+        "default": true,
+        "description": "Top and rising related topics."
+      },
+      "trendingNow": {
+        "title": "Also get today's trending searches",
+        "type": "boolean",
+        "default": false,
+        "description": "Adds one row per currently trending search in the chosen country, with traffic and news links."
+      },
+      "language": {
+        "title": "Language",
+        "type": "string",
+        "editor": "textfield",
+        "default": "en-US",
+        "description": "Interface language for names, e.g. en-US, de, es."
+      },
+      "maxTerms": {
+        "title": "Max search terms",
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "description": "Stop after this many terms."
+      },
+      "proxyConfiguration": {
+        "title": "Proxy",
+        "type": "object",
+        "editor": "proxy",
+        "description": "Optional. Leave off to use our built-in residential proxy, included in the price.",
+        "prefill": {
+          "useApifyProxy": false
+        }
+      }
+    }
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

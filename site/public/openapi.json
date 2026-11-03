@@ -1107,6 +1107,165 @@
           }
         }
       }
+    },
+    "/acts/gouda_studios~google-trends-explorer/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_google_trends_explorer",
+        "summary": "Run Google Trends Scraper and return dataset items",
+        "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free. Pricing: $0.0005 per run + $0.004 per search term.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/google-trends-explorer"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "searchTerms": {
+                    "type": "array",
+                    "description": "Keywords or phrases. Each one is fetched separately and returns one result row."
+                  },
+                  "geo": {
+                    "type": "string",
+                    "description": "ISO code like US, GB, DE, or US-CA. Leave empty for worldwide.",
+                    "default": "US"
+                  },
+                  "timeRange": {
+                    "type": "string",
+                    "description": "How far back to look.",
+                    "default": "today 12-m",
+                    "enum": [
+                      "now 1-H",
+                      "now 4-H",
+                      "now 1-d",
+                      "now 7-d",
+                      "today 1-m",
+                      "today 3-m",
+                      "today 12-m",
+                      "today 5-y",
+                      "all"
+                    ]
+                  },
+                  "category": {
+                    "type": "integer",
+                    "description": "Google Trends category number, 0 for all categories.",
+                    "default": 0
+                  },
+                  "property": {
+                    "type": "string",
+                    "description": "Which Google search the trend data comes from.",
+                    "default": "",
+                    "enum": [
+                      "",
+                      "images",
+                      "news",
+                      "froogle",
+                      "youtube"
+                    ]
+                  },
+                  "interestOverTime": {
+                    "type": "boolean",
+                    "description": "Timeline of 0-100 interest values.",
+                    "default": true
+                  },
+                  "interestByRegion": {
+                    "type": "boolean",
+                    "description": "0-100 interest for each subregion.",
+                    "default": true
+                  },
+                  "relatedQueries": {
+                    "type": "boolean",
+                    "description": "Top and rising related searches.",
+                    "default": true
+                  },
+                  "relatedTopics": {
+                    "type": "boolean",
+                    "description": "Top and rising related topics.",
+                    "default": true
+                  },
+                  "trendingNow": {
+                    "type": "boolean",
+                    "description": "Adds one row per currently trending search in the chosen country, with traffic and news links.",
+                    "default": false
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "Interface language for names, e.g. en-US, de, es.",
+                    "default": "en-US"
+                  },
+                  "maxTerms": {
+                    "type": "integer",
+                    "description": "Stop after this many terms.",
+                    "default": 100
+                  },
+                  "proxyConfiguration": {
+                    "type": "object",
+                    "description": "Optional. Leave off to use our built-in residential proxy, included in the price."
+                  }
+                }
+              },
+              "example": {
+                "searchTerms": [
+                  "ai agents",
+                  "bitcoin"
+                ],
+                "geo": "US",
+                "timeRange": "today 12-m"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "description": ""
+                      },
+                      "searchTerm": {
+                        "description": ""
+                      },
+                      "title": {
+                        "description": ""
+                      },
+                      "status": {
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
