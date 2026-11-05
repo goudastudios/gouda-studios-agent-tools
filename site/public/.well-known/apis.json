@@ -252,7 +252,7 @@
     {
       "aid": "gouda-studios-agent-tools.vercel.app:google-trends-explorer",
       "name": "Google Trends Scraper",
-      "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free. Pricing: $0.0005 per run + $0.004 per search term.",
+      "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free. Pricing: $0.0005 per run + $0.004 per search term.",
       "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer/",
       "baseURL": "https://api.apify.com/v2",
       "tags": [

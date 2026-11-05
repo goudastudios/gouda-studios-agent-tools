@@ -583,7 +583,7 @@ Sample output row:
 
 ## Google Trends Scraper
 
-Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.
+Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.
 
 Apify: https://apify.com/gouda_studios/google-trends-explorer
 Actor ID for MCP: gouda_studios/google-trends-explorer
@@ -604,7 +604,7 @@ Input parameters:
 - interestOverTime (boolean, default true): Timeline of 0-100 interest values.
 - interestByRegion (boolean, default true): 0-100 interest for each subregion.
 - relatedQueries (boolean, default true): Top and rising related searches.
-- relatedTopics (boolean, default true): Top and rising related topics.
+- relatedTopics (boolean, default true): Top and rising related topics (best effort: Google often withholds these from automated sessions, so the field may be empty).
 - trendingNow (boolean, default false): Adds one row per currently trending search in the chosen country, with traffic and news links.
 - language (string, default "en-US"): Interface language for names, e.g. en-US, de, es.
 - maxTerms (integer, default 100): Stop after this many terms.

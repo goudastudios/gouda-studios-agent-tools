@@ -90,7 +90,7 @@
       "name": "relatedTopics",
       "type": "boolean",
       "title": "Related topics",
-      "description": "Top and rising related topics.",
+      "description": "Top and rising related topics (best effort: Google often withholds these from automated sessions, so the field may be empty).",
       "default": true
     },
     {
@@ -153,7 +153,7 @@
       "description": ""
     }
   ],
-  "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.",
+  "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.",
   "page": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer/",
   "pricing": {
     "model": "pay-per-event",
@@ -433,7 +433,7 @@
         "title": "Related topics",
         "type": "boolean",
         "default": true,
-        "description": "Top and rising related topics."
+        "description": "Top and rising related topics (best effort: Google often withholds these from automated sessions, so the field may be empty)."
       },
       "trendingNow": {
         "title": "Also get today's trending searches",
