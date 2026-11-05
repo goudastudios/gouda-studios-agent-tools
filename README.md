@@ -1,5 +1,7 @@
 # Gouda Studios Agent Tools
 
+[![Listed on MCP Collection](https://mcpcollection.com/badge/gouda-studios-agent-tools.svg)](https://mcpcollection.com/server/gouda-studios-agent-tools)
+
 Pay-per-result data tools for AI agents and developers: U.S. federal contract opportunities (SAM.gov), SEC EDGAR filings, USAspending federal awards, global company LEI lookup (GLEIF), website contact extraction (emails, phones, social links), YouTube transcripts, and Google Trends data (interest over time, by region, related queries). Every tool runs on [Apify](https://apify.com/gouda_studios), returns clean JSON, and can be called by an agent with an Apify token, through the Apify MCP server, or paid per run with x402 or Skyfire.
 
 - Agent site: https://gouda-studios-agent-tools.vercel.app
