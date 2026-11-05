@@ -23,18 +23,18 @@
     {
       "name": "get-actor-run",
       "title": "Get Actor run",
-      "description": "Get detailed information about a specific Actor run.\n\nReturns run result: status, storages (datasets/keyValueStores alias map), stats, summary, nextStep.\n- summary describes the past (e.g. \"SUCCEEDED in 22s. 47 items; 3 fields available.\").\n- nextStep prescribes one primary follow-up action with identifiers interpolated (e.g. \"Use get-dataset-items with datasetId=...\").\n- waitSecs (0\u201345, default 30) waits up to that many seconds for terminal status before returning.\n\nUSAGE:\n- Use to check the status of a run started by any Actor-running tool.\n- Pass waitSecs > 0 to block until terminal (or until the cap elapses).\n\nUSAGE EXAMPLES:\n- user_input: Show details of run y2h7sK3Wc\n- user_input: Wait for run y2h7sK3Wc to finish",
+      "description": "Returns status, storages, stats, and a short summary for one Actor run. Use after starting a run, or with waitSecs to wait for a terminal status.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "runId": {
             "type": "string",
             "minLength": 1,
-            "description": "The ID of the Actor run."
+            "description": "Actor run id."
           },
           "waitSecs": {
             "default": 30,
-            "description": "Maximum seconds to wait for the run to reach a terminal state (SUCCEEDED, FAILED, ABORTED, TIMED-OUT).\n0 returns immediately with the current status. Cap: 45. Default: 30.",
+            "description": "Seconds to wait for the run to finish (0-45).",
             "type": "integer",
             "minimum": 0,
             "maximum": 45
@@ -56,43 +56,43 @@
     {
       "name": "get-dataset-items",
       "title": "Get dataset items",
-      "description": "Get items (rows) from a dataset \u2014 the output/results produced by an Actor run.\nReturns the rows themselves, not dataset metadata, counts, or a schema.\nWhen the user provides a datasetId and asks to retrieve results, output, data, or rows, call this tool directly.\nDefault limit is 20. Use clean=true to skip empty items and hidden fields.\n\nUSAGE:\n- Use when you need to read data from a dataset (all items or only selected fields).\n\nUSAGE EXAMPLES:\n- user_input: Retrieve results from dataset abc123\n- user_input: Get only metadata.url and title from dataset username~my-dataset",
+      "description": "Returns rows from a dataset produced by an Actor run. Use when you have a datasetId and need the result items.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "datasetId": {
             "type": "string",
             "minLength": 1,
-            "description": "Dataset ID or username~dataset-name."
+            "description": "Dataset id or username~dataset-name."
           },
           "clean": {
-            "description": "If true, returns only non-empty items and skips hidden fields (starting with #). Shortcut for skipHidden=true and skipEmpty=true.",
+            "description": "If true, skip empty items and hidden fields.",
             "type": "boolean"
           },
           "offset": {
-            "description": "Number of items to skip at the start. Default is 0.",
+            "description": "Number of items to skip.",
             "type": "number"
           },
           "limit": {
-            "description": "Maximum number of items to return. Default is 20.",
+            "description": "Maximum number of items to return.",
             "type": "integer",
             "minimum": 1,
             "maximum": 9007199254740991
           },
           "fields": {
-            "description": "Comma-separated list of fields to include in results. Fields in output are sorted as specified. Use dot notation for nested objects (e.g. \"metadata.url\"); the server auto-flattens parent prefixes.",
+            "description": "Comma-separated fields to include.",
             "type": "string"
           },
           "omit": {
-            "description": "Comma-separated list of fields to exclude from results.",
+            "description": "Comma-separated fields to omit.",
             "type": "string"
           },
           "desc": {
-            "description": "If true, results are returned in reverse order (newest to oldest).",
+            "description": "If true, return newest items first.",
             "type": "boolean"
           },
           "flatten": {
-            "description": "Comma-separated list of fields to flatten (e.g. flatten=\"metadata\" turns {\"metadata\":{\"url\":\"x\"}} into {\"metadata.url\":\"x\"}). Normally derived automatically from dot-notation in `fields`; specify only as a diagnostic override.",
+            "description": "Comma-separated fields to flatten.",
             "type": "string"
           }
         },
@@ -112,19 +112,19 @@
     {
       "name": "get-key-value-store-record",
       "title": "Get key-value store record",
-      "description": "Get the value stored under a specific key in a key-value store \u2014 a single record, not a listing of all keys.\nRequires the exact key name.\nThe response preserves the original Content-Encoding; most clients handle decompression automatically.\n\nUSAGE:\n- Use when you need to retrieve a specific record (JSON, text, or binary) from a store.\n\nUSAGE EXAMPLES:\n- user_input: Get record INPUT from store abc123\n- user_input: Get record data.json from store username~my-store",
+      "description": "Returns one record from a key-value store by store id and record key. Use for INPUT, OUTPUT, or other named records.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "keyValueStoreId": {
             "type": "string",
             "minLength": 1,
-            "description": "Key-value store ID or username~store-name."
+            "description": "Key-value store id or username~store-name."
           },
           "recordKey": {
             "type": "string",
             "minLength": 1,
-            "description": "Key of the record to retrieve."
+            "description": "Record key to retrieve."
           }
         },
         "required": [
@@ -144,17 +144,17 @@
     {
       "name": "abort-actor-run",
       "title": "Abort Actor run",
-      "description": "Abort an Actor run that is currently starting or running.\nFor runs with status SUCCEEDED, FAILED, ABORTING, ABORTED, or TIMED-OUT, this call has no effect.\nThe results will include the updated run details after the abort request.\n\nUSAGE:\n- Use when you need to stop a run that is taking too long or misconfigured.\n\nUSAGE EXAMPLES:\n- user_input: Abort run y2h7sK3Wc\n- user_input: Gracefully abort run y2h7sK3Wc",
+      "description": "Requests abort of an Actor run that is starting or running. No effect if the run already finished.",
       "inputSchema": {
         "type": "object",
         "properties": {
           "runId": {
             "type": "string",
             "minLength": 1,
-            "description": "The ID of the Actor run to abort."
+            "description": "Actor run id."
           },
           "gracefully": {
-            "description": "If true, the Actor run will abort gracefully with a 30-second timeout.",
+            "description": "If true, request a graceful abort.",
             "type": "boolean"
           }
         },
@@ -174,36 +174,25 @@
     {
       "name": "gouda_studios--sam-gov-opportunities-feed",
       "title": "gouda_studios/sam-gov-opportunities-feed",
-      "description": "This tool calls the Actor \"gouda_studios/sam-gov-opportunities-feed\" and retrieves its output results.\nActor description: Get new federal contract opportunities from SAM.gov as clean JSON, no API key needed. Filter by keyword, NAICS, set-aside, notice type, agency and state. Includes deadlines, days left and contracting officer contacts. Monitor mode returns only new notices.",
+      "description": "Returns SAM.gov federal contract opportunities as JSON, filterable by keyword, NAICS, set-aside, notice type, agency, and state. Use for new or matching notices.",
       "inputSchema": {
         "title": "SAM.gov Contract Opportunities Feed",
         "type": "object",
         "properties": {
           "keywords": {
-            "title": "Keywords",
-            "description": "Optional free-text search over SAM.gov notice titles and text, e.g. \"cybersecurity\" or \"janitorial services\". Leave empty to return all notices that match the other filters.\nExample values: \"software\"",
-            "type": "string",
-            "prefill": "software",
-            "examples": [
-              "software"
-            ]
+            "description": "Optional free-text search terms.",
+            "type": "string"
           },
           "naicsCodes": {
-            "title": "NAICS codes",
-            "description": "Optional list of 6-digit NAICS industry codes (strings), e.g. [\"541511\",\"541512\"]. A notice matches if it has any of them. Empty = all industries.",
+            "description": "Optional 6-digit NAICS codes.",
             "type": "array",
-            "default": [],
             "items": {
-              "title": "NAICS codes",
-              "description": "Optional list of 6-digit NAICS industry codes (strings), e.g. [\"541511\",\"541512\"]. A notice matches if it has any of them. Empty = all industries.",
               "type": "string"
             }
           },
           "noticeTypes": {
-            "title": "Notice types",
-            "description": "Optional list of notice type codes: o=Solicitation, k=Combined Synopsis/Solicitation, p=Presolicitation, r=Sources Sought, s=Special Notice, a=Award Notice, u=Justification, i=Intent to Bundle, g=Surplus sale. Empty = all types.",
+            "description": "Optional SAM notice type codes.",
             "type": "array",
-            "default": [],
             "items": {
               "type": "string",
               "enum": [
@@ -216,25 +205,12 @@
                 "u",
                 "i",
                 "g"
-              ],
-              "enumTitles": [
-                "Solicitation",
-                "Combined Synopsis/Solicitation",
-                "Presolicitation",
-                "Sources Sought",
-                "Special Notice",
-                "Award Notice",
-                "Justification (J&A)",
-                "Intent to Bundle",
-                "Sale of Surplus Property"
               ]
             }
           },
           "setAsides": {
-            "title": "Set-asides",
-            "description": "Optional small-business set-aside codes, e.g. [\"SBA\",\"8A\",\"SDVOSBC\",\"WOSB\",\"HZC\"]. Empty = any set-aside or none.",
+            "description": "Optional small-business set-aside codes.",
             "type": "array",
-            "default": [],
             "items": {
               "type": "string",
               "enum": [
@@ -252,109 +228,63 @@
                 "EDWOSBSS",
                 "VSA",
                 "VSS"
-              ],
-              "enumTitles": [
-                "Total Small Business",
-                "Partial Small Business",
-                "8(a) Competed",
-                "8(a) Sole Source",
-                "HUBZone",
-                "HUBZone Sole Source",
-                "SDVOSB",
-                "SDVOSB Sole Source",
-                "WOSB",
-                "WOSB Sole Source",
-                "EDWOSB",
-                "EDWOSB Sole Source",
-                "Veteran-Owned",
-                "Veteran-Owned Sole Source"
               ]
             }
           },
           "states": {
-            "title": "Place of performance (state codes)",
-            "description": "Optional 2-letter US state codes for the place of performance, e.g. [\"VA\",\"MD\"]. Requires includeDetails=true. Empty = all locations.",
+            "description": "Optional 2-letter US state codes.",
             "type": "array",
-            "default": [],
             "items": {
-              "title": "Place of performance (state codes)",
-              "description": "Optional 2-letter US state codes for the place of performance, e.g. [\"VA\",\"MD\"]. Requires includeDetails=true. Empty = all locations.",
               "type": "string"
             }
           },
           "agencyContains": {
-            "title": "Agency contains",
-            "description": "Optional case-insensitive text the agency path must contain, e.g. \"Navy\" or \"Veterans Affairs\".",
+            "description": "Optional agency name substring.",
             "type": "string"
           },
           "postedWithinDays": {
-            "title": "Posted/updated within (days)",
-            "description": "Only notices posted or updated in the last N days. 0 = no date limit. Use 1-7 for daily/weekly monitoring.",
+            "description": "Only notices from the last N days; 0 = no limit.",
             "type": "integer",
             "default": 0
           },
           "minDaysUntilResponse": {
-            "title": "Minimum days until response deadline",
-            "description": "Optional. Skip notices whose response deadline is fewer than N days away, so you only get ones you can still bid on.",
+            "description": "Minimum days remaining until response deadline.",
             "type": "integer"
           },
           "activeOnly": {
-            "title": "Active notices only",
-            "description": "true (default) = skip archived/inactive notices.\nExample values: true",
+            "description": "If true, skip archived notices.",
             "type": "boolean",
-            "default": true,
-            "examples": [
-              true
-            ]
+            "default": true
           },
           "includeDetails": {
-            "title": "Fetch full details",
-            "description": "true (default) = fetch each notice for NAICS, PSC, set-aside, place of performance, full description and contacts. false = faster, fewer fields.\nExample values: true",
+            "description": "If true, fetch full notice details.",
             "type": "boolean",
-            "default": true,
-            "examples": [
-              true
-            ]
+            "default": true
           },
           "includeContacts": {
-            "title": "Include contracting officer contacts",
-            "description": "true (default) = include the contracting officer work name, email and phone published on the notice.\nExample values: true",
+            "description": "If true, include contracting officer contacts.",
             "type": "boolean",
-            "default": true,
-            "examples": [
-              true
-            ]
+            "default": true
           },
           "onlyNew": {
-            "title": "Only new since last run (monitor mode)",
-            "description": "true = return only notices not delivered in an earlier run with the same filters (state is kept between runs). Use with a schedule for an alert feed.",
+            "description": "If true, return only notices not seen before.",
             "type": "boolean",
             "default": false
           },
           "maxResults": {
-            "title": "Max results",
-            "description": "Maximum rows to return (1-10000). You are charged per row returned, so this caps the cost: 100 rows = $0.20 at $0.002/row.\nExample values: 100",
+            "description": "Maximum notices to return.",
             "type": "integer",
-            "default": 100,
-            "examples": [
-              100
-            ]
-          },
-          "apiKey": {
-            "title": "SAM.gov API key (optional)",
-            "description": "Optional. Your own free api.sam.gov public API key; when set, the Actor reads the official SAM.gov Opportunities API instead of the public search feed.",
-            "type": "string"
+            "default": 100
           },
           "waitSecs": {
             "type": "integer",
             "minimum": 0,
             "maximum": 45,
             "default": 30,
-            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+            "description": "Seconds to wait for the run to finish (0-45)."
           }
         },
-        "required": [],
-        "description": "Returns U.S. federal contract opportunities (RFPs, RFQs, sources sought, award notices) from SAM.gov as one JSON row per notice. All inputs are optional; a good default is {\"keywords\":\"software\",\"postedWithinDays\":7,\"maxResults\":50}. Pricing: pay per event, $0.002 per opportunity row returned.",
+        "description": "Returns U.S. federal contract opportunities (RFPs, RFQs.",
         "$id": "https://apify.com/mcp/gouda_studios--sam-gov-opportunities-feed/schema.json"
       },
       "annotations": {
@@ -367,86 +297,50 @@
     {
       "name": "gouda_studios--sec-edgar-filings-feed",
       "title": "gouda_studios/sec-edgar-filings-feed",
-      "description": "This tool calls the Actor \"gouda_studios/sec-edgar-filings-feed\" and retrieves its output results.\nActor description: Monitor SEC EDGAR filings by ticker or CIK, including 8-K, 10-Q, 10-K, Form 4 insider trades, Form D and S-1. Each result has the company, form type, filing date and document links. Only-new mode turns it into an alert feed for investors, research and AI agents.",
+      "description": "Returns SEC EDGAR filings for tickers or CIKs (8-K, 10-Q, 10-K, Form 4, Form D, S-1) with filing dates and document links. Use for company filing monitoring.",
       "inputSchema": {
         "title": "SEC EDGAR Filings Feed: 8-K, 10-K, 10-Q, Form 4, Form D, S-1",
         "type": "object",
-        "description": "Returns SEC EDGAR filings as one JSON row per filing, from official sec.gov / data.sec.gov endpoints. With tickers or CIKs it reads each company's filing history; with neither it returns the latest market-wide filings of the chosen form types. Example: {\"tickers\":[\"AAPL\",\"TSLA\"],\"formTypes\":[\"8-K\",\"10-Q\"],\"filedWithinDays\":30}. Pricing: $0.002 per filing row.",
+        "description": "Returns SEC EDGAR filings as one JSON row per filing.",
         "properties": {
           "tickers": {
-            "title": "Tickers",
-            "description": "Optional stock tickers, e.g. [\"AAPL\",\"NVDA\"]. Resolved to CIKs with the SEC ticker file.\nExample values: [\"AAPL\",\"TSLA\"]",
+            "description": "Optional stock tickers, e.g. [\"AAPL\",\"NVDA\"]. Resolved.",
             "type": "array",
-            "default": [],
-            "prefill": [
-              "AAPL",
-              "TSLA"
-            ],
             "items": {
-              "title": "Tickers",
-              "description": "Optional stock tickers, e.g. [\"AAPL\",\"NVDA\"]. Resolved to CIKs with the SEC ticker file.",
               "type": "string"
-            },
-            "examples": [
-              "AAPL",
-              "TSLA"
-            ]
+            }
           },
           "ciks": {
-            "title": "CIK numbers",
-            "description": "Optional SEC Central Index Keys, e.g. [\"320193\"]. Leave tickers and CIKs empty to get latest filings across all companies.",
+            "description": "Optional SEC Central Index Keys, e.g. [\"320193\"]. Leave.",
             "type": "array",
-            "default": [],
             "items": {
-              "title": "CIK numbers",
-              "description": "Optional SEC Central Index Keys, e.g. [\"320193\"]. Leave tickers and CIKs empty to get latest filings across all companies.",
               "type": "string"
             }
           },
           "formTypes": {
-            "title": "Form types",
-            "description": "Form types to include, e.g. [\"8-K\",\"10-K\",\"10-Q\",\"4\",\"D\",\"S-1\",\"13F-HR\",\"SC 13D\"]. Empty = all forms (company mode only; market-wide mode needs at least one).\nExample values: [\"8-K\"]",
+            "description": "Form types to include, .",
             "type": "array",
-            "default": [],
-            "prefill": [
-              "8-K"
-            ],
             "items": {
-              "title": "Form types",
-              "description": "Form types to include, e.g. [\"8-K\",\"10-K\",\"10-Q\",\"4\",\"D\",\"S-1\",\"13F-HR\",\"SC 13D\"]. Empty = all forms (company mode only; market-wide mode needs at least one).",
               "type": "string"
-            },
-            "examples": [
-              "8-K"
-            ]
+            }
           },
           "filedWithinDays": {
-            "title": "Filed within (days)",
-            "description": "Only filings from the last N days. 0 = no limit (company mode returns the ~1000 most recent).\nExample values: 7",
+            "description": "Only filings from the last N days. 0 = no limit (company.",
             "type": "integer",
-            "default": 7,
-            "examples": [
-              7
-            ]
+            "default": 7
           },
           "onlyNew": {
-            "title": "Only new since last run",
-            "description": "true = skip filings delivered by an earlier run with the same tickers/CIKs/forms. Use with a schedule for an alert feed.",
+            "description": "If true, return only notices not seen before.",
             "type": "boolean",
             "default": false
           },
           "maxResults": {
-            "title": "Max results",
-            "description": "Maximum rows (1-5000). You pay per row, so this caps cost: 100 rows = $0.20.\nExample values: 100",
+            "description": "Maximum notices to return.",
             "type": "integer",
-            "default": 100,
-            "examples": [
-              100
-            ]
+            "default": 100
           },
           "contactEmail": {
-            "title": "Contact email for SEC User-Agent",
-            "description": "Optional. SEC asks automated clients to identify themselves; this email is sent in the User-Agent header to sec.gov only.",
+            "description": "Optional. SEC asks automated clients to identify.",
             "type": "string"
           },
           "waitSecs": {
@@ -454,7 +348,7 @@
             "minimum": 0,
             "maximum": 45,
             "default": 30,
-            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+            "description": "Seconds to wait for the run to finish (0-45)."
           }
         },
         "$id": "https://apify.com/mcp/gouda_studios--sec-edgar-filings-feed/schema.json"
@@ -469,76 +363,49 @@
     {
       "name": "gouda_studios--usaspending-awards-search",
       "title": "gouda_studios/usaspending-awards-search",
-      "description": "This tool calls the Actor \"gouda_studios/usaspending-awards-search\" and retrieves its output results.\nActor description: Search USAspending.gov federal awards by keyword, recipient, agency, NAICS, state, date and amount. Get contracts and grants with amounts, recipients, awarding agency and performance dates as JSON. Track competitors, find who won contracts and build sales prospect lists.",
+      "description": "Searches USAspending.gov federal awards by keyword, recipient, agency, NAICS, state, date, and amount. Use to find contracts and grants.",
       "inputSchema": {
         "title": "USAspending Federal Awards Search: Contracts, Grants, Recipients",
         "type": "object",
-        "description": "Returns U.S. federal spending awards (contracts, IDVs, grants, loans) from the official USAspending.gov API, one JSON row per award, largest first. Example: {\"keywords\":[\"cybersecurity\"],\"awardType\":\"contracts\",\"startDate\":\"2026-01-01\",\"maxResults\":50}. Pricing: $0.0015 per award row.",
+        "description": "Returns U.S. federal spending awards (contracts, IDVs.",
         "properties": {
           "keywords": {
-            "title": "Keywords",
-            "description": "Optional words to match in award descriptions, e.g. [\"cybersecurity\"].\nExample values: [\"cybersecurity\"]",
+            "description": "Optional free-text search terms.",
             "type": "array",
-            "default": [],
-            "prefill": [
-              "cybersecurity"
-            ],
             "items": {
-              "title": "Keywords",
-              "description": "Optional words to match in award descriptions, e.g. [\"cybersecurity\"].",
               "type": "string"
-            },
-            "examples": [
-              "cybersecurity"
-            ]
+            }
           },
           "recipientNames": {
-            "title": "Recipient names",
-            "description": "Optional company or organization names (or UEIs), e.g. [\"Booz Allen Hamilton\"]. Find a competitor's federal wins.",
+            "description": "Optional company or organization names (or UEIs), .",
             "type": "array",
-            "default": [],
             "items": {
-              "title": "Recipient names",
-              "description": "Optional company or organization names (or UEIs), e.g. [\"Booz Allen Hamilton\"]. Find a competitor's federal wins.",
               "type": "string"
             }
           },
           "awardingAgencies": {
-            "title": "Awarding agencies",
-            "description": "Optional top-tier agency names exactly as USAspending lists them, e.g. [\"Department of Defense\",\"Department of Veterans Affairs\"].",
+            "description": "Optional top-tier agency names exactly as USAspending.",
             "type": "array",
-            "default": [],
             "items": {
-              "title": "Awarding agencies",
-              "description": "Optional top-tier agency names exactly as USAspending lists them, e.g. [\"Department of Defense\",\"Department of Veterans Affairs\"].",
               "type": "string"
             }
           },
           "naicsCodes": {
-            "title": "NAICS codes",
-            "description": "Optional NAICS codes (contracts only), e.g. [\"541512\"].",
+            "description": "Optional 6-digit NAICS codes.",
             "type": "array",
-            "default": [],
             "items": {
-              "title": "NAICS codes",
-              "description": "Optional NAICS codes (contracts only), e.g. [\"541512\"].",
               "type": "string"
             }
           },
           "states": {
-            "title": "Place of performance states",
-            "description": "Optional 2-letter state codes, e.g. [\"VA\",\"TX\"].",
+            "description": "Optional 2-letter US state codes.",
             "type": "array",
-            "default": [],
             "items": {
-              "title": "Place of performance states",
-              "description": "Optional 2-letter state codes, e.g. [\"VA\",\"TX\"].",
               "type": "string"
             }
           },
           "awardType": {
-            "title": "Award type",
-            "description": "contracts (default), idvs, grants, loans, direct_payments or other.\nExample values: \"contracts\"",
+            "description": "contracts (default), idvs, grants, loans.",
             "type": "string",
             "enum": [
               "contracts",
@@ -548,52 +415,40 @@
               "direct_payments",
               "other"
             ],
-            "default": "contracts",
-            "examples": [
-              "contracts"
-            ]
+            "default": "contracts"
           },
           "startDate": {
-            "title": "Start date",
-            "description": "YYYY-MM-DD. Defaults to 90 days ago. USAspending data starts 2007-10-01.",
+            "description": "YYYY-MM-DD. Defaults to 90 days ago. USAspending data.",
             "type": "string"
           },
           "endDate": {
-            "title": "End date",
             "description": "YYYY-MM-DD. Defaults to today.",
             "type": "string"
           },
           "minAmount": {
-            "title": "Minimum amount (USD)",
             "description": "Optional lower bound on award amount.",
             "type": "integer"
           },
           "maxAmount": {
-            "title": "Maximum amount (USD)",
             "description": "Optional upper bound on award amount.",
             "type": "integer"
           },
           "onlyNew": {
-            "title": "Only new since last run",
-            "description": "true = skip awards delivered by an earlier run with the same filters.",
+            "description": "If true, return only notices not seen before.",
             "type": "boolean",
             "default": false
           },
           "maxResults": {
-            "title": "Max results",
-            "description": "Maximum rows (1-10000). You pay per row: 100 rows = $0.15.\nExample values: 100",
+            "description": "Maximum notices to return.",
             "type": "integer",
-            "default": 100,
-            "examples": [
-              100
-            ]
+            "default": 100
           },
           "waitSecs": {
             "type": "integer",
             "minimum": 0,
             "maximum": 45,
             "default": 30,
-            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+            "description": "Seconds to wait for the run to finish (0-45)."
           }
         },
         "$id": "https://apify.com/mcp/gouda_studios--usaspending-awards-search/schema.json"
@@ -608,98 +463,63 @@
     {
       "name": "gouda_studios--gleif-company-lei-lookup",
       "title": "gouda_studios/gleif-company-lei-lookup",
-      "description": "This tool calls the Actor \"gouda_studios/gleif-company-lei-lookup\" and retrieves its output results.\nActor description: Find any company LEI number by name, or look up an LEI, in the official GLEIF global registry. Get the legal name, status, jurisdiction, registration number, legal and HQ address, and direct and ultimate parent companies. For KYC, KYB, vendor checks and data enrichment.",
+      "description": "Looks up a company LEI by name, or returns LEI details by identifier, from the GLEIF registry (legal name, status, jurisdiction, addresses, parents). Use for company identity checks.",
       "inputSchema": {
         "title": "Company Lookup by Name or LEI: Legal Entity, Address, Parent (GLEIF)",
         "type": "object",
-        "description": "Looks up legal entities worldwide in the official GLEIF Legal Entity Identifier (LEI) database and returns one JSON row per matched company with legal name, status, address, registration number and parent companies. Example: {\"companyNames\":[\"Apple Inc.\"],\"country\":\"US\"} or {\"leis\":[\"HWUPKR0MPOU8FGXBT394\"]}. Pricing: $0.003 per company row.",
+        "description": "Looks up legal entities worldwide in the official GLEIF.",
         "properties": {
           "companyNames": {
-            "title": "Company names",
-            "description": "Legal names to look up, e.g. [\"Apple Inc.\",\"Siemens AG\"]. Exact legal name match first, then fuzzy full-text.\nExample values: [\"Apple Inc.\"]",
+            "description": "Legal names to look up, e.g. [\"Apple Inc.\",\"Siemens.",
             "type": "array",
-            "default": [],
-            "prefill": [
-              "Apple Inc."
-            ],
             "items": {
-              "title": "Company names",
-              "description": "Legal names to look up, e.g. [\"Apple Inc.\",\"Siemens AG\"]. Exact legal name match first, then fuzzy full-text.",
               "type": "string"
-            },
-            "examples": [
-              "Apple Inc."
-            ]
+            }
           },
           "leis": {
-            "title": "LEI codes",
             "description": "Optional 20-character LEIs to fetch directly.",
             "type": "array",
-            "default": [],
             "items": {
-              "title": "LEI codes",
-              "description": "Optional 20-character LEIs to fetch directly.",
               "type": "string"
             }
           },
           "registrationNumbers": {
-            "title": "Registration numbers",
-            "description": "Optional company-registry numbers as reported to GLEIF (registeredAs), e.g. a UK Companies House number.",
+            "description": "Optional company-registry numbers as reported to GLEIF.",
             "type": "array",
-            "default": [],
             "items": {
-              "title": "Registration numbers",
-              "description": "Optional company-registry numbers as reported to GLEIF (registeredAs), e.g. a UK Companies House number.",
               "type": "string"
             }
           },
           "country": {
-            "title": "Country",
-            "description": "Optional ISO 2-letter country of the legal address, e.g. US, GB, DE. Improves name matching.",
+            "description": "Optional ISO 2-letter country of the legal address, .",
             "type": "string"
           },
           "activeOnly": {
-            "title": "Active entities only",
-            "description": "true (default) = skip lapsed/inactive entities for name and registration searches.\nExample values: true",
+            "description": "If true, skip archived notices.",
             "type": "boolean",
-            "default": true,
-            "examples": [
-              true
-            ]
+            "default": true
           },
           "maxMatchesPerName": {
-            "title": "Max matches per name",
-            "description": "How many candidate entities to return per name or registration number (1-50).\nExample values: 3",
+            "description": "How many candidate entities to return per name or.",
             "type": "integer",
-            "default": 3,
-            "examples": [
-              3
-            ]
+            "default": 3
           },
           "includeParents": {
-            "title": "Include parent companies",
-            "description": "true (default) = add direct and ultimate parent (LEI, name, country) where reported.\nExample values: true",
+            "description": "true (default) = add direct and ultimate parent (LEI.",
             "type": "boolean",
-            "default": true,
-            "examples": [
-              true
-            ]
+            "default": true
           },
           "maxResults": {
-            "title": "Max results",
-            "description": "Maximum rows overall (1-5000). You pay per row: 100 rows = $0.30.\nExample values: 100",
+            "description": "Maximum notices to return.",
             "type": "integer",
-            "default": 100,
-            "examples": [
-              100
-            ]
+            "default": 100
           },
           "waitSecs": {
             "type": "integer",
             "minimum": 0,
             "maximum": 45,
             "default": 30,
-            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+            "description": "Seconds to wait for the run to finish (0-45)."
           }
         },
         "$id": "https://apify.com/mcp/gouda_studios--gleif-company-lei-lookup/schema.json"
@@ -714,87 +534,55 @@
     {
       "name": "gouda_studios--website-contact-extractor",
       "title": "gouda_studios/website-contact-extractor",
-      "description": "This tool calls the Actor \"gouda_studios/website-contact-extractor\" and retrieves its output results.\nActor description: Email extractor and contact scraper for lead gen. Give it any list of websites and get emails, phones, LinkedIn, Facebook, Instagram, X and TikTok links and addresses, one deduplicated row per site. Cloudflare emails decoded, phones validated. Pay only for sites where contacts are found.",
+      "description": "Extracts public emails, phones, social links, and addresses from a list of websites, one deduplicated row per site. Use for contact discovery on public pages.",
       "inputSchema": {
         "title": "Website Contact Extractor",
         "type": "object",
         "properties": {
           "startUrls": {
-            "title": "Websites",
-            "description": "**REQUIRED** Websites or domains to extract contacts from, one per line. Examples: https://www.example.com or example.com. Each site becomes exactly one output row.\nExample values: [\"https://apify.com\",\"https://www.python.org\"]",
+            "description": "Websites or domains to extract contacts from, one per.",
             "type": "array",
-            "prefill": [
-              "https://apify.com",
-              "https://www.python.org"
-            ],
             "items": {
-              "title": "Websites",
-              "description": "**REQUIRED** Websites or domains to extract contacts from, one per line. Examples: https://www.example.com or example.com. Each site becomes exactly one output row.",
               "type": "string"
-            },
-            "examples": [
-              "https://apify.com",
-              "https://www.python.org"
-            ]
+            }
           },
           "maxPagesPerSite": {
-            "title": "Max pages per site",
-            "description": "How many pages to read on each site, starting with the homepage and then the most likely contact pages (Contact, About, Team, Impressum, Support). You pay per site, not per page, so higher values only cost more time.\nExample values: 8",
+            "description": "How many pages to read on each site, starting with .",
             "type": "integer",
-            "default": 8,
-            "examples": [
-              8
-            ]
+            "default": 8
           },
           "defaultCountry": {
-            "title": "Default phone country",
-            "description": "Two-letter country code used to read local phone numbers that have no +country prefix, e.g. US, GB, DE, AU.\nExample values: \"US\"",
+            "description": "Two-letter country code used to read local phone numbers.",
             "type": "string",
-            "default": "US",
-            "examples": [
-              "US"
-            ]
+            "default": "US"
           },
           "checkMx": {
-            "title": "Check email domains for MX records",
-            "description": "Adds a free DNS check that each email domain can receive mail. Flags typos and dead domains.\nExample values: true",
+            "description": "Adds a free DNS check that each email domain can receive.",
             "type": "boolean",
-            "default": true,
-            "examples": [
-              true
-            ]
+            "default": true
           },
           "respectRobotsTxt": {
-            "title": "Respect robots.txt",
-            "description": "Skip pages that a site's robots.txt asks crawlers not to visit.\nExample values: true",
+            "description": "Skip pages that a site's robots.txt asks crawlers not .",
             "type": "boolean",
-            "default": true,
-            "examples": [
-              true
-            ]
+            "default": true
           },
           "proxyConfiguration": {
-            "title": "Proxy",
-            "description": "Optional. Most business sites work without a proxy. Turn on Apify Proxy if many sites time out or block requests.\nExample values: {\"useApifyProxy\":false}",
+            "description": "Optional. Most business sites work without a proxy. Turn.",
             "type": "object",
             "default": {
               "useApifyProxy": false
             },
             "properties": {
               "useApifyProxy": {
-                "title": "Use Apify Proxy",
                 "type": "boolean",
-                "description": "Whether to use Apify Proxy. Set this to false when you want to use custom proxy URLs.",
+                "description": "Whether to use Apify Proxy. Set this to false when you.",
                 "default": true
               },
               "apifyProxyGroups": {
-                "title": "Apify Proxy Groups",
                 "type": "array",
-                "description": "Select specific Apify Proxy groups to use (e.g., RESIDENTIAL, DATACENTER).\n**DATACENTER:**\nThe fastest and cheapest option. It uses datacenters to change your IP address. Note that there is a chance of being blocked because of the activity of other users.\n\n**RESIDENTIAL:**\nIP addresses located in homes and offices around the world. These IPs are the least likely to be blocked.",
+                "description": "Select specific Apify Proxy groups to use (.",
                 "items": {
                   "type": "string",
-                  "title": "Proxy group name",
-                  "description": "Proxy group name",
                   "enum": [
                     "RESIDENTIAL",
                     "DATACENTER"
@@ -802,23 +590,15 @@
                 }
               },
               "proxyUrls": {
-                "title": "Proxy URLs",
                 "type": "array",
-                "description": "List of custom proxy URLs to be used instead of the Apify Proxy.",
+                "description": "List of custom proxy URLs to be used instead of .",
                 "items": {
-                  "type": "string",
-                  "title": "Custom proxy URL",
-                  "description": "Custom proxy URL"
+                  "type": "string"
                 }
               }
             },
             "required": [
               "useApifyProxy"
-            ],
-            "examples": [
-              {
-                "useApifyProxy": false
-              }
             ]
           },
           "waitSecs": {
@@ -826,7 +606,7 @@
             "minimum": 0,
             "maximum": 45,
             "default": 30,
-            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+            "description": "Seconds to wait for the run to finish (0-45)."
           }
         },
         "required": [
@@ -844,106 +624,69 @@
     {
       "name": "gouda_studios--youtube-transcript-extractor",
       "title": "gouda_studios/youtube-transcript-extractor",
-      "description": "This tool calls the Actor \"gouda_studios/youtube-transcript-extractor\" and retrieves its output results.\nActor description: Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free.",
+      "description": "Returns YouTube video or Short transcripts as plain text, timestamped text, segments, or SRT. Use when you need captions or spoken content from a video URL.",
       "inputSchema": {
         "title": "YouTube Transcript Extractor input",
         "type": "object",
         "properties": {
           "videos": {
-            "title": "YouTube video URLs or IDs",
-            "description": "**REQUIRED** Watch URLs, youtu.be links, Shorts, live or embed URLs, or bare 11-character video IDs.\nExample values: [\"https://www.youtube.com/watch?v=dQw4w9WgXcQ\"]",
+            "description": "Watch URLs, youtu.be links, Shorts, live or embed URLs.",
             "type": "array",
-            "prefill": [
-              "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            ],
             "items": {
-              "title": "YouTube video URLs or IDs",
-              "description": "**REQUIRED** Watch URLs, youtu.be links, Shorts, live or embed URLs, or bare 11-character video IDs.",
               "type": "string"
-            },
-            "examples": [
-              "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
-            ]
+            }
           },
           "languages": {
-            "title": "Preferred languages",
-            "description": "Language codes in priority order, e.g. en, es, de. If none match, the first available transcript is returned.\nExample values: [\"en\"]",
+            "description": "Language codes in priority order, e.g. en, es, de. If.",
             "type": "array",
             "default": [
               "en"
             ],
             "items": {
-              "title": "Preferred languages",
-              "description": "Language codes in priority order, e.g. en, es, de. If none match, the first available transcript is returned.",
               "type": "string"
-            },
-            "examples": [
-              "en"
-            ]
+            }
           },
           "translateTo": {
-            "title": "Translate to (optional)",
-            "description": "Language code to auto-translate the transcript into using YouTube's translation, e.g. en.",
+            "description": "Language code to auto-translate the transcript into.",
             "type": "string"
           },
           "preferManual": {
-            "title": "Prefer human-made captions",
-            "description": "Use manually created captions over auto-generated ones when both exist.\nExample values: true",
+            "description": "Use manually created captions over auto-generated ones.",
             "type": "boolean",
-            "default": true,
-            "examples": [
-              true
-            ]
+            "default": true
           },
           "includeSegments": {
-            "title": "Include timed segments",
-            "description": "Add an array of segments with start time and duration.\nExample values: true",
+            "description": "Add an array of segments with start time and duration.",
             "type": "boolean",
-            "default": true,
-            "examples": [
-              true
-            ]
+            "default": true
           },
           "includeSrt": {
-            "title": "Include SRT subtitles",
             "description": "Add an SRT subtitle file as a string.",
             "type": "boolean",
             "default": false
           },
           "maxVideos": {
-            "title": "Max videos",
-            "description": "Stop after this many videos.\nExample values: 1000",
+            "description": "Stop after this many videos. Example values: 1000",
             "type": "integer",
-            "default": 1000,
-            "examples": [
-              1000
-            ]
+            "default": 1000
           },
           "proxyConfiguration": {
-            "title": "Proxy",
-            "description": "Optional. Leave off to use our built-in residential proxy, included in the price. Set your own only if you want to.\nExample values: {\"useApifyProxy\":false}",
+            "description": "Optional. Leave off to use our built-in residential.",
             "type": "object",
             "default": {
               "useApifyProxy": false
             },
-            "prefill": {
-              "useApifyProxy": false
-            },
             "properties": {
               "useApifyProxy": {
-                "title": "Use Apify Proxy",
                 "type": "boolean",
-                "description": "Whether to use Apify Proxy. Set this to false when you want to use custom proxy URLs.",
+                "description": "Whether to use Apify Proxy. Set this to false when you.",
                 "default": true
               },
               "apifyProxyGroups": {
-                "title": "Apify Proxy Groups",
                 "type": "array",
-                "description": "Select specific Apify Proxy groups to use (e.g., RESIDENTIAL, DATACENTER).\n**DATACENTER:**\nThe fastest and cheapest option. It uses datacenters to change your IP address. Note that there is a chance of being blocked because of the activity of other users.\n\n**RESIDENTIAL:**\nIP addresses located in homes and offices around the world. These IPs are the least likely to be blocked.",
+                "description": "Select specific Apify Proxy groups to use (.",
                 "items": {
                   "type": "string",
-                  "title": "Proxy group name",
-                  "description": "Proxy group name",
                   "enum": [
                     "RESIDENTIAL",
                     "DATACENTER"
@@ -951,23 +694,15 @@
                 }
               },
               "proxyUrls": {
-                "title": "Proxy URLs",
                 "type": "array",
-                "description": "List of custom proxy URLs to be used instead of the Apify Proxy.",
+                "description": "List of custom proxy URLs to be used instead of .",
                 "items": {
-                  "type": "string",
-                  "title": "Custom proxy URL",
-                  "description": "Custom proxy URL"
+                  "type": "string"
                 }
               }
             },
             "required": [
               "useApifyProxy"
-            ],
-            "examples": [
-              {
-                "useApifyProxy": false
-              }
             ]
           },
           "waitSecs": {
@@ -975,7 +710,7 @@
             "minimum": 0,
             "maximum": 45,
             "default": 30,
-            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+            "description": "Seconds to wait for the run to finish (0-45)."
           }
         },
         "required": [
@@ -993,32 +728,25 @@
     {
       "name": "gouda_studios--google-trends-explorer",
       "title": "gouda_studios/google-trends-explorer",
-      "description": "This tool calls the Actor \"gouda_studios/google-trends-explorer\" and retrieves its output results.\nActor description: Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries and topics, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.",
+      "description": "Returns Google Trends interest-over-time, region interest, related queries/topics, and daily trends for keywords. Use for search-interest research.",
       "inputSchema": {
         "title": "Google Trends Scraper: Interest, Regions, Related Queries",
         "type": "object",
-        "description": "Fetches Google Trends data per search term: interest over time, interest by region, top and rising related queries and topics, optionally today's trending searches. Example: {\"searchTerms\":[\"ai agents\"],\"geo\":\"US\",\"timeRange\":\"today 12-m\"}. Pricing: $0.004 per search term with data.",
+        "description": "Fetches Google Trends data per search term: interest.",
         "properties": {
           "searchTerms": {
-            "title": "Search terms",
-            "description": "Keywords or phrases. Each one is fetched separately and returns one result row.",
+            "description": "Keywords or phrases. Each one is fetched separately .",
             "type": "array",
-            "prefill": [
-              "bitcoin",
-              "ai agents"
-            ],
             "items": {
               "type": "string"
             }
           },
           "geo": {
-            "title": "Country or region code",
-            "description": "ISO code like US, GB, DE, or US-CA. Leave empty for worldwide.",
+            "description": "ISO code like US, GB, DE, or US-CA. Leave empty .",
             "type": "string",
             "default": "US"
           },
           "timeRange": {
-            "title": "Time range",
             "description": "How far back to look.",
             "type": "string",
             "default": "today 12-m",
@@ -1035,14 +763,12 @@
             ]
           },
           "category": {
-            "title": "Category ID",
             "description": "Google Trends category number, 0 for all categories.",
             "type": "integer",
             "default": 0
           },
           "property": {
-            "title": "Search type",
-            "description": "Which Google search the trend data comes from.",
+            "description": "Which Google search the trend data comes .",
             "type": "string",
             "default": "",
             "enum": [
@@ -1054,43 +780,36 @@
             ]
           },
           "interestOverTime": {
-            "title": "Interest over time",
             "description": "Timeline of 0-100 interest values.",
             "type": "boolean",
             "default": true
           },
           "interestByRegion": {
-            "title": "Interest by region",
             "description": "0-100 interest for each subregion.",
             "type": "boolean",
             "default": true
           },
           "relatedQueries": {
-            "title": "Related queries",
             "description": "Top and rising related searches.",
             "type": "boolean",
             "default": true
           },
           "relatedTopics": {
-            "title": "Related topics",
             "description": "Top and rising related topics.",
             "type": "boolean",
             "default": true
           },
           "trendingNow": {
-            "title": "Also get today's trending searches",
-            "description": "Adds one row per currently trending search in the chosen country, with traffic and news links.",
+            "description": "Adds one row per currently trending search in the chosen.",
             "type": "boolean",
             "default": false
           },
           "language": {
-            "title": "Language",
             "description": "Interface language for names, e.g. en-US, de, es.",
             "type": "string",
             "default": "en-US"
           },
           "maxTerms": {
-            "title": "Max search terms",
             "description": "Stop after this many terms.",
             "type": "integer",
             "default": 100
@@ -1100,7 +819,7 @@
             "minimum": 0,
             "maximum": 45,
             "default": 30,
-            "description": "Max seconds (0\u201345, default 30) to cap the wait for the Actor run to reach terminal state. For long-running Actors the response returns at the cap with the current run status; follow `nextStep` to poll via get-actor-run. Set to 0 to fire-and-forget."
+            "description": "Seconds to wait for the run to finish (0-45)."
           }
         },
         "$id": "https://apify.com/mcp/gouda_studios--google-trends-explorer/schema.json"
