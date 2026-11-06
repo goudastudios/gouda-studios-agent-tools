@@ -138,6 +138,9 @@ _by={t['actor']:t for t in TOOLS}
 _ver=json.load(open('../server.json'))['version']; _st=json.load(open('mcp-static.json'))['tools']
 _card={"serverInfo":{"name":"Gouda Studios Agent Tools","version":_ver},"name":"Gouda Studios Agent Tools","description":"Agent-payable data tools (SAM.gov, SEC EDGAR, USAspending, GLEIF, website contact extractor, YouTube transcript extractor) via Apify's hosted MCP server.","url":MCPURL,"transport":{"type":"streamable-http","url":MCPURL},"authentication":{"required":True,"schemes":["oauth2","bearer"],"description":"Sign in with Apify OAuth (authorization server https://console-backend.apify.com) or send an Apify API token as Authorization: Bearer <token>. tools/list is open; tools/call returns 401 with WWW-Authenticate until authenticated.","protectedResourceMetadata":BASE+"/.well-known/oauth-protected-resource/mcp"},"tools":[{k:t[k] for k in ("name","title","description","inputSchema","annotations") if k in t} for t in _st],"resources":[],"prompts":[]}
 json.dump(_card,open(OUT+'/.well-known/mcp/server-card.json','w'),indent=2)
+# SEP-2127 MCP server card (mcpub and discovery clients)
+_sh.copy('../server.json', OUT+'/.well-known/mcp.json')
+open('urls.txt','a').write('\n/.well-known/mcp.json')
 # Glama connector ownership claim
 open(OUT+'/.well-known/glama.json','w').write('{\n  "$schema": "https://glama.ai/mcp/schemas/connector.json",\n  "claim": "glama_claim_5LOKEA2JmFwW533jziqAJqtT-KMEJZgk"\n}\n')
 # aiagentslisting verification (no trailing newline)

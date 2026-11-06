@@ -56,3 +56,4 @@
 /.well-known/agents.json
 /apis.json
 /.well-known/apis.json
+/.well-known/mcp.json

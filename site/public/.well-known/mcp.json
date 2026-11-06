@@ -1,0 +1,10 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "app.vercel.gouda-studios-agent-tools/gouda-studios-agent-tools",
+  "title": "Gouda Studios Agent Tools",
+  "description": "Pay-per-result SAM.gov contracts, SEC EDGAR filings, USAspending awards and GLEIF LEI lookups.",
+  "version": "1.0.0",
+  "websiteUrl": "https://gouda-studios-agent-tools.vercel.app",
+  "repository": { "url": "https://github.com/goudastudios/gouda-studios-agent-tools", "source": "github" },
+  "remotes": [ { "type": "streamable-http", "url": "https://gouda-studios-agent-tools.vercel.app/mcp" } ]
+}
