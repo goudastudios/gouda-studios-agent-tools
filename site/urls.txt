@@ -29,6 +29,8 @@
 /guides/how-to-download-youtube-transcripts-in-bulk/
 /guides/how-to-scrape-emails-from-a-list-of-websites/
 /guides/how-to-find-contact-emails-for-google-maps-leads/
+/guides/how-to-find-rising-search-queries-on-google-trends/
+/guides/how-to-see-when-search-demand-peaks-seasonality/
 /guides/use-public-data-tools-in-claude-and-cursor-with-mcp/
 /guides/credit-card-benefits-tracker-spreadsheet/
 /guides/credit-card-churning-spreadsheet-template/
