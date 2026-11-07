@@ -54,6 +54,7 @@
 /guides/thanksgiving-leftovers-planner/
 /guides/friendsgiving-potluck-planner/
 /guides/secret-santa-gift-exchange-tracker/
+/guides/thanksgiving-dinner-planner/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
