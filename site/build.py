@@ -1,4 +1,5 @@
 import json,os,html,re,shutil
+from datetime import date
 BADGE2='<a href="https://aiagentslisting.com/gouda-studios-agent-tools">\n  <img src="https://aiagentslisting.com/gouda-studios-agent-tools/badge.svg?theme=light" alt="Gouda Studios Agent Tools badge" width="200" height="50" loading="lazy" />\n</a>'
 BADGE='<a href="https://aiagentsdirectory.com/agent/gouda-studios-agent-tools" target="_blank" rel="noopener" title="Discover Gouda Studios Agent Tools on AI Agents Directory"><img src="https://aiagentsdirectory.com/featured-badge.svg?v=2024" alt="Gouda Studios Agent Tools - Featured on AI Agents Directory" width="200" height="50" /></a> '
 BADGE_MCPCOL='<a href="https://mcpcollection.com/server/gouda-studios-agent-tools"><img src="https://mcpcollection.com/badge/gouda-studios-agent-tools.svg" alt="Listed on MCP Collection" height="20" loading="lazy" /></a>'
@@ -114,7 +115,8 @@ open(OUT+'/favicon.svg','w').write('<svg xmlns="http://www.w3.org/2000/svg" view
 bots=["GPTBot","ChatGPT-User","OAI-SearchBot","ClaudeBot","Claude-Web","anthropic-ai","PerplexityBot","Google-Extended","CCBot","Applebot-Extended","Bytespider","cohere-ai","*"]
 open(OUT+'/robots.txt','w').write(''.join(f"User-agent: {b}\nAllow: /\n\n" for b in bots)+f"Sitemap: {BASE}/sitemap.xml\n")
 urls=['/','/llms.txt','/llms-full.txt','/tools.json','/openapi.json']+[f"/tools/{t['slug']}/" for t in TOOLS]+[f"/tools/{t['slug']}.json" for t in TOOLS]+GUIDE_URLS
-open(OUT+'/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f"<url><loc>{BASE}{u}</loc><lastmod>2026-10-22</lastmod></url>" for u in urls)+'</urlset>\n')
+LASTMOD=date.today().isoformat()
+open(OUT+'/sitemap.xml','w').write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'+''.join(f"<url><loc>{BASE}{u}</loc><lastmod>{LASTMOD}</lastmod></url>" for u in urls)+'</urlset>\n')
 json.dump({"headers":[{"source":"/(.*)\\.(json|txt)","headers":[{"key":"Access-Control-Allow-Origin","value":"*"}]}]},open(OUT+'/vercel.json','w'),indent=2)
 open('urls.txt','w').write('\n'.join(urls+['/robots.txt','/sitemap.xml','/.well-known/ai-plugin.json','/.well-known/agents.json']))
 INDEXNOW_KEY='e8cf6b9751f94a61bbcae58f0d4ec4b0'  # IndexNow key file; ping with indexnow.py after deploy

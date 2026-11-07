@@ -52,6 +52,7 @@
 /guides/black-friday-gift-budget-tracker/
 /guides/cyber-monday-deal-tracker/
 /guides/thanksgiving-leftovers-planner/
+/guides/friendsgiving-potluck-planner/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
