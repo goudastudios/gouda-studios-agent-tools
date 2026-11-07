@@ -56,6 +56,7 @@
 /guides/secret-santa-gift-exchange-tracker/
 /guides/thanksgiving-dinner-planner/
 /guides/amex-gold-credits-tracker/
+/guides/christmas-party-planner-checklist/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
