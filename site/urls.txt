@@ -53,6 +53,7 @@
 /guides/cyber-monday-deal-tracker/
 /guides/thanksgiving-leftovers-planner/
 /guides/friendsgiving-potluck-planner/
+/guides/secret-santa-gift-exchange-tracker/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
