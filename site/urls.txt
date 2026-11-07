@@ -50,6 +50,8 @@
 /guides/stocking-stuffer-list-template/
 /guides/christmas-dinner-shopping-list/
 /guides/black-friday-gift-budget-tracker/
+/guides/cyber-monday-deal-tracker/
+/guides/thanksgiving-leftovers-planner/
 /robots.txt
 /sitemap.xml
 /.well-known/ai-plugin.json
