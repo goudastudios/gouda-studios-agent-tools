@@ -39,6 +39,41 @@ function pickBool(value, fallback) {
   return fallback;
 }
 
+
+const STORE_ALIASES = {
+  both: "both",
+  appstore: "appStore",
+  app_store: "appStore",
+  ios: "appStore",
+  googleplay: "googlePlay",
+  google_play: "googlePlay",
+  play: "googlePlay",
+  android: "googlePlay",
+};
+
+/** Map a stores input to the actor enum: both | appStore | googlePlay. */
+export function mapReviewStores(value) {
+  if (value == null || value === "") return { stores: "both" };
+  if (typeof value !== "string") {
+    return {
+      error:
+        'stores must be "appStore", "googlePlay", or "both" (aliases: appstore, app_store, ios, play, googleplay, android).',
+    };
+  }
+  const key = value.trim();
+  if (!key) return { stores: "both" };
+  if (key === "appStore" || key === "googlePlay" || key === "both") return { stores: key };
+  const norm = key.toLowerCase().replace(/[\s-]+/g, "_");
+  const mapped = STORE_ALIASES[norm];
+  if (!mapped) {
+    return {
+      error:
+        'stores must be "appStore", "googlePlay", or "both" (aliases: appstore, app_store, ios, play, googleplay, android).',
+    };
+  }
+  return { stores: mapped };
+}
+
 export const ACTORS = {
   transcript: "K6gy5przjaK3aGBui",
   reviews: "WxaibafRzqMEbw3a1",
@@ -83,11 +118,12 @@ export function buildActorInput(endpoint, body) {
       if (!apps.length) {
         return { error: 'Send JSON { "apps": ["Spotify"] }.' };
       }
-      const stores = ["both", "appstore", "play"].includes(b.stores) ? b.stores : "both";
+      const storeMap = mapReviewStores(b.stores);
+      if (storeMap.error) return { error: storeMap.error };
       return {
         input: {
           apps,
-          stores,
+          stores: storeMap.stores,
           maxReviewsPerStore: clampInt(b.maxReviewsPerStore, 20, 1, 50),
           sort: typeof b.sort === "string" ? b.sort : "newest",
           country: typeof b.country === "string" ? b.country : "us",
