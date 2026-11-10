@@ -164,6 +164,13 @@ app.use(
 app.use(paymentMiddleware(routes, resourceServer, undefined, undefined, false));
 
 function infoBody() {
+  const apifyToken = process.env.APIFY_TOKEN || "";
+  console.log(
+    JSON.stringify({
+      apifyTokenSet: Boolean(apifyToken),
+      apifyTokenLength: apifyToken.length,
+    }),
+  );
   return {
     name: "Reels TikTok Transcript",
     path: PATH,
