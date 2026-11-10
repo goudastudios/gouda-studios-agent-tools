@@ -33,8 +33,16 @@ const PRICE = (process.env.X402_PRICE || "$0.03").trim();
 const ACTOR = "gouda_studios~instagram-tiktok-transcript-scraper";
 const PATH = "/api/x402/transcript";
 
+function resolveApifyTokenRaw() {
+  return (
+    process.env.GOUDA_APIFY_TOKEN ||
+    process.env.APIFY_TOKEN ||
+    ""
+  );
+}
+
 function apifyToken() {
-  const raw = process.env.APIFY_TOKEN || "";
+  const raw = resolveApifyTokenRaw();
   if (raw.startsWith("apify_api_") && raw.length > 20) return raw;
   try {
     const decoded = Buffer.from(raw, "base64").toString("utf8");
@@ -176,11 +184,17 @@ app.use(
 app.use(paymentMiddleware(routes, resourceServer, undefined, undefined, false));
 
 function infoBody() {
-  const raw = process.env.APIFY_TOKEN || "";
+  const raw = resolveApifyTokenRaw();
   const token = apifyToken();
+  const source = process.env.GOUDA_APIFY_TOKEN
+    ? "GOUDA_APIFY_TOKEN"
+    : process.env.APIFY_TOKEN
+      ? "APIFY_TOKEN"
+      : "none";
   console.log(
     JSON.stringify({
       apifyTokenSet: Boolean(token),
+      apifySource: source,
       apifyRawLength: raw.length,
       apifyTokenLength: token.length,
     }),
