@@ -33,6 +33,18 @@ const PRICE = (process.env.X402_PRICE || "$0.03").trim();
 const ACTOR = "gouda_studios~instagram-tiktok-transcript-scraper";
 const PATH = "/api/x402/transcript";
 
+function apifyToken() {
+  const raw = process.env.APIFY_TOKEN || "";
+  if (raw.startsWith("apify_api_") && raw.length > 20) return raw;
+  try {
+    const decoded = Buffer.from(raw, "base64").toString("utf8");
+    if (decoded.startsWith("apify_api_")) return decoded;
+  } catch {
+    // fall through
+  }
+  return raw;
+}
+
 const hasCdpKeys = Boolean(
   process.env.CDP_API_KEY_ID && process.env.CDP_API_KEY_SECRET,
 );
@@ -164,11 +176,13 @@ app.use(
 app.use(paymentMiddleware(routes, resourceServer, undefined, undefined, false));
 
 function infoBody() {
-  const apifyToken = process.env.APIFY_TOKEN || "";
+  const raw = process.env.APIFY_TOKEN || "";
+  const token = apifyToken();
   console.log(
     JSON.stringify({
-      apifyTokenSet: Boolean(apifyToken),
-      apifyTokenLength: apifyToken.length,
+      apifyTokenSet: Boolean(token),
+      apifyRawLength: raw.length,
+      apifyTokenLength: token.length,
     }),
   );
   return {
@@ -205,7 +219,7 @@ function isVideoUrl(u) {
 }
 
 async function transcribe(videoUrl) {
-  const token = process.env.APIFY_TOKEN;
+  const token = apifyToken();
   if (!token) {
     return {
       status: 503,
