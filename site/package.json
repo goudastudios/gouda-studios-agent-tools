@@ -1,0 +1,16 @@
+{
+  "name": "gouda-studios-agent-tools-site",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@coinbase/cdp-sdk": "^1.61.0",
+    "@x402/core": "^2.30.0",
+    "@x402/evm": "^2.30.0",
+    "@x402/extensions": "^2.30.0",
+    "@x402/hono": "^2.30.0",
+    "hono": "^4.10.0"
+  }
+}

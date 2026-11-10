@@ -63,5 +63,11 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "api/x402/transcript.js": {
+      "maxDuration": 300,
+      "memory": 1024
+    }
+  }
 }
