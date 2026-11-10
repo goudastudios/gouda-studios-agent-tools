@@ -202,23 +202,6 @@ app.use(
 app.use(paymentMiddleware(routes, resourceServer, undefined, undefined, false));
 
 function infoBody() {
-  const raw = resolveApifyTokenRaw();
-  const token = apifyToken();
-  const source = process.env.GOUDA_RUNNER_KEY
-    ? "GOUDA_RUNNER_KEY"
-    : process.env.GOUDA_APIFY_TOKEN
-      ? "GOUDA_APIFY_TOKEN"
-      : process.env.APIFY_TOKEN
-        ? "APIFY_TOKEN"
-        : "none";
-  console.log(
-    JSON.stringify({
-      apifyTokenSet: Boolean(token),
-      apifySource: source,
-      apifyRawLength: raw.length,
-      apifyTokenLength: token.length,
-    }),
-  );
   return {
     name: "Reels TikTok Transcript",
     path: PATH,

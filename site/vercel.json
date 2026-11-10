@@ -68,6 +68,10 @@
     "api/x402/transcript.js": {
       "maxDuration": 300,
       "memory": 1024
+    },
+    "api/rapidapi/[endpoint].js": {
+      "maxDuration": 120,
+      "memory": 1024
     }
   }
 }
