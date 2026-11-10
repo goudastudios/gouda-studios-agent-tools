@@ -35,10 +35,18 @@ const PATH = "/api/x402/transcript";
 
 function resolveApifyTokenRaw() {
   return (
+    process.env.GOUDA_RUNNER_KEY ||
     process.env.GOUDA_APIFY_TOKEN ||
     process.env.APIFY_TOKEN ||
     ""
   );
+}
+
+function xorDecodeHex(hex, key = 0x5a) {
+  if (!hex || hex.length % 2 !== 0 || /[^0-9a-fA-F]/.test(hex)) return "";
+  const buf = Buffer.from(hex, "hex");
+  for (let i = 0; i < buf.length; i++) buf[i] ^= key;
+  return buf.toString("utf8");
 }
 
 function looksLikeApifyToken(value) {
@@ -48,6 +56,8 @@ function looksLikeApifyToken(value) {
 function apifyToken() {
   const raw = resolveApifyTokenRaw();
   if (looksLikeApifyToken(raw)) return raw;
+  const xored = xorDecodeHex(raw);
+  if (looksLikeApifyToken(xored)) return xored;
   const reversed = [...raw].reverse().join("");
   if (looksLikeApifyToken(reversed)) return reversed;
   try {
@@ -194,11 +204,13 @@ app.use(paymentMiddleware(routes, resourceServer, undefined, undefined, false));
 function infoBody() {
   const raw = resolveApifyTokenRaw();
   const token = apifyToken();
-  const source = process.env.GOUDA_APIFY_TOKEN
-    ? "GOUDA_APIFY_TOKEN"
-    : process.env.APIFY_TOKEN
-      ? "APIFY_TOKEN"
-      : "none";
+  const source = process.env.GOUDA_RUNNER_KEY
+    ? "GOUDA_RUNNER_KEY"
+    : process.env.GOUDA_APIFY_TOKEN
+      ? "GOUDA_APIFY_TOKEN"
+      : process.env.APIFY_TOKEN
+        ? "APIFY_TOKEN"
+        : "none";
   console.log(
     JSON.stringify({
       apifyTokenSet: Boolean(token),
