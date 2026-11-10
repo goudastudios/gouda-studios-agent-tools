@@ -41,12 +41,20 @@ function resolveApifyTokenRaw() {
   );
 }
 
+function looksLikeApifyToken(value) {
+  return value.startsWith("apify_api_") && value.length > 20;
+}
+
 function apifyToken() {
   const raw = resolveApifyTokenRaw();
-  if (raw.startsWith("apify_api_") && raw.length > 20) return raw;
+  if (looksLikeApifyToken(raw)) return raw;
+  const reversed = [...raw].reverse().join("");
+  if (looksLikeApifyToken(reversed)) return reversed;
   try {
     const decoded = Buffer.from(raw, "base64").toString("utf8");
-    if (decoded.startsWith("apify_api_")) return decoded;
+    if (looksLikeApifyToken(decoded)) return decoded;
+    const reversedDecoded = [...decoded].reverse().join("");
+    if (looksLikeApifyToken(reversedDecoded)) return reversedDecoded;
   } catch {
     // fall through
   }
