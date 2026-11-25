@@ -20,7 +20,7 @@
       "name": "gouda-studios-agent-tools",
       "title": "Gouda Studios Agent Tools",
       "version": "0.19.3",
-      "description": "MCP server for Gouda Studios data tools: federal contracts, SEC filings, awards, company LEI, contacts, YouTube transcripts, and Google Trends.",
+      "description": "MCP server for Gouda Studios data tools: government and company records, contacts, app and extension reviews, jobs, YouTube, TikTok, Instagram, Telegram, Spotify, Google Trends, trademark and merch research.",
       "websiteUrl": "https://gouda-studios-agent-tools.vercel.app",
       "icons": [
         {
@@ -32,7 +32,7 @@
         }
       ]
     },
-    "instructions": "Gouda Studios Agent Tools exposes seven data Actors plus helpers to inspect runs and datasets.\nActor tools start a run and return results. Use get-actor-run, get-dataset-items, and get-key-value-store-record to read run output. Use abort-actor-run to stop an in-progress run."
+    "instructions": "Gouda Studios Agent Tools exposes eighteen data Actors plus helpers to inspect runs and datasets.\nActor tools start a run and return results. Use get-actor-run, get-dataset-items, and get-key-value-store-record to read run output. Use abort-actor-run to stop an in-progress run."
   },
   "tools": [
     {
@@ -3422,8 +3422,8 @@
       }
     },
     {
-      "name": "gouda_studios--google-trends-explorer",
-      "title": "gouda_studios/google-trends-explorer",
+      "name": "gouda_studios--google-trends-scraper",
+      "title": "gouda_studios/google-trends-scraper",
       "description": "Returns Google Trends interest-over-time, region interest, related queries/topics, and daily trends for keywords. Use for search-interest research.",
       "inputSchema": {
         "title": "Google Trends Scraper: Interest, Regions, Related Queries",
@@ -3518,7 +3518,7 @@
             "description": "Seconds to wait for the run to finish (0-45)."
           }
         },
-        "$id": "https://apify.com/mcp/gouda_studios--google-trends-explorer/schema.json"
+        "$id": "https://apify.com/mcp/gouda_studios--google-trends-scraper/schema.json"
       },
       "outputSchema": {
         "type": "object",
@@ -3905,7 +3905,3836 @@
         ]
       },
       "annotations": {
-        "title": "gouda_studios/google-trends-explorer",
+        "title": "gouda_studios/google-trends-scraper",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--merch-marketplace-counts",
+      "title": "gouda_studios/merch-marketplace-counts",
+      "description": "Returns result counts and top listing titles and URLs for merch keywords from Redbubble, TeePublic, Etsy, and Merch by Amazon, flagging blocked stores. Use for print on demand niche research.",
+      "inputSchema": {
+        "title": "Merch Marketplace Counts input",
+        "type": "object",
+        "properties": {
+          "keywords": {
+            "description": "Phrases or merch keywords, one per line, e.g. christmas.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxListings": {
+            "description": "How many top listing titles and URLs to return for each.",
+            "type": "integer",
+            "default": 20
+          },
+          "marketplaces": {
+            "description": "Which stores to query. Amazon is a Merch-by-Amazon shirt.",
+            "type": "array",
+            "default": [
+              "redbubble",
+              "teepublic",
+              "etsy",
+              "amazonMerch"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "redbubble",
+                "teepublic",
+                "etsy",
+                "amazonMerch"
+              ]
+            }
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "required": [
+          "keywords"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--merch-marketplace-counts/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/merch-marketplace-counts",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--adobe-stock-keyword-gap-scanner",
+      "title": "gouda_studios/adobe-stock-keyword-gap-scanner",
+      "description": "Returns Adobe Stock result counts per keyword (total, photo, video, generative AI share) and expands seeds into related searches. Use for stock content keyword research.",
+      "inputSchema": {
+        "title": "Adobe Stock Keyword Gap Scanner & Expander input",
+        "type": "object",
+        "properties": {
+          "mode": {
+            "description": "scan = result counts per keyword (gap scanner). expand =.",
+            "type": "string",
+            "enum": [
+              "scan",
+              "expand",
+              "both"
+            ],
+            "default": "both"
+          },
+          "keywords": {
+            "description": "Keywords to scan and/or seeds to expand, e.g. walking.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "usePublicReaderFallback": {
+            "description": "If stock.adobe.com returns a Datadome/captcha block.",
+            "type": "boolean",
+            "default": true
+          },
+          "requestDelayMs": {
+            "description": "Polite pause between Adobe Stock page fetches. For ~200.",
+            "type": "integer",
+            "default": 400
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "required": [
+          "keywords"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--adobe-stock-keyword-gap-scanner/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/adobe-stock-keyword-gap-scanner",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--app-store-google-play-reviews",
+      "title": "gouda_studios/app-store-google-play-reviews",
+      "description": "Returns Apple App Store and Google Play reviews for an app name, URL, or ID with rating, text, date, version, and developer reply. Use for app review analysis.",
+      "inputSchema": {
+        "title": "App Store & Google Play Reviews Scraper",
+        "type": "object",
+        "properties": {
+          "apps": {
+            "description": "One app per line: an app name (e.g. Spotify), an App.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "stores": {
+            "description": "Which store(s) to scrape. Example values: \"both\"",
+            "type": "string",
+            "enum": [
+              "both",
+              "appStore",
+              "googlePlay"
+            ],
+            "default": "both"
+          },
+          "maxReviewsPerStore": {
+            "description": "Apple's public review feed returns up to 500 reviews per.",
+            "type": "integer",
+            "default": 100
+          },
+          "sort": {
+            "description": "Review order. Example values: \"newest\"",
+            "type": "string",
+            "enum": [
+              "newest",
+              "mostRelevant"
+            ],
+            "default": "newest"
+          },
+          "country": {
+            "description": "Two-letter store country code, e.g. us, gb, de, in.",
+            "type": "string",
+            "default": "us"
+          },
+          "language": {
+            "description": "Two-letter language code for Google Play reviews.",
+            "type": "string",
+            "default": "en"
+          },
+          "includeSummary": {
+            "description": "Adds one uncharged row with the store rating, rating.",
+            "type": "boolean",
+            "default": true
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "required": [
+          "apps"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--app-store-google-play-reviews/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      },
+                      "itemsSchema": {
+                        "type": "object",
+                        "description": "JSON Schema for rows in the dataset at.",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/app-store-google-play-reviews",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--ats-jobs-scraper",
+      "title": "gouda_studios/ats-jobs-scraper",
+      "description": "Returns open jobs from company career sites on Greenhouse, Lever, Ashby, Workable, SmartRecruiters, and Workday, with salary, remote type, and descriptions. Use for job and hiring data.",
+      "inputSchema": {
+        "title": "ATS Jobs Scraper",
+        "type": "object",
+        "properties": {
+          "companies": {
+            "description": "One per line: a company board name (stripe, openai), a.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "keywords": {
+            "description": "Keep only jobs whose title or description contains any.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "titleKeywords": {
+            "description": "Keep only jobs whose title contains any of these words.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "locations": {
+            "description": "Keep only jobs whose location contains any of these.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "remoteOnly": {
+            "description": "Keep only jobs marked remote.",
+            "type": "boolean",
+            "default": false
+          },
+          "postedWithinDays": {
+            "description": "Keep only jobs posted in the last N days. Great for.",
+            "type": "integer"
+          },
+          "withSalaryOnly": {
+            "description": "Keep only jobs where a salary range was published or.",
+            "type": "boolean",
+            "default": false
+          },
+          "atsPlatforms": {
+            "description": "Optional. Only look on these platforms.",
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "greenhouse",
+                "lever",
+                "ashby",
+                "workable",
+                "smartrecruiters",
+                "workday"
+              ]
+            }
+          },
+          "includeDescription": {
+            "description": "Adds plain-text and HTML descriptions. Turn off for.",
+            "type": "boolean",
+            "default": true
+          },
+          "maxJobsPerCompany": {
+            "description": "Cap on jobs returned per company. Example values: 1000",
+            "type": "integer",
+            "default": 1000
+          },
+          "maxJobsTotal": {
+            "description": "Stop after this many jobs across all companies. 0 means.",
+            "type": "integer",
+            "default": 0
+          },
+          "includeSummary": {
+            "description": "One uncharged row per company with the detected ATS.",
+            "type": "boolean",
+            "default": true
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "required": [
+          "companies"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--ats-jobs-scraper/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/ats-jobs-scraper",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--chrome-web-store-reviews",
+      "title": "gouda_studios/chrome-web-store-reviews",
+      "description": "Returns Chrome Web Store reviews for extension IDs with rating, date, text, language, and version, plus user count and average rating. Use for extension review analysis.",
+      "inputSchema": {
+        "title": "Chrome Web Store Reviews Scraper",
+        "type": "object",
+        "properties": {
+          "extensionIds": {
+            "description": "One extension per line: a 32-character ID (e.g.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxReviewsPerExtension": {
+            "description": "How many reviews to return per extension. 0 means all.",
+            "type": "integer",
+            "default": 200
+          },
+          "starFilter": {
+            "description": "Optional list of star ratings to keep, e.g. [1, 2] for.",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            }
+          },
+          "phrases": {
+            "description": "Optional phrases. Adds one free keywordSummary row per.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lowStarMax": {
+            "description": "Phrase counts use reviews with this rating or lower.",
+            "type": "integer",
+            "default": 3
+          },
+          "includeSummary": {
+            "description": "Adds one uncharged row with the Store user count.",
+            "type": "boolean",
+            "default": true
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "required": [
+          "extensionIds"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--chrome-web-store-reviews/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      },
+                      "itemsSchema": {
+                        "type": "object",
+                        "description": "JSON Schema for rows in the dataset at.",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/chrome-web-store-reviews",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--instagram-tiktok-transcript-scraper",
+      "title": "gouda_studios/instagram-tiktok-transcript-scraper",
+      "description": "Returns timestamped transcripts for Instagram Reels, TikTok videos, podcast RSS episodes, and audio or video file URLs. Use when you need what a short video or episode says.",
+      "inputSchema": {
+        "title": "Instagram & TikTok transcript input",
+        "type": "object",
+        "properties": {
+          "videoUrls": {
+            "description": "Instagram Reel/post links, TikTok video links (including.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "instagramUsernames": {
+            "description": "Transcribe the most recent video posts and reels of.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxReelsPerProfile": {
+            "description": "How many recent videos to take from each username.",
+            "type": "integer",
+            "default": 6
+          },
+          "maxEpisodesPerFeed": {
+            "description": "For podcast RSS feed URLs, how many of the newest.",
+            "type": "integer",
+            "default": 5
+          },
+          "speechToText": {
+            "description": "Instagram has no public captions, so Instagram.",
+            "type": "string",
+            "enum": [
+              "auto",
+              "always",
+              "off"
+            ],
+            "default": "auto"
+          },
+          "sttModel": {
+            "description": "Open-source Whisper models running inside the actor.",
+            "type": "string",
+            "enum": [
+              "base",
+              "tiny"
+            ],
+            "default": "base"
+          },
+          "maxTranscribeSeconds": {
+            "description": "Longer videos and episodes are transcribed up to this.",
+            "type": "integer",
+            "default": 180
+          },
+          "language": {
+            "description": "ISO code like en, es, de. Leave empty to auto-detect.",
+            "type": "string"
+          },
+          "includeSegments": {
+            "description": "Adds segments: [{start, end, text}] in seconds. Example.",
+            "type": "boolean",
+            "default": true
+          },
+          "includeSrt": {
+            "description": "Adds the transcript as an SRT subtitle string.",
+            "type": "boolean",
+            "default": false
+          },
+          "speakerLabels": {
+            "description": "Detects the different voices and labels every segment.",
+            "type": "boolean",
+            "default": false
+          },
+          "numSpeakers": {
+            "description": "Only used with speaker labels. Set it when you know how.",
+            "type": "integer",
+            "default": 0
+          },
+          "maxVideos": {
+            "description": "Safety cap. Example values: 500",
+            "type": "integer",
+            "default": 500
+          },
+          "proxyConfiguration": {
+            "description": "Optional. By default the actor connects directly and.",
+            "type": "object",
+            "properties": {
+              "useApifyProxy": {
+                "type": "boolean",
+                "description": "Whether to use Apify Proxy. Set this to false when you.",
+                "default": true
+              },
+              "apifyProxyGroups": {
+                "type": "array",
+                "description": "Select specific Apify Proxy groups to use (e.g.",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "RESIDENTIAL",
+                    "DATACENTER"
+                  ]
+                }
+              },
+              "proxyUrls": {
+                "type": "array",
+                "description": "List of custom proxy URLs to be used instead of the.",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "useApifyProxy"
+            ]
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "$id": "https://apify.com/mcp/gouda_studios--instagram-tiktok-transcript-scraper/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      },
+                      "itemsSchema": {
+                        "type": "object",
+                        "description": "JSON Schema for rows in the dataset at.",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/instagram-tiktok-transcript-scraper",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--shopify-app-store-reviews",
+      "title": "gouda_studios/shopify-app-store-reviews",
+      "description": "Returns Shopify App Store reviews by app handle with rating, store, country, and developer reply, plus listing rating, pricing plans, and category listings. Use for Shopify app research.",
+      "inputSchema": {
+        "title": "Shopify App Store Reviews Scraper",
+        "type": "object",
+        "properties": {
+          "appHandles": {
+            "description": "One app per line: a handle (klaviyo-email-marketing) or.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxReviewsPerApp": {
+            "description": "How many reviews to return per app. 0 means all public.",
+            "type": "integer",
+            "default": 200
+          },
+          "starFilter": {
+            "description": "Optional list of star ratings, passed to the Store as.",
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 5
+            }
+          },
+          "categoryUrl": {
+            "description": "Optional. A Shopify App Store category URL or slug (e.g.",
+            "type": "string"
+          },
+          "maxAppsInCategory": {
+            "description": "Maximum app listing rows to return when Category URL is.",
+            "type": "integer",
+            "default": 100
+          },
+          "phrases": {
+            "description": "Optional phrases. Adds one free keywordSummary row per.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "lowStarMax": {
+            "description": "Phrase counts use reviews with this rating or lower.",
+            "type": "integer",
+            "default": 3
+          },
+          "includeSummary": {
+            "description": "Adds one uncharged row with the listing rating, review.",
+            "type": "boolean",
+            "default": true
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "$id": "https://apify.com/mcp/gouda_studios--shopify-app-store-reviews/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      },
+                      "itemsSchema": {
+                        "type": "object",
+                        "description": "JSON Schema for rows in the dataset at.",
+                        "properties": {
+                          "type": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/shopify-app-store-reviews",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--spotify-play-count-scraper",
+      "title": "gouda_studios/spotify-play-count-scraper",
+      "description": "Returns Spotify play counts for tracks, albums, artists, and playlists, plus artist monthly listeners, followers, and top cities. Use for music streaming data.",
+      "inputSchema": {
+        "title": "Spotify Play Count Scraper input",
+        "type": "object",
+        "properties": {
+          "startUrls": {
+            "description": "Track, album, artist or playlist links.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxTracksPerInput": {
+            "description": "Caps how many track rows each album or playlist returns.",
+            "type": "integer",
+            "default": 500
+          },
+          "includeAlbumSummary": {
+            "description": "For album inputs, also output one album row with total.",
+            "type": "boolean",
+            "default": true
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "required": [
+          "startUrls"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--spotify-play-count-scraper/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/spotify-play-count-scraper",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--telegram-channel-scraper",
+      "title": "gouda_studios/telegram-channel-scraper",
+      "description": "Returns public Telegram channel posts with text, date, views, reactions, links, and media, plus subscriber counts. Use for Telegram channel monitoring.",
+      "inputSchema": {
+        "title": "Telegram Channel Scraper input",
+        "type": "object",
+        "properties": {
+          "channels": {
+            "description": "Public channel usernames, @handles or t.me links, e.g.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxPostsPerChannel": {
+            "description": "Newest posts first. Use 0 to fetch only channel info.",
+            "type": "integer",
+            "default": 50
+          },
+          "postsNewerThan": {
+            "description": "Optional ISO date or datetime (UTC), e.g. 2026-11-01.",
+            "type": "string"
+          },
+          "searchQuery": {
+            "description": "Optional. Returns only posts matching this keyword.",
+            "type": "string"
+          },
+          "includeChannelInfo": {
+            "description": "Adds one row per channel with title, description.",
+            "type": "boolean",
+            "default": true
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "required": [
+          "channels"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--telegram-channel-scraper/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/telegram-channel-scraper",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--uspto-trademark-screener",
+      "title": "gouda_studios/uspto-trademark-screener",
+      "description": "Screens phrases against USPTO trademark search and returns exact and close wordmarks with live or dead status, classes, and class 25 and 16 flags. Use for a first trademark check.",
+      "inputSchema": {
+        "title": "USPTO Trademark Phrase Screener input",
+        "type": "object",
+        "properties": {
+          "phrases": {
+            "description": "Phrases or design names to screen, one per line, e.g.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxMarksPerPhrase": {
+            "description": "How many exact and close wordmarks to list. Counts and.",
+            "type": "integer",
+            "default": 200
+          },
+          "includeDead": {
+            "description": "If false, listed marks are live only. Dead counts are.",
+            "type": "boolean",
+            "default": true
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "required": [
+          "phrases"
+        ],
+        "$id": "https://apify.com/mcp/gouda_studios--uspto-trademark-screener/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/uspto-trademark-screener",
+        "readOnlyHint": false,
+        "destructiveHint": true,
+        "openWorldHint": true
+      },
+      "execution": {
+        "taskSupport": "optional"
+      }
+    },
+    {
+      "name": "gouda_studios--youtube-video-channel-scraper",
+      "title": "gouda_studios/youtube-video-channel-scraper",
+      "description": "Returns YouTube video details, channel videos, search results, channel search, playlists, and comments with views, likes, and subscribers. Use for YouTube data without an API key.",
+      "inputSchema": {
+        "title": "YouTube Video, Channel, Search & Comments Scraper",
+        "type": "object",
+        "properties": {
+          "videoUrls": {
+            "description": "YouTube video links (watch, youtu.be, shorts, live) or.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "channels": {
+            "description": "Channel @handles, channel URLs or UC... channel ids.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "channelTabs": {
+            "description": "Which channel tabs to list. Example values: [\"videos\"]",
+            "type": "array",
+            "default": [
+              "videos"
+            ],
+            "items": {
+              "type": "string",
+              "enum": [
+                "videos",
+                "shorts",
+                "streams"
+              ],
+              "enumTitles": [
+                "Videos",
+                "Shorts",
+                "Live streams"
+              ]
+            }
+          },
+          "maxVideosPerChannel": {
+            "description": "Newest first. Example values: 30",
+            "type": "integer",
+            "default": 30
+          },
+          "searchQueries": {
+            "description": "Keywords to search on YouTube.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxResultsPerQuery": {
+            "description": "Top results per query, in YouTube order. Example values.",
+            "type": "integer",
+            "default": 30
+          },
+          "sortBy": {
+            "description": "Relevance or most viewed first. Example values.",
+            "type": "string",
+            "enum": [
+              "relevance",
+              "views"
+            ],
+            "default": "relevance"
+          },
+          "uploadedWithin": {
+            "description": "Only videos uploaded within this window. Example values.",
+            "type": "string",
+            "enum": [
+              "any",
+              "hour",
+              "day",
+              "week",
+              "month",
+              "year"
+            ],
+            "default": "any"
+          },
+          "playlistUrls": {
+            "description": "Public playlist links or playlist ids.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxVideosPerPlaylist": {
+            "description": "Videos taken from each playlist. Example values: 100",
+            "type": "integer",
+            "default": 100
+          },
+          "fullDetails": {
+            "description": "For channel, search and playlist results, also fetch.",
+            "type": "boolean",
+            "default": true
+          },
+          "maxTotalResults": {
+            "description": "Hard cap on charged rows for the whole run.",
+            "type": "integer",
+            "default": 0
+          },
+          "channelSearchQueries": {
+            "description": "Keywords to find matching YouTube channels (like YouTube.",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxChannelsPerQuery": {
+            "description": "Channels returned per keyword, in YouTube order. Example.",
+            "type": "integer",
+            "default": 20
+          },
+          "channelSearchDetails": {
+            "description": "Also open each found channel to add its video count.",
+            "type": "boolean",
+            "default": true
+          },
+          "channelSearchAbout": {
+            "description": "Also read each found channel's About panel to add.",
+            "type": "boolean",
+            "default": true
+          },
+          "commentVideoUrls": {
+            "description": "YouTube video or Shorts URLs (or 11-character ids).",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "maxCommentsPerVideo": {
+            "description": "Comments are returned in YouTube top-comments order.",
+            "type": "integer",
+            "default": 100
+          },
+          "maxRepliesPerComment": {
+            "description": "0 skips replies. Replies are returned as rows with type.",
+            "type": "integer",
+            "default": 0
+          },
+          "waitSecs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 45,
+            "default": 30,
+            "description": "Seconds to wait for the run to finish (0-45)."
+          }
+        },
+        "$id": "https://apify.com/mcp/gouda_studios--youtube-video-channel-scraper/schema.json"
+      },
+      "outputSchema": {
+        "type": "object",
+        "properties": {
+          "runId": {
+            "type": "string",
+            "description": "Actor run ID"
+          },
+          "apifyConsoleUrl": {
+            "type": "string",
+            "description": "Personalized Apify Console link to the run; present only."
+          },
+          "actorId": {
+            "type": "string",
+            "description": "Stable Apify Actor ID from the run record"
+          },
+          "actorName": {
+            "type": "string",
+            "description": "\"username/actor-name\""
+          },
+          "status": {
+            "type": "string",
+            "description": "Run status: READY | RUNNING | TIMING-OUT | TIMED-OUT |."
+          },
+          "statusMessage": {
+            "type": "string",
+            "description": "Pass-through from Apify run.statusMessage"
+          },
+          "exitCode": {
+            "type": "number",
+            "description": "Actor process exit code; populated for terminal states."
+          },
+          "startedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run started"
+          },
+          "finishedAt": {
+            "type": "string",
+            "description": "ISO timestamp when the run finished (terminal states only)"
+          },
+          "stats": {
+            "type": "object",
+            "description": "Run statistics",
+            "properties": {
+              "runTimeSecs": {
+                "type": "number"
+              },
+              "computeUnits": {
+                "type": "number"
+              },
+              "memMaxBytes": {
+                "type": "number"
+              }
+            }
+          },
+          "storages": {
+            "type": "object",
+            "description": "Dataset and key-value store metadata, keyed by alias.",
+            "properties": {
+              "datasets": {
+                "type": "object",
+                "description": "Map of dataset alias \u2192 metadata. Key \"default\" is always.",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Dataset ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the dataset; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "itemCount": {
+                        "type": "number"
+                      },
+                      "inflatedBytes": {
+                        "type": "number",
+                        "description": "Approximate uncompressed byte size of the dataset. Use."
+                      },
+                      "fields": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Dataset ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the dataset; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "itemCount": {
+                      "type": "number"
+                    },
+                    "inflatedBytes": {
+                      "type": "number",
+                      "description": "Approximate uncompressed byte size of the dataset. Use."
+                    },
+                    "fields": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Dataset field paths in dot notation (e.g. [\"metadata.url\"])"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              },
+              "keyValueStores": {
+                "type": "object",
+                "description": "Map of key-value store alias \u2192 metadata. Key \"default\".",
+                "properties": {
+                  "default": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "string",
+                        "description": "Key-value store ID"
+                      },
+                      "apifyConsoleUrl": {
+                        "type": "string",
+                        "description": "Personalized Apify Console link to the store; present."
+                      },
+                      "name": {
+                        "type": "string"
+                      },
+                      "title": {
+                        "type": "string"
+                      },
+                      "keyCount": {
+                        "type": "number",
+                        "description": "Total number of keys (omitted when truncated)"
+                      },
+                      "keys": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        },
+                        "description": "Up to 50 key names"
+                      }
+                    },
+                    "required": [
+                      "id"
+                    ]
+                  }
+                },
+                "required": [
+                  "default"
+                ],
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "string",
+                      "description": "Key-value store ID"
+                    },
+                    "apifyConsoleUrl": {
+                      "type": "string",
+                      "description": "Personalized Apify Console link to the store; present."
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "keyCount": {
+                      "type": "number",
+                      "description": "Total number of keys (omitted when truncated)"
+                    },
+                    "keys": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "description": "Up to 50 key names"
+                    }
+                  },
+                  "required": [
+                    "id"
+                  ]
+                }
+              }
+            }
+          },
+          "tip": {
+            "type": "object",
+            "description": "Advisory guidance RAG Web Browser wrote to its key-value.",
+            "properties": {
+              "message": {
+                "type": "string",
+                "description": "Truncated to 300 characters, with a trailing ellipsis if."
+              },
+              "level": {
+                "type": "string",
+                "enum": [
+                  "info",
+                  "warning"
+                ],
+                "description": "Omitted when the Actor wrote an unrecognized level"
+              },
+              "recommendedActorId": {
+                "type": "string",
+                "description": "Apify Actor ID the tip recommends, when it names one"
+              },
+              "caveat": {
+                "type": "string",
+                "description": "Present when this session cannot run the Actor the tip."
+              }
+            },
+            "required": [
+              "message"
+            ]
+          },
+          "summary": {
+            "type": "string",
+            "description": "Past-tense summary of the run state"
+          },
+          "nextStep": {
+            "type": "string",
+            "description": "One primary follow-up action with identifiers interpolated"
+          }
+        },
+        "required": [
+          "runId",
+          "actorId",
+          "status",
+          "storages",
+          "summary",
+          "nextStep"
+        ]
+      },
+      "annotations": {
+        "title": "gouda_studios/youtube-video-channel-scraper",
         "readOnlyHint": false,
         "destructiveHint": true,
         "openWorldHint": true

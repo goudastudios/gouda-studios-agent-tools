@@ -1,0 +1,193 @@
+{
+  "slug": "uspto-trademark-screener",
+  "name": "USPTO Trademark Phrase Screener",
+  "title": "USPTO Trademark Phrase Screener: Live/Dead Wordmarks, Classes",
+  "actor": "gouda_studios/uspto-trademark-screener",
+  "apify": "https://apify.com/gouda_studios/uspto-trademark-screener",
+  "cat": "Trademark research",
+  "uses": [
+    "Print on demand and merch sellers screening phrases before they upload designs",
+    "Flagging live marks in class 25 (clothing) and class 16 (paper goods) for a phrase list",
+    "Brand and product teams doing a first pass on name ideas before a full legal search",
+    "AI agents checking whether a phrase already has live USPTO wordmarks"
+  ],
+  "inputs": [
+    {
+      "name": "phrases",
+      "type": "array",
+      "title": "Phrases",
+      "description": "Phrases or design names to screen, one per line, e.g. plant mom, just one more chapter.",
+      "default": null
+    },
+    {
+      "name": "maxMarksPerPhrase",
+      "type": "integer",
+      "title": "Max marks listed per phrase",
+      "description": "How many exact and close wordmarks to list. Counts and the live class 25/16 flags still use the full hit set.",
+      "default": 200
+    },
+    {
+      "name": "includeDead",
+      "type": "boolean",
+      "title": "Include dead marks in the list",
+      "description": "If false, listed marks are live only. Dead counts are still reported.",
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "type",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "phrase",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "exactLiveCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "exactDeadCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "closeLiveCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "closeDeadCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "liveClass25",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "liveClass16",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "marksListed",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "truncated",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "error",
+      "type": "",
+      "description": ""
+    }
+  ],
+  "description": "Screen a list of phrases against the public USPTO trademark search (no login, no API key). Returns exact and close wordmarks with serial number, live/dead status, international classes, and flags for any live mark in class 25 or 16. $0.001 per phrase.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/uspto-trademark-screener/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 5e-05
+      },
+      {
+        "name": "phrase",
+        "price": 0.001,
+        "per": "phrase"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~uspto-trademark-screener/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/uspto-trademark-screener"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "phrases": [
+      "plant mom",
+      "just one more chapter"
+    ],
+    "maxMarksPerPhrase": 50,
+    "includeDead": false
+  },
+  "sampleOutput": {
+    "type": "phrase",
+    "phrase": "christmas cat shirt",
+    "exactLiveCount": 0,
+    "exactDeadCount": 0,
+    "closeLiveCount": 0,
+    "closeDeadCount": 0,
+    "liveClass25": false,
+    "liveClass16": false,
+    "liveClass25Count": 0,
+    "liveClass16Count": 0,
+    "indexHitCount": 0,
+    "marksListed": 0,
+    "truncated": false,
+    "scanCapped": false,
+    "marks": [],
+    "source": "USPTO Trademark Search (tmsearch.uspto.gov public backend, no API key)",
+    "tsdrApiUsed": false,
+    "closeMatchNote": "Close means the phrase appears in the wordmark, or matches with spaces removed. Not a legal confusion analysis.",
+    "scrapedAt": "2026-11-11T00:05:50+00:00"
+  },
+  "inputSchema": {
+    "title": "USPTO Trademark Phrase Screener input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "phrases": {
+        "title": "Phrases",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Phrases or design names to screen, one per line, e.g. plant mom, just one more chapter.",
+        "prefill": [
+          "plant mom",
+          "just one more chapter",
+          "christmas cat shirt"
+        ]
+      },
+      "maxMarksPerPhrase": {
+        "title": "Max marks listed per phrase",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 1000,
+        "default": 200,
+        "description": "How many exact and close wordmarks to list. Counts and the live class 25/16 flags still use the full hit set."
+      },
+      "includeDead": {
+        "title": "Include dead marks in the list",
+        "type": "boolean",
+        "default": true,
+        "description": "If false, listed marks are live only. Dead counts are still reported."
+      }
+    },
+    "required": [
+      "phrases"
+    ]
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

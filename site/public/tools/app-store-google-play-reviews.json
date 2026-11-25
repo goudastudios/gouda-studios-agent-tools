@@ -1,0 +1,256 @@
+{
+  "slug": "app-store-google-play-reviews",
+  "name": "App Store and Google Play Reviews",
+  "title": "App Store & Google Play Reviews Scraper",
+  "actor": "gouda_studios/app-store-google-play-reviews",
+  "apify": "https://apify.com/gouda_studios/app-store-google-play-reviews",
+  "cat": "App reviews",
+  "uses": [
+    "Product and growth teams tracking what users say about their app and competitors on both stores",
+    "Support teams finding bugs and complaints right after a release",
+    "Market researchers mining review text for feature requests and pain points",
+    "AI agents summarizing app sentiment from one clean review schema"
+  ],
+  "inputs": [
+    {
+      "name": "apps",
+      "type": "array",
+      "title": "Apps",
+      "description": "One app per line: an app name (e.g. Spotify), an App Store URL or numeric ID, or a Google Play URL or package name (e.g. com.spotify.music). The matching app in the other store is found automatically.",
+      "default": null
+    },
+    {
+      "name": "stores",
+      "type": "string",
+      "title": "Stores",
+      "description": "Which store(s) to scrape.",
+      "default": "both",
+      "enum": [
+        "both",
+        "appStore",
+        "googlePlay"
+      ]
+    },
+    {
+      "name": "maxReviewsPerStore",
+      "type": "integer",
+      "title": "Max reviews per app per store",
+      "description": "Apple's public review feed returns up to 500 reviews per country. Google Play supports up to 5,000.",
+      "default": 100
+    },
+    {
+      "name": "sort",
+      "type": "string",
+      "title": "Sort",
+      "description": "Review order.",
+      "default": "newest",
+      "enum": [
+        "newest",
+        "mostRelevant"
+      ]
+    },
+    {
+      "name": "country",
+      "type": "string",
+      "title": "Country",
+      "description": "Two-letter store country code, e.g. us, gb, de, in.",
+      "default": "us"
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "title": "Language (Google Play)",
+      "description": "Two-letter language code for Google Play reviews.",
+      "default": "en"
+    },
+    {
+      "name": "includeSummary",
+      "type": "boolean",
+      "title": "Add a free summary row per app and store",
+      "description": "Adds one uncharged row with the store rating, rating count and the rating distribution of the returned reviews.",
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "store",
+      "type": "",
+      "description": "Store"
+    },
+    {
+      "name": "appName",
+      "type": "",
+      "description": "AppName"
+    },
+    {
+      "name": "rating",
+      "type": "",
+      "description": "Rating"
+    },
+    {
+      "name": "title",
+      "type": "",
+      "description": "Title"
+    },
+    {
+      "name": "text",
+      "type": "",
+      "description": "Text"
+    },
+    {
+      "name": "author",
+      "type": "",
+      "description": "Author"
+    },
+    {
+      "name": "date",
+      "type": "",
+      "description": "Date"
+    },
+    {
+      "name": "appVersion",
+      "type": "",
+      "description": "AppVersion"
+    },
+    {
+      "name": "helpfulCount",
+      "type": "",
+      "description": "HelpfulCount"
+    },
+    {
+      "name": "replyText",
+      "type": "",
+      "description": "ReplyText"
+    },
+    {
+      "name": "country",
+      "type": "",
+      "description": "Country"
+    }
+  ],
+  "description": "Scrape app reviews from the Apple App Store and Google Play in one run. Give an app name, URL, ID or package and get ratings, review text, dates, versions and developer replies from both stores in one clean JSON schema. No login, no proxy.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/app-store-google-play-reviews/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 0
+      },
+      {
+        "name": "review",
+        "price": 0.0001,
+        "per": "review"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~app-store-google-play-reviews/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/app-store-google-play-reviews"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "apps": [
+      "Spotify"
+    ],
+    "stores": "both",
+    "maxReviewsPerStore": 100,
+    "sort": "newest",
+    "country": "us",
+    "language": "en"
+  },
+  "sampleOutput": {},
+  "inputSchema": {
+    "title": "App Store & Google Play Reviews Scraper",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "apps": {
+        "title": "Apps",
+        "type": "array",
+        "editor": "stringList",
+        "description": "One app per line: an app name (e.g. Spotify), an App Store URL or numeric ID, or a Google Play URL or package name (e.g. com.spotify.music). The matching app in the other store is found automatically.",
+        "prefill": [
+          "Spotify"
+        ]
+      },
+      "stores": {
+        "title": "Stores",
+        "type": "string",
+        "editor": "select",
+        "enum": [
+          "both",
+          "appStore",
+          "googlePlay"
+        ],
+        "enumTitles": [
+          "Both stores",
+          "Apple App Store only",
+          "Google Play only"
+        ],
+        "default": "both",
+        "description": "Which store(s) to scrape."
+      },
+      "maxReviewsPerStore": {
+        "title": "Max reviews per app per store",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5000,
+        "default": 100,
+        "description": "Apple's public review feed returns up to 500 reviews per country. Google Play supports up to 5,000."
+      },
+      "sort": {
+        "title": "Sort",
+        "type": "string",
+        "editor": "select",
+        "enum": [
+          "newest",
+          "mostRelevant"
+        ],
+        "enumTitles": [
+          "Newest first",
+          "Most relevant / helpful"
+        ],
+        "default": "newest",
+        "description": "Review order."
+      },
+      "country": {
+        "title": "Country",
+        "type": "string",
+        "editor": "textfield",
+        "default": "us",
+        "description": "Two-letter store country code, e.g. us, gb, de, in."
+      },
+      "language": {
+        "title": "Language (Google Play)",
+        "type": "string",
+        "editor": "textfield",
+        "default": "en",
+        "description": "Two-letter language code for Google Play reviews."
+      },
+      "includeSummary": {
+        "title": "Add a free summary row per app and store",
+        "type": "boolean",
+        "default": true,
+        "description": "Adds one uncharged row with the store rating, rating count and the rating distribution of the returned reviews."
+      }
+    },
+    "required": [
+      "apps"
+    ]
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

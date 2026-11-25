@@ -190,7 +190,7 @@
       },
       {
         "name": "transcript",
-        "price": 0.004,
+        "price": 0.0025,
         "per": "transcript"
       }
     ]

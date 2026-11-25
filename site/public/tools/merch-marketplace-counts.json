@@ -1,0 +1,188 @@
+{
+  "slug": "merch-marketplace-counts",
+  "name": "Merch Marketplace Counts",
+  "title": "Merch Marketplace Counts: Redbubble, TeePublic, Etsy, Amazon",
+  "actor": "gouda_studios/merch-marketplace-counts",
+  "apify": "https://apify.com/gouda_studios/merch-marketplace-counts",
+  "cat": "Print on demand research",
+  "uses": [
+    "Print on demand sellers checking how crowded a shirt or sticker niche is before they design",
+    "Merch researchers comparing Redbubble, TeePublic, Etsy and Merch by Amazon counts for a keyword list",
+    "Pairing with a trademark screen to shortlist phrases that are both safe and under-served",
+    "AI agents that score merch ideas by competition with real marketplace counts"
+  ],
+  "inputs": [
+    {
+      "name": "keywords",
+      "type": "array",
+      "title": "Keywords",
+      "description": "Phrases or merch keywords, one per line, e.g. christmas cat shirt.",
+      "default": null
+    },
+    {
+      "name": "maxListings",
+      "type": "integer",
+      "title": "Max listings per marketplace",
+      "description": "How many top listing titles and URLs to return for each marketplace that is reachable.",
+      "default": 20
+    },
+    {
+      "name": "marketplaces",
+      "type": "array",
+      "title": "Marketplaces",
+      "description": "Which stores to query. Amazon is a Merch-by-Amazon shirt count when the filter is accepted; otherwise the general search count is returned and flagged.",
+      "default": [
+        "redbubble",
+        "teepublic",
+        "etsy",
+        "amazonMerch"
+      ]
+    }
+  ],
+  "outputs": [
+    {
+      "name": "type",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "keyword",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "redbubbleCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "teepublicCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "etsyCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "amazonMerchCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "amazonMerchFilterApplied",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "blockedMarketplaces",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "error",
+      "type": "",
+      "description": ""
+    }
+  ],
+  "description": "For each merch keyword, return result counts and the top 20 listing titles and URLs from Redbubble, plus TeePublic, Etsy and Amazon Merch shirt counts when those sites allow datacenter access. Blocked marketplaces are flagged, never guessed. $0.002 per keyword.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/merch-marketplace-counts/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 5e-05
+      },
+      {
+        "name": "keyword",
+        "price": 0.002,
+        "per": "keyword"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~merch-marketplace-counts/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/merch-marketplace-counts"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "keywords": [
+      "christmas cat shirt",
+      "plant mom"
+    ],
+    "maxListings": 20,
+    "marketplaces": [
+      "redbubble",
+      "teepublic",
+      "etsy",
+      "amazonMerch"
+    ]
+  },
+  "sampleOutput": {},
+  "inputSchema": {
+    "title": "Merch Marketplace Counts input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "keywords": {
+        "title": "Keywords",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Phrases or merch keywords, one per line, e.g. christmas cat shirt.",
+        "prefill": [
+          "christmas cat shirt",
+          "just one more chapter",
+          "plant mom"
+        ]
+      },
+      "maxListings": {
+        "title": "Max listings per marketplace",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 50,
+        "default": 20,
+        "description": "How many top listing titles and URLs to return for each marketplace that is reachable."
+      },
+      "marketplaces": {
+        "title": "Marketplaces",
+        "type": "array",
+        "editor": "select",
+        "items": {
+          "type": "string",
+          "enum": [
+            "redbubble",
+            "teepublic",
+            "etsy",
+            "amazonMerch"
+          ]
+        },
+        "default": [
+          "redbubble",
+          "teepublic",
+          "etsy",
+          "amazonMerch"
+        ],
+        "description": "Which stores to query. Amazon is a Merch-by-Amazon shirt count when the filter is accepted; otherwise the general search count is returned and flagged."
+      }
+    },
+    "required": [
+      "keywords"
+    ]
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

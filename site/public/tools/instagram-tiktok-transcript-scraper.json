@@ -1,0 +1,434 @@
+{
+  "slug": "instagram-tiktok-transcript-scraper",
+  "name": "Instagram Reels, TikTok and Podcast Transcripts",
+  "title": "Instagram Reels & TikTok Transcript Scraper",
+  "actor": "gouda_studios/instagram-tiktok-transcript-scraper",
+  "apify": "https://apify.com/gouda_studios/instagram-tiktok-transcript-scraper",
+  "cat": "Video / AI",
+  "uses": [
+    "Creators and marketers studying the hooks and scripts of top Reels and TikToks",
+    "Turning short videos and podcast episodes into posts, notes and newsletters",
+    "RAG pipelines and datasets built from spoken social and podcast content",
+    "AI agents that need what a Reel, TikTok or audio file actually says, with timestamps"
+  ],
+  "inputs": [
+    {
+      "name": "videoUrls",
+      "type": "array",
+      "title": "Video URLs",
+      "description": "Instagram Reel/post links, TikTok video links (including vm.tiktok.com short links), direct audio/video file URLs (mp3, m4a, mp4, wav, webm, ogg), and podcast RSS feed URLs (the latest episodes are transcribed). An Instagram profile link is treated as a username.",
+      "default": null
+    },
+    {
+      "name": "instagramUsernames",
+      "type": "array",
+      "title": "Instagram usernames (optional)",
+      "description": "Transcribe the most recent video posts and reels of public Instagram accounts. Best effort: Instagram returns up to about 12 recent posts without login.",
+      "default": null
+    },
+    {
+      "name": "maxReelsPerProfile",
+      "type": "integer",
+      "title": "Max videos per Instagram profile",
+      "description": "How many recent videos to take from each username. Without login Instagram only exposes the latest ~6 posts of a profile (photos are skipped), so you may get fewer.",
+      "default": 6
+    },
+    {
+      "name": "maxEpisodesPerFeed",
+      "type": "integer",
+      "title": "Max episodes per podcast feed",
+      "description": "For podcast RSS feed URLs, how many of the newest episodes to transcribe.",
+      "default": 5
+    },
+    {
+      "name": "speechToText",
+      "type": "string",
+      "title": "Speech-to-text",
+      "description": "Instagram has no public captions, so Instagram transcripts always use speech-to-text unless this is Off.",
+      "default": "auto",
+      "enum": [
+        "auto",
+        "always",
+        "off"
+      ]
+    },
+    {
+      "name": "sttModel",
+      "type": "string",
+      "title": "Speech-to-text model",
+      "description": "Open-source Whisper models running inside the actor. Same price for both.",
+      "default": "base",
+      "enum": [
+        "base",
+        "tiny"
+      ]
+    },
+    {
+      "name": "maxTranscribeSeconds",
+      "type": "integer",
+      "title": "Max seconds to transcribe per video",
+      "description": "Longer videos and episodes are transcribed up to this length and marked truncated: true. Up to 1800 seconds (30 minutes).",
+      "default": 180
+    },
+    {
+      "name": "language",
+      "type": "string",
+      "title": "Language hint (optional)",
+      "description": "ISO code like en, es, de. Leave empty to auto-detect. Also picks the matching TikTok caption track when several exist.",
+      "default": null
+    },
+    {
+      "name": "includeSegments",
+      "type": "boolean",
+      "title": "Include timestamped segments",
+      "description": "Adds segments: [{start, end, text}] in seconds.",
+      "default": true
+    },
+    {
+      "name": "includeSrt",
+      "type": "boolean",
+      "title": "Include SRT subtitles",
+      "description": "Adds the transcript as an SRT subtitle string.",
+      "default": false
+    },
+    {
+      "name": "speakerLabels",
+      "type": "boolean",
+      "title": "Speaker labels (who said what)",
+      "description": "Detects the different voices and labels every segment Speaker 1, Speaker 2, ... Adds speakerTranscript (one line per speaker turn), speakerCount and talk time per speaker. No extra charge for the labels. They need the audio, so TikToks are then transcribed by AI speech-to-text (AI transcript price) instead of captions. Best for podcasts, interviews and multi-person videos.",
+      "default": false
+    },
+    {
+      "name": "numSpeakers",
+      "type": "integer",
+      "title": "Number of speakers (optional)",
+      "description": "Only used with speaker labels. Set it when you know how many people talk (for example 2 for an interview) for more accurate labels. 0 = detect automatically.",
+      "default": 0
+    },
+    {
+      "name": "maxVideos",
+      "type": "integer",
+      "title": "Max videos per run",
+      "description": "Safety cap.",
+      "default": 500
+    },
+    {
+      "name": "proxyConfiguration",
+      "type": "object",
+      "title": "Proxy",
+      "description": "Optional. By default the actor connects directly and falls back to a built-in residential proxy when a platform blocks it.",
+      "default": null
+    }
+  ],
+  "outputs": [
+    {
+      "name": "platform",
+      "type": "",
+      "description": "Platform"
+    },
+    {
+      "name": "url",
+      "type": "",
+      "description": "Video"
+    },
+    {
+      "name": "author",
+      "type": "",
+      "description": "Author"
+    },
+    {
+      "name": "postedAt",
+      "type": "",
+      "description": "Posted"
+    },
+    {
+      "name": "durationSec",
+      "type": "",
+      "description": "Duration (s)"
+    },
+    {
+      "name": "viewCount",
+      "type": "",
+      "description": "Views"
+    },
+    {
+      "name": "likeCount",
+      "type": "",
+      "description": "Likes"
+    },
+    {
+      "name": "language",
+      "type": "",
+      "description": "Language"
+    },
+    {
+      "name": "transcriptSource",
+      "type": "",
+      "description": "Source"
+    },
+    {
+      "name": "hook",
+      "type": "",
+      "description": "Hook (first 3 s)"
+    },
+    {
+      "name": "transcript",
+      "type": "",
+      "description": "Transcript"
+    },
+    {
+      "name": "speakerTranscript",
+      "type": "",
+      "description": "Speaker transcript"
+    },
+    {
+      "name": "status",
+      "type": "string",
+      "description": "Status"
+    },
+    {
+      "name": "error",
+      "type": "",
+      "description": "Error"
+    }
+  ],
+  "description": "Transcripts with timestamps for Instagram Reels, TikTok, podcast RSS feeds and any audio/video file URL (mp3, m4a, mp4, wav). Native TikTok captions first, built-in Whisper speech-to-text for the rest. Optional speaker labels (who said what). No login, no API key.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/instagram-tiktok-transcript-scraper/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 0.0005
+      },
+      {
+        "name": "caption transcript",
+        "price": 0.002,
+        "per": "caption transcript"
+      },
+      {
+        "name": "AI speech-to-text transcript",
+        "price": 0.006,
+        "per": "AI speech-to-text transcript"
+      },
+      {
+        "name": "extra speech-to-text minute",
+        "price": 0.003,
+        "per": "extra speech-to-text minute"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~instagram-tiktok-transcript-scraper/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/instagram-tiktok-transcript-scraper"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "videoUrls": [
+      "https://www.tiktok.com/@brittany_broski/video/7257949160907935022"
+    ],
+    "speechToText": "auto",
+    "includeSegments": true
+  },
+  "sampleOutput": {
+    "inputUrl": "https://www.tiktok.com/@brittany_broski/video/7257949160907935022",
+    "platform": "tiktok",
+    "id": "7257949160907935022",
+    "url": "https://www.tiktok.com/@brittany_broski/video/7257949160907935022",
+    "author": {
+      "username": "brittany_broski",
+      "fullName": "Brittany",
+      "verified": true
+    },
+    "caption": "Surprise! my medieval talk show is OUT NOW! ROYAL COURT FEATURING MY FIRST ROYAL GUEST ORVILLE PECK IS LIVE ON MY YOUTUBE CHANNEL! I\u2019ve never had more fun in my life than creating this with my incredible team. I wanted to provide a talk show setting that rejects tradition & instead plays to my stren...",
+    "hashtags": [],
+    "postedAt": "2023-07-20T17:09:46+00:00",
+    "durationSec": 28,
+    "viewCount": 8600000,
+    "likeCount": 188400,
+    "commentCount": 4000,
+    "shareCount": 2267,
+    "saveCount": 10564,
+    "music": "original sound",
+    "transcript": "We're here to put you to the test. I'm ready to see if you can withstand the trials of Broski Nation. So, without further ado. Wait. Can I ask a question first? No. Yes. What's my position gonna be if I pass the test? I'm thinking Justice. I am kind of obsessed with the cape, though. When you walked...",
+    "language": "eng-US",
+    "transcriptSource": "native_captions",
+    "captionKind": "auto",
+    "hook": "We're here to put you to the test. I'm ready to see if you can withstand the trials",
+    "hookStartSec": 0,
+    "wordCount": 85,
+    "wordsPerMinute": 190.4,
+    "segments": [
+      {
+        "start": 0,
+        "end": 1.9,
+        "text": "We're here to put you to the test."
+      },
+      {
+        "start": 1.9,
+        "end": 4.38,
+        "text": "I'm ready to see if you can withstand the trials"
+      },
+      {
+        "start": 4.38,
+        "end": 5.52,
+        "text": "of Broski Nation."
+      },
+      {
+        "start": 5.86,
+        "end": 7.48,
+        "text": "So, without further ado."
+      },
+      {
+        "start": 10.03,
+        "end": 11.67,
+        "text": "Wait. Can I ask a question first? No."
+      }
+    ],
+    "processingSec": 0.4,
+    "scrapedAt": "2026-11-25T14:16:05+00:00",
+    "status": "ok"
+  },
+  "inputSchema": {
+    "title": "Instagram & TikTok transcript input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "videoUrls": {
+        "title": "Video URLs",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Instagram Reel/post links, TikTok video links (including vm.tiktok.com short links), direct audio/video file URLs (mp3, m4a, mp4, wav, webm, ogg), and podcast RSS feed URLs (the latest episodes are transcribed). An Instagram profile link is treated as a username.",
+        "prefill": [
+          "https://www.tiktok.com/@brittany_broski/video/7257949160907935022",
+          "https://www.instagram.com/reel/DWcvc9XjbgI/"
+        ]
+      },
+      "instagramUsernames": {
+        "title": "Instagram usernames (optional)",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Transcribe the most recent video posts and reels of public Instagram accounts. Best effort: Instagram returns up to about 12 recent posts without login."
+      },
+      "maxReelsPerProfile": {
+        "title": "Max videos per Instagram profile",
+        "type": "integer",
+        "default": 6,
+        "minimum": 1,
+        "maximum": 12,
+        "description": "How many recent videos to take from each username. Without login Instagram only exposes the latest ~6 posts of a profile (photos are skipped), so you may get fewer."
+      },
+      "maxEpisodesPerFeed": {
+        "title": "Max episodes per podcast feed",
+        "type": "integer",
+        "editor": "number",
+        "minimum": 1,
+        "maximum": 100,
+        "default": 5,
+        "description": "For podcast RSS feed URLs, how many of the newest episodes to transcribe."
+      },
+      "speechToText": {
+        "title": "Speech-to-text",
+        "type": "string",
+        "editor": "select",
+        "default": "auto",
+        "enum": [
+          "auto",
+          "always",
+          "off"
+        ],
+        "enumTitles": [
+          "Auto: native captions first, AI speech-to-text when there are none",
+          "Always use AI speech-to-text",
+          "Off: native captions only (TikTok)"
+        ],
+        "description": "Instagram has no public captions, so Instagram transcripts always use speech-to-text unless this is Off."
+      },
+      "sttModel": {
+        "title": "Speech-to-text model",
+        "type": "string",
+        "editor": "select",
+        "default": "base",
+        "enum": [
+          "base",
+          "tiny"
+        ],
+        "enumTitles": [
+          "Whisper base (more accurate)",
+          "Whisper tiny (fastest)"
+        ],
+        "description": "Open-source Whisper models running inside the actor. Same price for both."
+      },
+      "maxTranscribeSeconds": {
+        "title": "Max seconds to transcribe per video",
+        "type": "integer",
+        "default": 180,
+        "minimum": 10,
+        "maximum": 1800,
+        "description": "Longer videos and episodes are transcribed up to this length and marked truncated: true. Up to 1800 seconds (30 minutes)."
+      },
+      "language": {
+        "title": "Language hint (optional)",
+        "type": "string",
+        "editor": "textfield",
+        "description": "ISO code like en, es, de. Leave empty to auto-detect. Also picks the matching TikTok caption track when several exist."
+      },
+      "includeSegments": {
+        "title": "Include timestamped segments",
+        "type": "boolean",
+        "default": true,
+        "description": "Adds segments: [{start, end, text}] in seconds."
+      },
+      "includeSrt": {
+        "title": "Include SRT subtitles",
+        "type": "boolean",
+        "default": false,
+        "description": "Adds the transcript as an SRT subtitle string."
+      },
+      "speakerLabels": {
+        "title": "Speaker labels (who said what)",
+        "type": "boolean",
+        "default": false,
+        "description": "Detects the different voices and labels every segment Speaker 1, Speaker 2, ... Adds speakerTranscript (one line per speaker turn), speakerCount and talk time per speaker. No extra charge for the labels. They need the audio, so TikToks are then transcribed by AI speech-to-text (AI transcript price) instead of captions. Best for podcasts, interviews and multi-person videos."
+      },
+      "numSpeakers": {
+        "title": "Number of speakers (optional)",
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 10,
+        "description": "Only used with speaker labels. Set it when you know how many people talk (for example 2 for an interview) for more accurate labels. 0 = detect automatically."
+      },
+      "maxVideos": {
+        "title": "Max videos per run",
+        "type": "integer",
+        "default": 500,
+        "minimum": 1,
+        "description": "Safety cap."
+      },
+      "proxyConfiguration": {
+        "title": "Proxy",
+        "type": "object",
+        "editor": "proxy",
+        "description": "Optional. By default the actor connects directly and falls back to a built-in residential proxy when a platform blocks it.",
+        "prefill": {
+          "useApifyProxy": false
+        }
+      }
+    }
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

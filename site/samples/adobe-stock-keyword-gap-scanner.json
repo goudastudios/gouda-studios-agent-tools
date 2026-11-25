@@ -1,0 +1,23 @@
+{
+ "type": "keyword",
+ "keyword": "walking pad",
+ "searchUrl": "https://stock.adobe.com/search?k=walking+pad",
+ "totalResults": 12908,
+ "photoCount": 6928,
+ "imageCount": 10224,
+ "videoCount": 2684,
+ "addedLast30Days": null,
+ "addedLast90Days": null,
+ "genAiCount": 3756,
+ "genAiShare": 0.291,
+ "adobeRelatedSearches": [
+  "portable treadmill",
+  "outdoor fitness equipment",
+  "compact exercise machine",
+  "foldable workout device",
+  "home gym setup"
+ ],
+ "source": "jina_reader",
+ "notes": "Adobe Stock public search has no date-added or last-30/90-day filter. order=creation sorts newest first but does not yield a count of assets uploaded in a time window, and creation dates are not shown on public result pages. Generative-AI share comes from the public filters[gentech]=only URL parameter (the website \"Generative AI Only\" filter). If that filter does not change the result count, genAiCount is left null.",
+ "scrapedAt": "2026-11-11T00:11:28+00:00"
+}

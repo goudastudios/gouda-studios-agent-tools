@@ -1,0 +1,221 @@
+{
+  "slug": "telegram-channel-scraper",
+  "name": "Telegram Channel Scraper",
+  "title": "Telegram Channel Scraper: Posts, Views, Reactions, Subscribers",
+  "actor": "gouda_studios/telegram-channel-scraper",
+  "apify": "https://apify.com/gouda_studios/telegram-channel-scraper",
+  "cat": "Social media data",
+  "uses": [
+    "Crypto, news and OSINT researchers monitoring public Telegram channels",
+    "Marketers tracking views, reactions and subscriber growth for channels in their niche",
+    "Building datasets of channel posts with links, media and forwards",
+    "AI agents summarizing what a public Telegram channel posted recently"
+  ],
+  "inputs": [
+    {
+      "name": "channels",
+      "type": "array",
+      "title": "Channels",
+      "description": "Public channel usernames, @handles or t.me links, e.g. durov, @telegram, https://t.me/s/durov",
+      "default": null
+    },
+    {
+      "name": "maxPostsPerChannel",
+      "type": "integer",
+      "title": "Max posts per channel",
+      "description": "Newest posts first. Use 0 to fetch only channel info.",
+      "default": 50
+    },
+    {
+      "name": "postsNewerThan",
+      "type": "string",
+      "title": "Only posts newer than",
+      "description": "Optional ISO date or datetime (UTC), e.g. 2026-11-01. Stops paging when older posts are reached.",
+      "default": null
+    },
+    {
+      "name": "searchQuery",
+      "type": "string",
+      "title": "Keyword search inside channel",
+      "description": "Optional. Returns only posts matching this keyword (Telegram's own in-channel search).",
+      "default": null
+    },
+    {
+      "name": "includeChannelInfo",
+      "type": "boolean",
+      "title": "Include channel info row",
+      "description": "Adds one row per channel with title, description, verified flag, subscribers and media counts.",
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "type",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "channel",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "postId",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "date",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "text",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "views",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "reactionsTotal",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "forwardedFrom",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "url",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "title",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "subscribers",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "error",
+      "type": "",
+      "description": ""
+    }
+  ],
+  "description": "Scrape public Telegram channels without login or API keys. Get posts with text, date, views, reactions, links, photos, videos and forwards, plus subscriber counts. Date filter, keyword search, full history paging. $0.0003 per post.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/telegram-channel-scraper/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 5e-05
+      },
+      {
+        "name": "post",
+        "price": 0.0003,
+        "per": "post"
+      },
+      {
+        "name": "channel info",
+        "price": 0.001,
+        "per": "channel info"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~telegram-channel-scraper/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/telegram-channel-scraper"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "channels": [
+      "durov",
+      "telegram"
+    ],
+    "maxPostsPerChannel": 50,
+    "postsNewerThan": "2026-11-01"
+  },
+  "sampleOutput": {
+    "type": "channel",
+    "channel": "durov",
+    "url": "https://t.me/durov",
+    "title": "Pavel Durov",
+    "description": "Founder/CEO/Owner of Telegram.\nFounder of TON/Gram.\nHalf-part troll.",
+    "verified": true,
+    "subscribers": 9880000,
+    "photos": 106,
+    "videos": 47,
+    "files": null,
+    "links": 203,
+    "avatarUrl": "https://cdn4.telesco.pe/file/dlY-pWv1M0zHrFRk5ZyAURHmcTADU_XJmqf6-3BKyAAEd7xDu6zrU7WaZ-afx1FYRVBzI56P12BhUItywIHSi4bLjy0Qga7dodk6n7y1mHvWyPO715dMcrRzGKtGglcoiiyncJKrXJvsK6AYpfHz-IwSWpkfX3uh3wN6-A3kkFZIr_8LSgH8R5o1IaXS7UK27iCCUdjPj4AoWwo4B4SudVi5viUf3l84qyq0Hfoj-h1m4bWqGQ6eT2MS3Lepe1W1lQ8BRNdG-pm7CVi...",
+    "scrapedAt": "2026-11-24T21:27:28+00:00"
+  },
+  "inputSchema": {
+    "title": "Telegram Channel Scraper input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "channels": {
+        "title": "Channels",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Public channel usernames, @handles or t.me links, e.g. durov, @telegram, https://t.me/s/durov",
+        "prefill": [
+          "durov",
+          "telegram"
+        ]
+      },
+      "maxPostsPerChannel": {
+        "title": "Max posts per channel",
+        "type": "integer",
+        "minimum": 0,
+        "default": 50,
+        "description": "Newest posts first. Use 0 to fetch only channel info."
+      },
+      "postsNewerThan": {
+        "title": "Only posts newer than",
+        "type": "string",
+        "editor": "textfield",
+        "description": "Optional ISO date or datetime (UTC), e.g. 2026-11-01. Stops paging when older posts are reached."
+      },
+      "searchQuery": {
+        "title": "Keyword search inside channel",
+        "type": "string",
+        "editor": "textfield",
+        "description": "Optional. Returns only posts matching this keyword (Telegram's own in-channel search)."
+      },
+      "includeChannelInfo": {
+        "title": "Include channel info row",
+        "type": "boolean",
+        "default": true,
+        "description": "Adds one row per channel with title, description, verified flag, subscribers and media counts."
+      }
+    },
+    "required": [
+      "channels"
+    ]
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

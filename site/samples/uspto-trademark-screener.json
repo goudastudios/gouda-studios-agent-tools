@@ -1,0 +1,21 @@
+{
+ "type": "phrase",
+ "phrase": "christmas cat shirt",
+ "exactLiveCount": 0,
+ "exactDeadCount": 0,
+ "closeLiveCount": 0,
+ "closeDeadCount": 0,
+ "liveClass25": false,
+ "liveClass16": false,
+ "liveClass25Count": 0,
+ "liveClass16Count": 0,
+ "indexHitCount": 0,
+ "marksListed": 0,
+ "truncated": false,
+ "scanCapped": false,
+ "marks": [],
+ "source": "USPTO Trademark Search (tmsearch.uspto.gov public backend, no API key)",
+ "tsdrApiUsed": false,
+ "closeMatchNote": "Close means the phrase appears in the wordmark, or matches with spaces removed. Not a legal confusion analysis.",
+ "scrapedAt": "2026-11-11T00:05:50+00:00"
+}

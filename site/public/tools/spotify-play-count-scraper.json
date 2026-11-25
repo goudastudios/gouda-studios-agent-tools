@@ -1,0 +1,182 @@
+{
+  "slug": "spotify-play-count-scraper",
+  "name": "Spotify Play Count Scraper",
+  "title": "Spotify Play Count Scraper: Tracks, Albums, Artists, Playlists",
+  "actor": "gouda_studios/spotify-play-count-scraper",
+  "apify": "https://apify.com/gouda_studios/spotify-play-count-scraper",
+  "cat": "Music data",
+  "uses": [
+    "Labels, managers and A&R teams tracking exact stream counts for tracks and albums",
+    "Artists checking monthly listeners, followers, world rank and top cities",
+    "Music marketers measuring campaign impact on play counts over time",
+    "AI agents answering how many plays a song or album has on Spotify"
+  ],
+  "inputs": [
+    {
+      "name": "startUrls",
+      "type": "array",
+      "title": "Spotify URLs or URIs",
+      "description": "Track, album, artist or playlist links (open.spotify.com/...) or URIs (spotify:track:...). Mix types freely.",
+      "default": null
+    },
+    {
+      "name": "maxTracksPerInput",
+      "type": "integer",
+      "title": "Max tracks per album or playlist",
+      "description": "Caps how many track rows each album or playlist returns.",
+      "default": 500
+    },
+    {
+      "name": "includeAlbumSummary",
+      "type": "boolean",
+      "title": "Add a free album summary row",
+      "description": "For album inputs, also output one album row with total play count across all tracks (not charged).",
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "type",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "trackName",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "artists",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "playCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "albumName",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "releaseDate",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "artistName",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "monthlyListeners",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "followers",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "totalPlayCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "trackUrl",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "error",
+      "type": "",
+      "description": ""
+    }
+  ],
+  "description": "Get exact Spotify play counts for any track, album, artist or playlist. Returns stream counts per track, album totals, artist monthly listeners, followers, world rank, top cities and top tracks. No login, no proxy, $0.001 per track.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/spotify-play-count-scraper/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 5e-05
+      },
+      {
+        "name": "track play count",
+        "price": 0.001,
+        "per": "track play count"
+      },
+      {
+        "name": "artist profile",
+        "price": 0.002,
+        "per": "artist profile"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~spotify-play-count-scraper/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/spotify-play-count-scraper"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "startUrls": [
+      "https://open.spotify.com/album/1NAmidJlEaVgA3MpcPFYGq",
+      "https://open.spotify.com/artist/06HL4z0CvFAxyc27GXpf02"
+    ],
+    "maxTracksPerInput": 50
+  },
+  "sampleOutput": {},
+  "inputSchema": {
+    "title": "Spotify Play Count Scraper input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "startUrls": {
+        "title": "Spotify URLs or URIs",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Track, album, artist or playlist links (open.spotify.com/...) or URIs (spotify:track:...). Mix types freely.",
+        "prefill": [
+          "https://open.spotify.com/album/1NAmidJlEaVgA3MpcPFYGq",
+          "https://open.spotify.com/artist/06HL4z0CvFAxyc27GXpf02",
+          "https://open.spotify.com/track/4cOdK2wGLETKBW3PvgPWqT"
+        ]
+      },
+      "maxTracksPerInput": {
+        "title": "Max tracks per album or playlist",
+        "type": "integer",
+        "description": "Caps how many track rows each album or playlist returns.",
+        "default": 500,
+        "minimum": 1,
+        "maximum": 5000
+      },
+      "includeAlbumSummary": {
+        "title": "Add a free album summary row",
+        "type": "boolean",
+        "description": "For album inputs, also output one album row with total play count across all tracks (not charged).",
+        "default": true
+      }
+    },
+    "required": [
+      "startUrls"
+    ]
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

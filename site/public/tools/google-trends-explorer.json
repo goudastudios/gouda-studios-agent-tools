@@ -1,9 +1,9 @@
 {
   "slug": "google-trends-explorer",
   "name": "Google Trends Scraper",
-  "title": "Google Trends Scraper: Interest, Regions, Related Queries",
-  "actor": "gouda_studios/google-trends-explorer",
-  "apify": "https://apify.com/gouda_studios/google-trends-explorer",
+  "title": "Google Trends Scraper",
+  "actor": "gouda_studios/google-trends-scraper",
+  "apify": "https://apify.com/gouda_studios/google-trends-scraper",
   "cat": "SEO and market research",
   "uses": [
     "SEO and content teams finding rising keywords and seasonality",
@@ -16,7 +16,7 @@
       "name": "searchTerms",
       "type": "array",
       "title": "Search terms",
-      "description": "Keywords or phrases. Each one is fetched separately and returns one result row.",
+      "description": "Keywords or phrases, one per line. You can also paste Google Trends explore URLs; their q, geo, date, cat and gprop override the settings below. Each term returns one result row.",
       "default": null
     },
     {
@@ -43,6 +43,13 @@
         "today 5-y",
         "all"
       ]
+    },
+    {
+      "name": "customTimeRange",
+      "type": "string",
+      "title": "Custom time range (optional)",
+      "description": "Overrides Time range. Format: YYYY-MM-DD YYYY-MM-DD, e.g. 2025-01-01 2025-12-31.",
+      "default": null
     },
     {
       "name": "category",
@@ -94,6 +101,13 @@
       "default": true
     },
     {
+      "name": "compareMode",
+      "type": "boolean",
+      "title": "Compare keywords (up to 5 per group)",
+      "description": "Puts terms in groups of up to 5 on one shared 0-100 scale, like comparing them on trends.google.com. Returns one row per group with interest over time and by region for each keyword. Charged per keyword.",
+      "default": false
+    },
+    {
       "name": "trendingNow",
       "type": "boolean",
       "title": "Also get today's trending searches",
@@ -118,31 +132,82 @@
       "name": "proxyConfiguration",
       "type": "object",
       "title": "Proxy",
-      "description": "Optional. Leave off to use our built-in residential proxy, included in the price.",
+      "description": "Optional. Leave off to use the built-in residential proxy, included in the price.",
       "default": null
+    },
+    {
+      "name": "maxConcurrency",
+      "type": "integer",
+      "title": "Parallel sessions",
+      "description": "How many search terms are fetched at the same time, each on its own IP.",
+      "default": 3
     }
   ],
   "outputs": [
     {
       "name": "type",
       "type": "string",
-      "description": ""
+      "description": "Row type"
     },
     {
       "name": "searchTerm",
-      "type": [
-        "string",
-        "null"
-      ],
-      "description": ""
+      "type": "",
+      "description": "Search term"
+    },
+    {
+      "name": "searchTerms",
+      "type": "",
+      "description": "Compared terms"
     },
     {
       "name": "title",
-      "type": [
-        "string",
-        "null"
-      ],
-      "description": ""
+      "type": "",
+      "description": "Trending search"
+    },
+    {
+      "name": "geo",
+      "type": "",
+      "description": "Geo"
+    },
+    {
+      "name": "timeRange",
+      "type": "",
+      "description": "Range"
+    },
+    {
+      "name": "averageInterest",
+      "type": "",
+      "description": "Avg interest"
+    },
+    {
+      "name": "latestInterest",
+      "type": "",
+      "description": "Latest"
+    },
+    {
+      "name": "peakInterest",
+      "type": "",
+      "description": "Peak"
+    },
+    {
+      "name": "peakDate",
+      "type": "",
+      "description": "Peak date"
+    },
+    {
+      "name": "trendDirection",
+      "type": "",
+      "description": "Trend"
+    },
+    {
+      "name": "trendChangePct",
+      "type": "",
+      "description": "Change %"
+    },
+    {
+      "name": "approxTraffic",
+      "type": "",
+      "description": "Traffic"
     },
     {
       "name": "status",
@@ -150,10 +215,20 @@
         "string",
         "null"
       ],
-      "description": ""
+      "description": "Status"
+    },
+    {
+      "name": "error",
+      "type": "",
+      "description": "Error"
+    },
+    {
+      "name": "googleTrendsUrl",
+      "type": "",
+      "description": "Open in Google Trends"
     }
   ],
-  "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.",
+  "description": "Google Trends Scraper & API: interest over time, interest by region, top and rising related queries and topics, keyword comparison (up to 5) and trending searches, for any country, time range, category or YouTube/News/Shopping search. Fast, reliable, $4 per 1,000 keywords; failed terms are free.",
   "page": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer/",
   "pricing": {
     "model": "pay-per-event",
@@ -174,13 +249,13 @@
   "call": {
     "apifyApi": {
       "method": "POST",
-      "url": "https://api.apify.com/v2/acts/gouda_studios~google-trends-explorer/run-sync-get-dataset-items",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~google-trends-scraper/run-sync-get-dataset-items",
       "auth": "Bearer APIFY_TOKEN or ?token=",
       "body": "input JSON"
     },
     "mcp": {
       "server": "https://mcp.apify.com",
-      "actor": "gouda_studios/google-trends-explorer"
+      "actor": "gouda_studios/google-trends-scraper"
     },
     "agenticPayments": [
       "x402",
@@ -342,7 +417,7 @@
         "title": "Search terms",
         "type": "array",
         "editor": "stringList",
-        "description": "Keywords or phrases. Each one is fetched separately and returns one result row.",
+        "description": "Keywords or phrases, one per line. You can also paste Google Trends explore URLs; their q, geo, date, cat and gprop override the settings below. Each term returns one result row.",
         "prefill": [
           "bitcoin",
           "ai agents"
@@ -383,6 +458,12 @@
           "2004 to present"
         ],
         "description": "How far back to look."
+      },
+      "customTimeRange": {
+        "title": "Custom time range (optional)",
+        "type": "string",
+        "editor": "textfield",
+        "description": "Overrides Time range. Format: YYYY-MM-DD YYYY-MM-DD, e.g. 2025-01-01 2025-12-31."
       },
       "category": {
         "title": "Category ID",
@@ -435,6 +516,12 @@
         "default": true,
         "description": "Top and rising related topics (best effort: Google often withholds these from automated sessions, so the field may be empty)."
       },
+      "compareMode": {
+        "title": "Compare keywords (up to 5 per group)",
+        "type": "boolean",
+        "default": false,
+        "description": "Puts terms in groups of up to 5 on one shared 0-100 scale, like comparing them on trends.google.com. Returns one row per group with interest over time and by region for each keyword. Charged per keyword."
+      },
       "trendingNow": {
         "title": "Also get today's trending searches",
         "type": "boolean",
@@ -459,12 +546,21 @@
         "title": "Proxy",
         "type": "object",
         "editor": "proxy",
-        "description": "Optional. Leave off to use our built-in residential proxy, included in the price.",
+        "description": "Optional. Leave off to use the built-in residential proxy, included in the price.",
         "prefill": {
           "useApifyProxy": false
         }
+      },
+      "maxConcurrency": {
+        "title": "Parallel sessions",
+        "type": "integer",
+        "default": 3,
+        "minimum": 1,
+        "maximum": 5,
+        "description": "How many search terms are fetched at the same time, each on its own IP."
       }
-    }
+    },
+    "required": []
   },
   "contact": "m0f@mail.grokbot.com"
 }

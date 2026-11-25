@@ -1,0 +1,247 @@
+{
+  "slug": "adobe-stock-keyword-gap-scanner",
+  "name": "Adobe Stock Keyword Gap Scanner",
+  "title": "Adobe Stock Keyword Gap Scanner & Expander",
+  "actor": "gouda_studios/adobe-stock-keyword-gap-scanner",
+  "apify": "https://apify.com/gouda_studios/adobe-stock-keyword-gap-scanner",
+  "cat": "Stock content research",
+  "uses": [
+    "Stock photographers and videographers finding keywords with demand but few existing assets",
+    "Generative AI contributors checking how saturated a topic already is with AI images",
+    "Expanding seed keywords into Adobe related searches and Google autocomplete ideas",
+    "AI agents planning a stock content calendar from real result counts"
+  ],
+  "inputs": [
+    {
+      "name": "mode",
+      "type": "string",
+      "title": "Mode",
+      "description": "scan = result counts per keyword (gap scanner). expand = Adobe related searches + Google autocomplete from each seed. both = run scan then expand on the same keyword list.",
+      "default": "both",
+      "enum": [
+        "scan",
+        "expand",
+        "both"
+      ]
+    },
+    {
+      "name": "keywords",
+      "type": "array",
+      "title": "Keywords or seeds",
+      "description": "Keywords to scan and/or seeds to expand, e.g. walking pad, home office, autumn leaves.",
+      "default": null
+    },
+    {
+      "name": "usePublicReaderFallback",
+      "type": "boolean",
+      "title": "Use free public reader if Adobe blocks this IP",
+      "description": "If stock.adobe.com returns a Datadome/captcha block (common on some datacenter IPs), retry the same public search URL through the free r.jina.ai reader. No paid proxy is used. Turn off to fail instead.",
+      "default": true
+    },
+    {
+      "name": "requestDelayMs",
+      "type": "integer",
+      "title": "Delay between Adobe requests (ms)",
+      "description": "Polite pause between Adobe Stock page fetches. For ~200 keywords, 400 ms keeps a weekly run short and cheap.",
+      "default": 400
+    }
+  ],
+  "outputs": [
+    {
+      "name": "type",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "keyword",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "seed",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "totalResults",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "photoCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "imageCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "videoCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "genAiCount",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "genAiShare",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "addedLast30Days",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "addedLast90Days",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "adobeRelatedSearches",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "googleAutocomplete",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "source",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "notes",
+      "type": "",
+      "description": ""
+    },
+    {
+      "name": "error",
+      "type": "",
+      "description": ""
+    }
+  ],
+  "description": "Scan Adobe Stock keyword saturation (total, photo, video, generative-AI share) and expand seeds into Adobe related searches plus Google autocomplete. No login. About $0.002 per keyword. 30/90-day new-upload counts are not publicly available.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/adobe-stock-keyword-gap-scanner/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 5e-05
+      },
+      {
+        "name": "keyword",
+        "price": 0.002,
+        "per": "keyword"
+      },
+      {
+        "name": "suggestion batch",
+        "price": 0.0005,
+        "per": "suggestion batch"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~adobe-stock-keyword-gap-scanner/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/adobe-stock-keyword-gap-scanner"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "mode": "both",
+    "keywords": [
+      "walking pad",
+      "home office"
+    ]
+  },
+  "sampleOutput": {
+    "type": "keyword",
+    "keyword": "walking pad",
+    "searchUrl": "https://stock.adobe.com/search?k=walking+pad",
+    "totalResults": 12908,
+    "photoCount": 6928,
+    "imageCount": 10224,
+    "videoCount": 2684,
+    "addedLast30Days": null,
+    "addedLast90Days": null,
+    "genAiCount": 3756,
+    "genAiShare": 0.291,
+    "adobeRelatedSearches": [
+      "portable treadmill",
+      "outdoor fitness equipment",
+      "compact exercise machine",
+      "foldable workout device",
+      "home gym setup"
+    ],
+    "source": "jina_reader",
+    "notes": "Adobe Stock public search has no date-added or last-30/90-day filter. order=creation sorts newest first but does not yield a count of assets uploaded in a time window, and creation dates are not shown on public result pages. Generative-AI share comes from the public filters[gentech]=only URL paramet...",
+    "scrapedAt": "2026-11-11T00:11:28+00:00"
+  },
+  "inputSchema": {
+    "title": "Adobe Stock Keyword Gap Scanner & Expander input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "mode": {
+        "title": "Mode",
+        "type": "string",
+        "editor": "select",
+        "enum": [
+          "scan",
+          "expand",
+          "both"
+        ],
+        "default": "both",
+        "description": "scan = result counts per keyword (gap scanner). expand = Adobe related searches + Google autocomplete from each seed. both = run scan then expand on the same keyword list."
+      },
+      "keywords": {
+        "title": "Keywords or seeds",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Keywords to scan and/or seeds to expand, e.g. walking pad, home office, autumn leaves.",
+        "prefill": [
+          "walking pad",
+          "home office"
+        ]
+      },
+      "usePublicReaderFallback": {
+        "title": "Use free public reader if Adobe blocks this IP",
+        "type": "boolean",
+        "default": true,
+        "description": "If stock.adobe.com returns a Datadome/captcha block (common on some datacenter IPs), retry the same public search URL through the free r.jina.ai reader. No paid proxy is used. Turn off to fail instead."
+      },
+      "requestDelayMs": {
+        "title": "Delay between Adobe requests (ms)",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 5000,
+        "default": 400,
+        "description": "Polite pause between Adobe Stock page fetches. For ~200 keywords, 400 ms keeps a weekly run short and cheap."
+      }
+    },
+    "required": [
+      "keywords"
+    ]
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

@@ -5,5 +5,16 @@
   "gouda_studios/gleif-company-lei-lookup",
   "gouda_studios/website-contact-extractor",
   "gouda_studios/youtube-transcript-extractor",
-  "gouda_studios/google-trends-explorer"
+  "gouda_studios/google-trends-scraper",
+  "gouda_studios/merch-marketplace-counts",
+  "gouda_studios/adobe-stock-keyword-gap-scanner",
+  "gouda_studios/app-store-google-play-reviews",
+  "gouda_studios/ats-jobs-scraper",
+  "gouda_studios/chrome-web-store-reviews",
+  "gouda_studios/instagram-tiktok-transcript-scraper",
+  "gouda_studios/shopify-app-store-reviews",
+  "gouda_studios/spotify-play-count-scraper",
+  "gouda_studios/telegram-channel-scraper",
+  "gouda_studios/uspto-trademark-screener",
+  "gouda_studios/youtube-video-channel-scraper"
 ]

@@ -1,11 +1,11 @@
 {
   "aid": "gouda-studios-agent-tools.vercel.app",
   "name": "Gouda Studios Agent Tools",
-  "description": "Agent-payable data tools on Apify: SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards, GLEIF company LEI lookup, website contact extraction and YouTube transcripts. Clean JSON, pay per result.",
+  "description": "Agent-payable data tools on Apify: SAM.gov contract opportunities, SEC EDGAR filings, USAspending federal awards, GLEIF company LEI lookup, website contact extraction, app and extension reviews, ATS job listings, YouTube, Instagram, TikTok and Telegram data, Spotify play counts, Google Trends, USPTO trademark screening, merch marketplace counts and Adobe Stock keyword gaps. Clean JSON, pay per result.",
   "image": "https://gouda-studios-agent-tools.vercel.app/favicon.svg",
   "url": "https://gouda-studios-agent-tools.vercel.app/apis.json",
   "created": "2026-10-17",
-  "modified": "2026-10-17",
+  "modified": "2026-11-25",
   "specificationVersion": "0.19",
   "tags": [
     "government data",
@@ -16,6 +16,13 @@
     "lead generation",
     "contact extraction",
     "YouTube transcripts",
+    "app reviews",
+    "job listings",
+    "social media data",
+    "Spotify",
+    "trademarks",
+    "print on demand",
+    "Google Trends",
     "MCP",
     "Apify",
     "AI agents"
@@ -214,7 +221,7 @@
     {
       "aid": "gouda-studios-agent-tools.vercel.app:youtube-transcript-extractor",
       "name": "YouTube Transcript Extractor",
-      "description": "Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free. Pricing: $0.0005 per run + $0.004 per transcript.",
+      "description": "Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free. Pricing: $0.0005 per run + $0.0025 per transcript.",
       "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-transcript-extractor/",
       "baseURL": "https://api.apify.com/v2",
       "tags": [
@@ -252,7 +259,7 @@
     {
       "aid": "gouda-studios-agent-tools.vercel.app:google-trends-explorer",
       "name": "Google Trends Scraper",
-      "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free. Pricing: $0.0005 per run + $0.004 per search term.",
+      "description": "Google Trends Scraper & API: interest over time, interest by region, top and rising related queries and topics, keyword comparison (up to 5) and trending searches, for any country, time range, category or YouTube/News/Shopping search. Fast, reliable, $4 per 1,000 keywords; failed terms are free. Pricing: $0.0005 per run + $0.004 per search term.",
       "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer/",
       "baseURL": "https://api.apify.com/v2",
       "tags": [
@@ -267,7 +274,7 @@
         },
         {
           "type": "Documentation",
-          "url": "https://apify.com/gouda_studios/google-trends-explorer"
+          "url": "https://apify.com/gouda_studios/google-trends-scraper"
         },
         {
           "type": "JSONSchema",
@@ -279,11 +286,429 @@
         },
         {
           "type": "MCPServer",
-          "url": "https://mcp.apify.com/?tools=gouda_studios/google-trends-explorer"
+          "url": "https://mcp.apify.com/?tools=gouda_studios/google-trends-scraper"
         },
         {
           "type": "Pricing",
-          "url": "https://apify.com/gouda_studios/google-trends-explorer/pricing"
+          "url": "https://apify.com/gouda_studios/google-trends-scraper/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:merch-marketplace-counts",
+      "name": "Merch Marketplace Counts",
+      "description": "For each merch keyword, return result counts and the top 20 listing titles and URLs from Redbubble, plus TeePublic, Etsy and Amazon Merch shirt counts when those sites allow datacenter access. Blocked marketplaces are flagged, never guessed. $0.002 per keyword. Pricing: $0.00005 per run + $0.002 per keyword.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/merch-marketplace-counts/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Print on demand research",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/merch-marketplace-counts"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/merch-marketplace-counts.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/merch-marketplace-counts"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/merch-marketplace-counts/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:adobe-stock-keyword-gap-scanner",
+      "name": "Adobe Stock Keyword Gap Scanner",
+      "description": "Scan Adobe Stock keyword saturation (total, photo, video, generative-AI share) and expand seeds into Adobe related searches plus Google autocomplete. No login. About $0.002 per keyword. 30/90-day new-upload counts are not publicly available. Pricing: $0.00005 per run + $0.002 per keyword.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/adobe-stock-keyword-gap-scanner/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Stock content research",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/adobe-stock-keyword-gap-scanner"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/adobe-stock-keyword-gap-scanner.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/adobe-stock-keyword-gap-scanner"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/adobe-stock-keyword-gap-scanner/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:app-store-google-play-reviews",
+      "name": "App Store and Google Play Reviews",
+      "description": "Scrape app reviews from the Apple App Store and Google Play in one run. Give an app name, URL, ID or package and get ratings, review text, dates, versions and developer replies from both stores in one clean JSON schema. No login, no proxy. Pricing: $0 per run + $0.0001 per review.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/app-store-google-play-reviews/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "App reviews",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/app-store-google-play-reviews"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/app-store-google-play-reviews.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/app-store-google-play-reviews"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/app-store-google-play-reviews/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:ats-jobs-scraper",
+      "name": "ATS Jobs Scraper",
+      "description": "Get every open job from company career sites on Greenhouse, Lever, Ashby, Workable, SmartRecruiters and Workday in one clean JSON schema. Give a company name, careers URL or website and the ATS is detected for you. Salaries, remote type, departments, full descriptions. $1 per 1,000 jobs, no proxy. Pricing: $0.00005 per run + $0.001 per job.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/ats-jobs-scraper/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Jobs and hiring data",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/ats-jobs-scraper"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/ats-jobs-scraper.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/ats-jobs-scraper"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/ats-jobs-scraper/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:chrome-web-store-reviews",
+      "name": "Chrome Web Store Reviews",
+      "description": "Scrape Chrome Web Store reviews past the 500-review cap. Give extension IDs and optional star filters; get rating, date, text, language, version and helpful votes, plus user count, average rating and current version. Free low-star phrase counts. No login or proxy. $0.0001/review. Pricing: $0.00005 per run + $0.0001 per review.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/chrome-web-store-reviews/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "App reviews",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/chrome-web-store-reviews"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/chrome-web-store-reviews.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/chrome-web-store-reviews"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/chrome-web-store-reviews/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:instagram-tiktok-transcript-scraper",
+      "name": "Instagram Reels, TikTok and Podcast Transcripts",
+      "description": "Transcripts with timestamps for Instagram Reels, TikTok, podcast RSS feeds and any audio/video file URL (mp3, m4a, mp4, wav). Native TikTok captions first, built-in Whisper speech-to-text for the rest. Optional speaker labels (who said what). No login, no API key. Pricing: $0.0005 per run + $0.002 per caption transcript.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/instagram-tiktok-transcript-scraper/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Video / AI",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/instagram-tiktok-transcript-scraper"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/instagram-tiktok-transcript-scraper.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/instagram-tiktok-transcript-scraper"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/instagram-tiktok-transcript-scraper/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:shopify-app-store-reviews",
+      "name": "Shopify App Store Reviews",
+      "description": "Scrape Shopify App Store reviews by handle, with the ratings[] filter, store name, country, time using the app and developer replies. Also returns listing rating, review count, pricing plans and launch date, plus a category listing mode. No login or proxy. $0.00002/review. Pricing: $0.00005 per run + $0.00002 per review.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/shopify-app-store-reviews/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "App reviews",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/shopify-app-store-reviews"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/shopify-app-store-reviews.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/shopify-app-store-reviews"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/shopify-app-store-reviews/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:spotify-play-count-scraper",
+      "name": "Spotify Play Count Scraper",
+      "description": "Get exact Spotify play counts for any track, album, artist or playlist. Returns stream counts per track, album totals, artist monthly listeners, followers, world rank, top cities and top tracks. No login, no proxy, $0.001 per track. Pricing: $0.00005 per run + $0.001 per track play count.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/spotify-play-count-scraper/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Music data",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/spotify-play-count-scraper"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/spotify-play-count-scraper.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/spotify-play-count-scraper"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/spotify-play-count-scraper/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:telegram-channel-scraper",
+      "name": "Telegram Channel Scraper",
+      "description": "Scrape public Telegram channels without login or API keys. Get posts with text, date, views, reactions, links, photos, videos and forwards, plus subscriber counts. Date filter, keyword search, full history paging. $0.0003 per post. Pricing: $0.00005 per run + $0.0003 per post.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/telegram-channel-scraper/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Social media data",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/telegram-channel-scraper"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/telegram-channel-scraper.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/telegram-channel-scraper"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/telegram-channel-scraper/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:uspto-trademark-screener",
+      "name": "USPTO Trademark Phrase Screener",
+      "description": "Screen a list of phrases against the public USPTO trademark search (no login, no API key). Returns exact and close wordmarks with serial number, live/dead status, international classes, and flags for any live mark in class 25 or 16. $0.001 per phrase. Pricing: $0.00005 per run + $0.001 per phrase.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/uspto-trademark-screener/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Trademark research",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/uspto-trademark-screener"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/uspto-trademark-screener.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/uspto-trademark-screener"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/uspto-trademark-screener/pricing"
+        }
+      ]
+    },
+    {
+      "aid": "gouda-studios-agent-tools.vercel.app:youtube-video-channel-scraper",
+      "name": "YouTube Video, Channel, Search and Comments Scraper",
+      "description": "YouTube data in one actor: video details, channel videos, shorts, keyword search, channel search by keyword, playlists and comments. Views, likes, publish date, tags, subscribers, channel video counts. $0.30/1K videos, $2/1K channels. No API key, no proxy. Pricing: $0.00005 per run + $0.0003 per video.",
+      "humanURL": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-video-channel-scraper/",
+      "baseURL": "https://api.apify.com/v2",
+      "tags": [
+        "Video data",
+        "Apify",
+        "JSON"
+      ],
+      "properties": [
+        {
+          "type": "OpenAPI",
+          "url": "https://gouda-studios-agent-tools.vercel.app/openapi.json"
+        },
+        {
+          "type": "Documentation",
+          "url": "https://apify.com/gouda_studios/youtube-video-channel-scraper"
+        },
+        {
+          "type": "JSONSchema",
+          "url": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-video-channel-scraper.json"
+        },
+        {
+          "type": "LLMsTxt",
+          "url": "https://gouda-studios-agent-tools.vercel.app/llms.txt"
+        },
+        {
+          "type": "MCPServer",
+          "url": "https://mcp.apify.com/?tools=gouda_studios/youtube-video-channel-scraper"
+        },
+        {
+          "type": "Pricing",
+          "url": "https://apify.com/gouda_studios/youtube-video-channel-scraper/pricing"
         }
       ]
     }
@@ -303,7 +728,7 @@
     },
     {
       "type": "MCPServer",
-      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup,gouda_studios/website-contact-extractor,gouda_studios/youtube-transcript-extractor,gouda_studios/google-trends-explorer"
+      "url": "https://mcp.apify.com/?tools=gouda_studios/sam-gov-opportunities-feed,gouda_studios/sec-edgar-filings-feed,gouda_studios/usaspending-awards-search,gouda_studios/gleif-company-lei-lookup,gouda_studios/website-contact-extractor,gouda_studios/youtube-transcript-extractor,gouda_studios/google-trends-scraper,gouda_studios/merch-marketplace-counts,gouda_studios/adobe-stock-keyword-gap-scanner,gouda_studios/app-store-google-play-reviews,gouda_studios/ats-jobs-scraper,gouda_studios/chrome-web-store-reviews,gouda_studios/instagram-tiktok-transcript-scraper,gouda_studios/shopify-app-store-reviews,gouda_studios/spotify-play-count-scraper,gouda_studios/telegram-channel-scraper,gouda_studios/uspto-trademark-screener,gouda_studios/youtube-video-channel-scraper"
     }
   ],
   "maintainers": [

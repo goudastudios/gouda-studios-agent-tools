@@ -1,0 +1,272 @@
+{
+  "slug": "shopify-app-store-reviews",
+  "name": "Shopify App Store Reviews",
+  "title": "Shopify App Store Reviews Scraper",
+  "actor": "gouda_studios/shopify-app-store-reviews",
+  "apify": "https://apify.com/gouda_studios/shopify-app-store-reviews",
+  "cat": "App reviews",
+  "uses": [
+    "Shopify app developers tracking reviews, ratings and developer replies for their app and rivals",
+    "Founders sizing a Shopify app category before they build",
+    "Agencies and investors comparing ratings, review counts and pricing plans across a category",
+    "AI agents summarizing merchant complaints for a Shopify app"
+  ],
+  "inputs": [
+    {
+      "name": "appHandles",
+      "type": "array",
+      "title": "App handles or App Store URLs",
+      "description": "One app per line: a handle (klaviyo-email-marketing) or an apps.shopify.com URL. Leave empty if you only want the category listing mode.",
+      "default": null
+    },
+    {
+      "name": "maxReviewsPerApp",
+      "type": "integer",
+      "title": "Max reviews per app",
+      "description": "How many reviews to return per app. 0 means all public reviews (paginated). Default 200.",
+      "default": 200
+    },
+    {
+      "name": "starFilter",
+      "type": "array",
+      "title": "Star filter (ratings[])",
+      "description": "Optional list of star ratings, passed to the Store as ratings[] (e.g. [1, 2] for one- and two-star reviews). Leave empty for all ratings.",
+      "default": null
+    },
+    {
+      "name": "categoryUrl",
+      "type": "string",
+      "title": "Category URL or slug (bonus mode)",
+      "description": "Optional. A Shopify App Store category URL or slug (e.g. marketing-and-conversion-social-trust-product-reviews or the full /categories/.../all URL). Returns one listing row per app with name, rating and review count. Parent categories crawl subcategory /all pages.",
+      "default": null
+    },
+    {
+      "name": "maxAppsInCategory",
+      "type": "integer",
+      "title": "Max apps in category mode",
+      "description": "Maximum app listing rows to return when Category URL is set.",
+      "default": 100
+    },
+    {
+      "name": "phrases",
+      "type": "array",
+      "title": "Phrases to count in low-star reviews",
+      "description": "Optional phrases. Adds one free keywordSummary row per app with case-insensitive counts over reviews at or below Low-star max. Counts cover only the reviews returned in this run, not estimates.",
+      "default": null
+    },
+    {
+      "name": "lowStarMax",
+      "type": "integer",
+      "title": "Low-star max (for phrase counts)",
+      "description": "Phrase counts use reviews with this rating or lower. Ignored if Phrases is empty.",
+      "default": 3
+    },
+    {
+      "name": "includeSummary",
+      "type": "boolean",
+      "title": "Add a free summary row per app",
+      "description": "Adds one uncharged row with the listing rating, review count, launch date, pricing plans, and the rating distribution of the reviews returned.",
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "type",
+      "type": "string",
+      "description": "Type"
+    },
+    {
+      "name": "appHandle",
+      "type": "",
+      "description": "AppHandle"
+    },
+    {
+      "name": "appName",
+      "type": "",
+      "description": "AppName"
+    },
+    {
+      "name": "rating",
+      "type": "",
+      "description": "Rating"
+    },
+    {
+      "name": "date",
+      "type": "",
+      "description": "Date"
+    },
+    {
+      "name": "text",
+      "type": "",
+      "description": "Text"
+    },
+    {
+      "name": "storeName",
+      "type": "",
+      "description": "StoreName"
+    },
+    {
+      "name": "country",
+      "type": "",
+      "description": "Country"
+    },
+    {
+      "name": "timeUsingApp",
+      "type": "",
+      "description": "TimeUsingApp"
+    },
+    {
+      "name": "replyText",
+      "type": "",
+      "description": "ReplyText"
+    },
+    {
+      "name": "reviewCount",
+      "type": "",
+      "description": "ReviewCount"
+    },
+    {
+      "name": "pricingPlans",
+      "type": "",
+      "description": "PricingPlans"
+    },
+    {
+      "name": "launchDate",
+      "type": "",
+      "description": "LaunchDate"
+    }
+  ],
+  "description": "Scrape Shopify App Store reviews by handle, with the ratings[] filter, store name, country, time using the app and developer replies. Also returns listing rating, review count, pricing plans and launch date, plus a category listing mode. No login or proxy. $0.00002/review.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/shopify-app-store-reviews/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 5e-05
+      },
+      {
+        "name": "review",
+        "price": 2e-05,
+        "per": "review"
+      },
+      {
+        "name": "category app listing",
+        "price": 0.0002,
+        "per": "category app listing"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~shopify-app-store-reviews/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/shopify-app-store-reviews"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "appHandles": [
+      "klaviyo-email-marketing"
+    ],
+    "maxReviewsPerApp": 200,
+    "starFilter": [
+      1,
+      2
+    ],
+    "phrases": [
+      "support",
+      "price"
+    ]
+  },
+  "sampleOutput": {
+    "type": "categoryApp",
+    "category": "marketing-and-conversion-social-trust-product-reviews/all",
+    "appHandle": "judgeme",
+    "appName": "Judge.me Product Reviews App",
+    "averageRating": 5,
+    "reviewCount": 49942,
+    "url": "https://apps.shopify.com/judgeme",
+    "scrapedAt": "2026-11-11T00:07:47+00:00"
+  },
+  "inputSchema": {
+    "title": "Shopify App Store Reviews Scraper",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "appHandles": {
+        "title": "App handles or App Store URLs",
+        "type": "array",
+        "editor": "stringList",
+        "description": "One app per line: a handle (klaviyo-email-marketing) or an apps.shopify.com URL. Leave empty if you only want the category listing mode.",
+        "prefill": [
+          "klaviyo-email-marketing"
+        ]
+      },
+      "maxReviewsPerApp": {
+        "title": "Max reviews per app",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 50000,
+        "default": 200,
+        "description": "How many reviews to return per app. 0 means all public reviews (paginated). Default 200."
+      },
+      "starFilter": {
+        "title": "Star filter (ratings[])",
+        "type": "array",
+        "editor": "json",
+        "description": "Optional list of star ratings, passed to the Store as ratings[] (e.g. [1, 2] for one- and two-star reviews). Leave empty for all ratings.",
+        "items": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      },
+      "categoryUrl": {
+        "title": "Category URL or slug (bonus mode)",
+        "type": "string",
+        "editor": "textfield",
+        "description": "Optional. A Shopify App Store category URL or slug (e.g. marketing-and-conversion-social-trust-product-reviews or the full /categories/.../all URL). Returns one listing row per app with name, rating and review count. Parent categories crawl subcategory /all pages."
+      },
+      "maxAppsInCategory": {
+        "title": "Max apps in category mode",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5000,
+        "default": 100,
+        "description": "Maximum app listing rows to return when Category URL is set."
+      },
+      "phrases": {
+        "title": "Phrases to count in low-star reviews",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional phrases. Adds one free keywordSummary row per app with case-insensitive counts over reviews at or below Low-star max. Counts cover only the reviews returned in this run, not estimates."
+      },
+      "lowStarMax": {
+        "title": "Low-star max (for phrase counts)",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5,
+        "default": 3,
+        "description": "Phrase counts use reviews with this rating or lower. Ignored if Phrases is empty."
+      },
+      "includeSummary": {
+        "title": "Add a free summary row per app",
+        "type": "boolean",
+        "default": true,
+        "description": "Adds one uncharged row with the listing rating, review count, launch date, pricing plans, and the rating distribution of the reviews returned."
+      }
+    }
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

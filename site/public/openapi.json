@@ -936,7 +936,7 @@
       "post": {
         "operationId": "run_youtube_transcript_extractor",
         "summary": "Run YouTube Transcript Extractor and return dataset items",
-        "description": "Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free. Pricing: $0.0005 per run + $0.004 per transcript.",
+        "description": "Get the transcript of any YouTube video or Short as clean text, timestamped text, segments and SRT. Bulk URLs, any language, auto-translate. Pay only for transcripts you get; failed videos are free. Pricing: $0.0005 per run + $0.0025 per transcript.",
         "externalDocs": {
           "url": "https://apify.com/gouda_studios/youtube-transcript-extractor"
         },
@@ -1108,13 +1108,13 @@
         }
       }
     },
-    "/acts/gouda_studios~google-trends-explorer/run-sync-get-dataset-items": {
+    "/acts/gouda_studios~google-trends-scraper/run-sync-get-dataset-items": {
       "post": {
         "operationId": "run_google_trends_explorer",
         "summary": "Run Google Trends Scraper and return dataset items",
-        "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free. Pricing: $0.0005 per run + $0.004 per search term.",
+        "description": "Google Trends Scraper & API: interest over time, interest by region, top and rising related queries and topics, keyword comparison (up to 5) and trending searches, for any country, time range, category or YouTube/News/Shopping search. Fast, reliable, $4 per 1,000 keywords; failed terms are free. Pricing: $0.0005 per run + $0.004 per search term.",
         "externalDocs": {
-          "url": "https://apify.com/gouda_studios/google-trends-explorer"
+          "url": "https://apify.com/gouda_studios/google-trends-scraper"
         },
         "parameters": [
           {
@@ -1143,7 +1143,7 @@
                 "properties": {
                   "searchTerms": {
                     "type": "array",
-                    "description": "Keywords or phrases. Each one is fetched separately and returns one result row."
+                    "description": "Keywords or phrases, one per line. You can also paste Google Trends explore URLs; their q, geo, date, cat and gprop override the settings below. Each term returns one result row."
                   },
                   "geo": {
                     "type": "string",
@@ -1165,6 +1165,10 @@
                       "today 5-y",
                       "all"
                     ]
+                  },
+                  "customTimeRange": {
+                    "type": "string",
+                    "description": "Overrides Time range. Format: YYYY-MM-DD YYYY-MM-DD, e.g. 2025-01-01 2025-12-31."
                   },
                   "category": {
                     "type": "integer",
@@ -1203,6 +1207,11 @@
                     "description": "Top and rising related topics (best effort: Google often withholds these from automated sessions, so the field may be empty).",
                     "default": true
                   },
+                  "compareMode": {
+                    "type": "boolean",
+                    "description": "Puts terms in groups of up to 5 on one shared 0-100 scale, like comparing them on trends.google.com. Returns one row per group with interest over time and by region for each keyword. Charged per keyword.",
+                    "default": false
+                  },
                   "trendingNow": {
                     "type": "boolean",
                     "description": "Adds one row per currently trending search in the chosen country, with traffic and news links.",
@@ -1220,7 +1229,12 @@
                   },
                   "proxyConfiguration": {
                     "type": "object",
-                    "description": "Optional. Leave off to use our built-in residential proxy, included in the price."
+                    "description": "Optional. Leave off to use the built-in residential proxy, included in the price."
+                  },
+                  "maxConcurrency": {
+                    "type": "integer",
+                    "description": "How many search terms are fetched at the same time, each on its own IP.",
+                    "default": 3
                   }
                 }
               },
@@ -1247,16 +1261,1763 @@
                     "properties": {
                       "type": {
                         "type": "string",
-                        "description": ""
+                        "description": "Row type"
                       },
                       "searchTerm": {
+                        "type": "",
+                        "description": "Search term"
+                      },
+                      "searchTerms": {
+                        "type": "",
+                        "description": "Compared terms"
+                      },
+                      "title": {
+                        "type": "",
+                        "description": "Trending search"
+                      },
+                      "geo": {
+                        "type": "",
+                        "description": "Geo"
+                      },
+                      "timeRange": {
+                        "type": "",
+                        "description": "Range"
+                      },
+                      "averageInterest": {
+                        "type": "",
+                        "description": "Avg interest"
+                      },
+                      "latestInterest": {
+                        "type": "",
+                        "description": "Latest"
+                      },
+                      "peakInterest": {
+                        "type": "",
+                        "description": "Peak"
+                      },
+                      "peakDate": {
+                        "type": "",
+                        "description": "Peak date"
+                      },
+                      "trendDirection": {
+                        "type": "",
+                        "description": "Trend"
+                      },
+                      "trendChangePct": {
+                        "type": "",
+                        "description": "Change %"
+                      },
+                      "approxTraffic": {
+                        "type": "",
+                        "description": "Traffic"
+                      },
+                      "status": {
+                        "description": "Status"
+                      },
+                      "error": {
+                        "type": "",
+                        "description": "Error"
+                      },
+                      "googleTrendsUrl": {
+                        "type": "",
+                        "description": "Open in Google Trends"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~merch-marketplace-counts/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_merch_marketplace_counts",
+        "summary": "Run Merch Marketplace Counts and return dataset items",
+        "description": "For each merch keyword, return result counts and the top 20 listing titles and URLs from Redbubble, plus TeePublic, Etsy and Amazon Merch shirt counts when those sites allow datacenter access. Blocked marketplaces are flagged, never guessed. $0.002 per keyword. Pricing: $0.00005 per run + $0.002 per keyword.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/merch-marketplace-counts"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "keywords": {
+                    "type": "array",
+                    "description": "Phrases or merch keywords, one per line, e.g. christmas cat shirt."
+                  },
+                  "maxListings": {
+                    "type": "integer",
+                    "description": "How many top listing titles and URLs to return for each marketplace that is reachable.",
+                    "default": 20
+                  },
+                  "marketplaces": {
+                    "type": "array",
+                    "description": "Which stores to query. Amazon is a Merch-by-Amazon shirt count when the filter is accepted; otherwise the general search count is returned and flagged.",
+                    "default": [
+                      "redbubble",
+                      "teepublic",
+                      "etsy",
+                      "amazonMerch"
+                    ]
+                  }
+                }
+              },
+              "example": {
+                "keywords": [
+                  "christmas cat shirt",
+                  "plant mom"
+                ],
+                "maxListings": 20,
+                "marketplaces": [
+                  "redbubble",
+                  "teepublic",
+                  "etsy",
+                  "amazonMerch"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "keyword": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "redbubbleCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "teepublicCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "etsyCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "amazonMerchCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "amazonMerchFilterApplied": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "blockedMarketplaces": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "error": {
+                        "type": "",
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~adobe-stock-keyword-gap-scanner/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_adobe_stock_keyword_gap_scanner",
+        "summary": "Run Adobe Stock Keyword Gap Scanner and return dataset items",
+        "description": "Scan Adobe Stock keyword saturation (total, photo, video, generative-AI share) and expand seeds into Adobe related searches plus Google autocomplete. No login. About $0.002 per keyword. 30/90-day new-upload counts are not publicly available. Pricing: $0.00005 per run + $0.002 per keyword.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/adobe-stock-keyword-gap-scanner"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "description": "scan = result counts per keyword (gap scanner). expand = Adobe related searches + Google autocomplete from each seed. both = run scan then expand on the same keyword list.",
+                    "default": "both",
+                    "enum": [
+                      "scan",
+                      "expand",
+                      "both"
+                    ]
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "description": "Keywords to scan and/or seeds to expand, e.g. walking pad, home office, autumn leaves."
+                  },
+                  "usePublicReaderFallback": {
+                    "type": "boolean",
+                    "description": "If stock.adobe.com returns a Datadome/captcha block (common on some datacenter IPs), retry the same public search URL through the free r.jina.ai reader. No paid proxy is used. Turn off to fail instead.",
+                    "default": true
+                  },
+                  "requestDelayMs": {
+                    "type": "integer",
+                    "description": "Polite pause between Adobe Stock page fetches. For ~200 keywords, 400 ms keeps a weekly run short and cheap.",
+                    "default": 400
+                  }
+                }
+              },
+              "example": {
+                "mode": "both",
+                "keywords": [
+                  "walking pad",
+                  "home office"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "keyword": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "seed": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "totalResults": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "photoCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "imageCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "videoCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "genAiCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "genAiShare": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "addedLast30Days": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "addedLast90Days": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "adobeRelatedSearches": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "googleAutocomplete": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "source": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "notes": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "error": {
+                        "type": "",
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~app-store-google-play-reviews/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_app_store_google_play_reviews",
+        "summary": "Run App Store and Google Play Reviews and return dataset items",
+        "description": "Scrape app reviews from the Apple App Store and Google Play in one run. Give an app name, URL, ID or package and get ratings, review text, dates, versions and developer replies from both stores in one clean JSON schema. No login, no proxy. Pricing: $0 per run + $0.0001 per review.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/app-store-google-play-reviews"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "apps": {
+                    "type": "array",
+                    "description": "One app per line: an app name (e.g. Spotify), an App Store URL or numeric ID, or a Google Play URL or package name (e.g. com.spotify.music). The matching app in the other store is found automatically."
+                  },
+                  "stores": {
+                    "type": "string",
+                    "description": "Which store(s) to scrape.",
+                    "default": "both",
+                    "enum": [
+                      "both",
+                      "appStore",
+                      "googlePlay"
+                    ]
+                  },
+                  "maxReviewsPerStore": {
+                    "type": "integer",
+                    "description": "Apple's public review feed returns up to 500 reviews per country. Google Play supports up to 5,000.",
+                    "default": 100
+                  },
+                  "sort": {
+                    "type": "string",
+                    "description": "Review order.",
+                    "default": "newest",
+                    "enum": [
+                      "newest",
+                      "mostRelevant"
+                    ]
+                  },
+                  "country": {
+                    "type": "string",
+                    "description": "Two-letter store country code, e.g. us, gb, de, in.",
+                    "default": "us"
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "Two-letter language code for Google Play reviews.",
+                    "default": "en"
+                  },
+                  "includeSummary": {
+                    "type": "boolean",
+                    "description": "Adds one uncharged row with the store rating, rating count and the rating distribution of the returned reviews.",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "apps": [
+                  "Spotify"
+                ],
+                "stores": "both",
+                "maxReviewsPerStore": 100,
+                "sort": "newest",
+                "country": "us",
+                "language": "en"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "store": {
+                        "type": "",
+                        "description": "Store"
+                      },
+                      "appName": {
+                        "type": "",
+                        "description": "AppName"
+                      },
+                      "rating": {
+                        "type": "",
+                        "description": "Rating"
+                      },
+                      "title": {
+                        "type": "",
+                        "description": "Title"
+                      },
+                      "text": {
+                        "type": "",
+                        "description": "Text"
+                      },
+                      "author": {
+                        "type": "",
+                        "description": "Author"
+                      },
+                      "date": {
+                        "type": "",
+                        "description": "Date"
+                      },
+                      "appVersion": {
+                        "type": "",
+                        "description": "AppVersion"
+                      },
+                      "helpfulCount": {
+                        "type": "",
+                        "description": "HelpfulCount"
+                      },
+                      "replyText": {
+                        "type": "",
+                        "description": "ReplyText"
+                      },
+                      "country": {
+                        "type": "",
+                        "description": "Country"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~ats-jobs-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_ats_jobs_scraper",
+        "summary": "Run ATS Jobs Scraper and return dataset items",
+        "description": "Get every open job from company career sites on Greenhouse, Lever, Ashby, Workable, SmartRecruiters and Workday in one clean JSON schema. Give a company name, careers URL or website and the ATS is detected for you. Salaries, remote type, departments, full descriptions. $1 per 1,000 jobs, no proxy. Pricing: $0.00005 per run + $0.001 per job.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/ats-jobs-scraper"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "companies": {
+                    "type": "array",
+                    "description": "One per line: a company board name (stripe, openai), a careers page URL (https://jobs.lever.co/palantir, https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite) or a company website (figma.com). The ATS is detected automatically."
+                  },
+                  "keywords": {
+                    "type": "array",
+                    "description": "Keep only jobs whose title or description contains any of these words. Leave empty for all jobs."
+                  },
+                  "titleKeywords": {
+                    "type": "array",
+                    "description": "Keep only jobs whose title contains any of these words, e.g. engineer, sales."
+                  },
+                  "locations": {
+                    "type": "array",
+                    "description": "Keep only jobs whose location contains any of these, e.g. New York, Remote, Germany."
+                  },
+                  "remoteOnly": {
+                    "type": "boolean",
+                    "description": "Keep only jobs marked remote.",
+                    "default": false
+                  },
+                  "postedWithinDays": {
+                    "type": "integer",
+                    "description": "Keep only jobs posted in the last N days. Great for daily new-job monitoring. Jobs without a date are kept."
+                  },
+                  "withSalaryOnly": {
+                    "type": "boolean",
+                    "description": "Keep only jobs where a salary range was published or found in the description.",
+                    "default": false
+                  },
+                  "atsPlatforms": {
+                    "type": "array",
+                    "description": "Optional. Only look on these platforms."
+                  },
+                  "includeDescription": {
+                    "type": "boolean",
+                    "description": "Adds plain-text and HTML descriptions. Turn off for faster, smaller runs.",
+                    "default": true
+                  },
+                  "maxJobsPerCompany": {
+                    "type": "integer",
+                    "description": "Cap on jobs returned per company.",
+                    "default": 1000
+                  },
+                  "maxJobsTotal": {
+                    "type": "integer",
+                    "description": "Stop after this many jobs across all companies. 0 means no limit.",
+                    "default": 0
+                  },
+                  "includeSummary": {
+                    "type": "boolean",
+                    "description": "One uncharged row per company with the detected ATS, board name and job count.",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "companies": [
+                  "stripe",
+                  "openai"
+                ],
+                "titleKeywords": [
+                  "engineer"
+                ],
+                "postedWithinDays": 30,
+                "maxJobsPerCompany": 200
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "company": {
+                        "type": "",
+                        "description": "Company"
+                      },
+                      "title": {
+                        "type": "",
+                        "description": "Title"
+                      },
+                      "department": {
+                        "type": "",
+                        "description": "Department"
+                      },
+                      "location": {
+                        "type": "",
+                        "description": "Location"
+                      },
+                      "workplaceType": {
+                        "type": "",
+                        "description": "WorkplaceType"
+                      },
+                      "employmentType": {
+                        "type": "",
+                        "description": "EmploymentType"
+                      },
+                      "salaryMin": {
+                        "type": "",
+                        "description": "SalaryMin"
+                      },
+                      "salaryMax": {
+                        "type": "",
+                        "description": "SalaryMax"
+                      },
+                      "salaryCurrency": {
+                        "type": "",
+                        "description": "SalaryCurrency"
+                      },
+                      "postedAt": {
+                        "type": "",
+                        "description": "PostedAt"
+                      },
+                      "ats": {
+                        "type": "",
+                        "description": "Ats"
+                      },
+                      "url": {
+                        "type": "",
+                        "description": "Url"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~chrome-web-store-reviews/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_chrome_web_store_reviews",
+        "summary": "Run Chrome Web Store Reviews and return dataset items",
+        "description": "Scrape Chrome Web Store reviews past the 500-review cap. Give extension IDs and optional star filters; get rating, date, text, language, version and helpful votes, plus user count, average rating and current version. Free low-star phrase counts. No login or proxy. $0.0001/review. Pricing: $0.00005 per run + $0.0001 per review.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/chrome-web-store-reviews"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "extensionIds": {
+                    "type": "array",
+                    "description": "One extension per line: a 32-character ID (e.g. cjpalhdlnbpafiamejdnhcphjbkeiagm) or a chromewebstore.google.com / chrome.google.com/webstore URL."
+                  },
+                  "maxReviewsPerExtension": {
+                    "type": "integer",
+                    "description": "How many reviews to return per extension. 0 means all public reviews (paginated past 500). Default 200.",
+                    "default": 200
+                  },
+                  "starFilter": {
+                    "type": "array",
+                    "description": "Optional list of star ratings to keep, e.g. [1, 2] for one- and two-star reviews only. Leave empty for all ratings."
+                  },
+                  "phrases": {
+                    "type": "array",
+                    "description": "Optional phrases. Adds one free keywordSummary row per extension with case-insensitive counts over reviews at or below Low-star max. Counts cover only the reviews returned in this run, not estimates."
+                  },
+                  "lowStarMax": {
+                    "type": "integer",
+                    "description": "Phrase counts use reviews with this rating or lower. Ignored if Phrases is empty.",
+                    "default": 3
+                  },
+                  "includeSummary": {
+                    "type": "boolean",
+                    "description": "Adds one uncharged row with the Store user count, average rating, rating count, current version, and the rating distribution of the reviews returned.",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "extensionIds": [
+                  "ddkjiahejlhfcafbddmgiahcphecmpfh"
+                ],
+                "maxReviewsPerExtension": 200,
+                "starFilter": [
+                  1,
+                  2
+                ],
+                "phrases": [
+                  "slow",
+                  "crash"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "description": "Type"
+                      },
+                      "extensionId": {
+                        "type": "",
+                        "description": "ExtensionId"
+                      },
+                      "extensionName": {
+                        "type": "",
+                        "description": "ExtensionName"
+                      },
+                      "rating": {
+                        "type": "",
+                        "description": "Rating"
+                      },
+                      "date": {
+                        "type": "",
+                        "description": "Date"
+                      },
+                      "text": {
+                        "type": "",
+                        "description": "Text"
+                      },
+                      "language": {
+                        "type": "",
+                        "description": "Language"
+                      },
+                      "author": {
+                        "type": "",
+                        "description": "Author"
+                      },
+                      "version": {
+                        "type": "",
+                        "description": "Version"
+                      },
+                      "helpfulCount": {
+                        "type": "",
+                        "description": "HelpfulCount"
+                      },
+                      "userCount": {
+                        "type": "",
+                        "description": "UserCount"
+                      },
+                      "averageRating": {
+                        "type": "",
+                        "description": "AverageRating"
+                      },
+                      "ratingCount": {
+                        "type": "",
+                        "description": "RatingCount"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~instagram-tiktok-transcript-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_instagram_tiktok_transcript_scraper",
+        "summary": "Run Instagram Reels, TikTok and Podcast Transcripts and return dataset items",
+        "description": "Transcripts with timestamps for Instagram Reels, TikTok, podcast RSS feeds and any audio/video file URL (mp3, m4a, mp4, wav). Native TikTok captions first, built-in Whisper speech-to-text for the rest. Optional speaker labels (who said what). No login, no API key. Pricing: $0.0005 per run + $0.002 per caption transcript.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/instagram-tiktok-transcript-scraper"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "videoUrls": {
+                    "type": "array",
+                    "description": "Instagram Reel/post links, TikTok video links (including vm.tiktok.com short links), direct audio/video file URLs (mp3, m4a, mp4, wav, webm, ogg), and podcast RSS feed URLs (the latest episodes are transcribed). An Instagram profile link is treated as a username."
+                  },
+                  "instagramUsernames": {
+                    "type": "array",
+                    "description": "Transcribe the most recent video posts and reels of public Instagram accounts. Best effort: Instagram returns up to about 12 recent posts without login."
+                  },
+                  "maxReelsPerProfile": {
+                    "type": "integer",
+                    "description": "How many recent videos to take from each username. Without login Instagram only exposes the latest ~6 posts of a profile (photos are skipped), so you may get fewer.",
+                    "default": 6
+                  },
+                  "maxEpisodesPerFeed": {
+                    "type": "integer",
+                    "description": "For podcast RSS feed URLs, how many of the newest episodes to transcribe.",
+                    "default": 5
+                  },
+                  "speechToText": {
+                    "type": "string",
+                    "description": "Instagram has no public captions, so Instagram transcripts always use speech-to-text unless this is Off.",
+                    "default": "auto",
+                    "enum": [
+                      "auto",
+                      "always",
+                      "off"
+                    ]
+                  },
+                  "sttModel": {
+                    "type": "string",
+                    "description": "Open-source Whisper models running inside the actor. Same price for both.",
+                    "default": "base",
+                    "enum": [
+                      "base",
+                      "tiny"
+                    ]
+                  },
+                  "maxTranscribeSeconds": {
+                    "type": "integer",
+                    "description": "Longer videos and episodes are transcribed up to this length and marked truncated: true. Up to 1800 seconds (30 minutes).",
+                    "default": 180
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "ISO code like en, es, de. Leave empty to auto-detect. Also picks the matching TikTok caption track when several exist."
+                  },
+                  "includeSegments": {
+                    "type": "boolean",
+                    "description": "Adds segments: [{start, end, text}] in seconds.",
+                    "default": true
+                  },
+                  "includeSrt": {
+                    "type": "boolean",
+                    "description": "Adds the transcript as an SRT subtitle string.",
+                    "default": false
+                  },
+                  "speakerLabels": {
+                    "type": "boolean",
+                    "description": "Detects the different voices and labels every segment Speaker 1, Speaker 2, ... Adds speakerTranscript (one line per speaker turn), speakerCount and talk time per speaker. No extra charge for the labels. They need the audio, so TikToks are then transcribed by AI speech-to-text (AI transcript price) instead of captions. Best for podcasts, interviews and multi-person videos.",
+                    "default": false
+                  },
+                  "numSpeakers": {
+                    "type": "integer",
+                    "description": "Only used with speaker labels. Set it when you know how many people talk (for example 2 for an interview) for more accurate labels. 0 = detect automatically.",
+                    "default": 0
+                  },
+                  "maxVideos": {
+                    "type": "integer",
+                    "description": "Safety cap.",
+                    "default": 500
+                  },
+                  "proxyConfiguration": {
+                    "type": "object",
+                    "description": "Optional. By default the actor connects directly and falls back to a built-in residential proxy when a platform blocks it."
+                  }
+                }
+              },
+              "example": {
+                "videoUrls": [
+                  "https://www.tiktok.com/@brittany_broski/video/7257949160907935022"
+                ],
+                "speechToText": "auto",
+                "includeSegments": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "platform": {
+                        "type": "",
+                        "description": "Platform"
+                      },
+                      "url": {
+                        "type": "",
+                        "description": "Video"
+                      },
+                      "author": {
+                        "type": "",
+                        "description": "Author"
+                      },
+                      "postedAt": {
+                        "type": "",
+                        "description": "Posted"
+                      },
+                      "durationSec": {
+                        "type": "",
+                        "description": "Duration (s)"
+                      },
+                      "viewCount": {
+                        "type": "",
+                        "description": "Views"
+                      },
+                      "likeCount": {
+                        "type": "",
+                        "description": "Likes"
+                      },
+                      "language": {
+                        "type": "",
+                        "description": "Language"
+                      },
+                      "transcriptSource": {
+                        "type": "",
+                        "description": "Source"
+                      },
+                      "hook": {
+                        "type": "",
+                        "description": "Hook (first 3 s)"
+                      },
+                      "transcript": {
+                        "type": "",
+                        "description": "Transcript"
+                      },
+                      "speakerTranscript": {
+                        "type": "",
+                        "description": "Speaker transcript"
+                      },
+                      "status": {
+                        "type": "string",
+                        "description": "Status"
+                      },
+                      "error": {
+                        "type": "",
+                        "description": "Error"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~shopify-app-store-reviews/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_shopify_app_store_reviews",
+        "summary": "Run Shopify App Store Reviews and return dataset items",
+        "description": "Scrape Shopify App Store reviews by handle, with the ratings[] filter, store name, country, time using the app and developer replies. Also returns listing rating, review count, pricing plans and launch date, plus a category listing mode. No login or proxy. $0.00002/review. Pricing: $0.00005 per run + $0.00002 per review.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/shopify-app-store-reviews"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "appHandles": {
+                    "type": "array",
+                    "description": "One app per line: a handle (klaviyo-email-marketing) or an apps.shopify.com URL. Leave empty if you only want the category listing mode."
+                  },
+                  "maxReviewsPerApp": {
+                    "type": "integer",
+                    "description": "How many reviews to return per app. 0 means all public reviews (paginated). Default 200.",
+                    "default": 200
+                  },
+                  "starFilter": {
+                    "type": "array",
+                    "description": "Optional list of star ratings, passed to the Store as ratings[] (e.g. [1, 2] for one- and two-star reviews). Leave empty for all ratings."
+                  },
+                  "categoryUrl": {
+                    "type": "string",
+                    "description": "Optional. A Shopify App Store category URL or slug (e.g. marketing-and-conversion-social-trust-product-reviews or the full /categories/.../all URL). Returns one listing row per app with name, rating and review count. Parent categories crawl subcategory /all pages."
+                  },
+                  "maxAppsInCategory": {
+                    "type": "integer",
+                    "description": "Maximum app listing rows to return when Category URL is set.",
+                    "default": 100
+                  },
+                  "phrases": {
+                    "type": "array",
+                    "description": "Optional phrases. Adds one free keywordSummary row per app with case-insensitive counts over reviews at or below Low-star max. Counts cover only the reviews returned in this run, not estimates."
+                  },
+                  "lowStarMax": {
+                    "type": "integer",
+                    "description": "Phrase counts use reviews with this rating or lower. Ignored if Phrases is empty.",
+                    "default": 3
+                  },
+                  "includeSummary": {
+                    "type": "boolean",
+                    "description": "Adds one uncharged row with the listing rating, review count, launch date, pricing plans, and the rating distribution of the reviews returned.",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "appHandles": [
+                  "klaviyo-email-marketing"
+                ],
+                "maxReviewsPerApp": 200,
+                "starFilter": [
+                  1,
+                  2
+                ],
+                "phrases": [
+                  "support",
+                  "price"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "description": "Type"
+                      },
+                      "appHandle": {
+                        "type": "",
+                        "description": "AppHandle"
+                      },
+                      "appName": {
+                        "type": "",
+                        "description": "AppName"
+                      },
+                      "rating": {
+                        "type": "",
+                        "description": "Rating"
+                      },
+                      "date": {
+                        "type": "",
+                        "description": "Date"
+                      },
+                      "text": {
+                        "type": "",
+                        "description": "Text"
+                      },
+                      "storeName": {
+                        "type": "",
+                        "description": "StoreName"
+                      },
+                      "country": {
+                        "type": "",
+                        "description": "Country"
+                      },
+                      "timeUsingApp": {
+                        "type": "",
+                        "description": "TimeUsingApp"
+                      },
+                      "replyText": {
+                        "type": "",
+                        "description": "ReplyText"
+                      },
+                      "reviewCount": {
+                        "type": "",
+                        "description": "ReviewCount"
+                      },
+                      "pricingPlans": {
+                        "type": "",
+                        "description": "PricingPlans"
+                      },
+                      "launchDate": {
+                        "type": "",
+                        "description": "LaunchDate"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~spotify-play-count-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_spotify_play_count_scraper",
+        "summary": "Run Spotify Play Count Scraper and return dataset items",
+        "description": "Get exact Spotify play counts for any track, album, artist or playlist. Returns stream counts per track, album totals, artist monthly listeners, followers, world rank, top cities and top tracks. No login, no proxy, $0.001 per track. Pricing: $0.00005 per run + $0.001 per track play count.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/spotify-play-count-scraper"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "startUrls": {
+                    "type": "array",
+                    "description": "Track, album, artist or playlist links (open.spotify.com/...) or URIs (spotify:track:...). Mix types freely."
+                  },
+                  "maxTracksPerInput": {
+                    "type": "integer",
+                    "description": "Caps how many track rows each album or playlist returns.",
+                    "default": 500
+                  },
+                  "includeAlbumSummary": {
+                    "type": "boolean",
+                    "description": "For album inputs, also output one album row with total play count across all tracks (not charged).",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "startUrls": [
+                  "https://open.spotify.com/album/1NAmidJlEaVgA3MpcPFYGq",
+                  "https://open.spotify.com/artist/06HL4z0CvFAxyc27GXpf02"
+                ],
+                "maxTracksPerInput": 50
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "trackName": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "artists": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "playCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "albumName": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "releaseDate": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "artistName": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "monthlyListeners": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "followers": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "totalPlayCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "trackUrl": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "error": {
+                        "type": "",
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~telegram-channel-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_telegram_channel_scraper",
+        "summary": "Run Telegram Channel Scraper and return dataset items",
+        "description": "Scrape public Telegram channels without login or API keys. Get posts with text, date, views, reactions, links, photos, videos and forwards, plus subscriber counts. Date filter, keyword search, full history paging. $0.0003 per post. Pricing: $0.00005 per run + $0.0003 per post.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/telegram-channel-scraper"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "channels": {
+                    "type": "array",
+                    "description": "Public channel usernames, @handles or t.me links, e.g. durov, @telegram, https://t.me/s/durov"
+                  },
+                  "maxPostsPerChannel": {
+                    "type": "integer",
+                    "description": "Newest posts first. Use 0 to fetch only channel info.",
+                    "default": 50
+                  },
+                  "postsNewerThan": {
+                    "type": "string",
+                    "description": "Optional ISO date or datetime (UTC), e.g. 2026-11-01. Stops paging when older posts are reached."
+                  },
+                  "searchQuery": {
+                    "type": "string",
+                    "description": "Optional. Returns only posts matching this keyword (Telegram's own in-channel search)."
+                  },
+                  "includeChannelInfo": {
+                    "type": "boolean",
+                    "description": "Adds one row per channel with title, description, verified flag, subscribers and media counts.",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "channels": [
+                  "durov",
+                  "telegram"
+                ],
+                "maxPostsPerChannel": 50,
+                "postsNewerThan": "2026-11-01"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "channel": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "postId": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "date": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "text": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "views": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "reactionsTotal": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "forwardedFrom": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "url": {
+                        "type": "",
                         "description": ""
                       },
                       "title": {
+                        "type": "",
                         "description": ""
                       },
-                      "status": {
+                      "subscribers": {
+                        "type": "",
                         "description": ""
+                      },
+                      "error": {
+                        "type": "",
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~uspto-trademark-screener/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_uspto_trademark_screener",
+        "summary": "Run USPTO Trademark Phrase Screener and return dataset items",
+        "description": "Screen a list of phrases against the public USPTO trademark search (no login, no API key). Returns exact and close wordmarks with serial number, live/dead status, international classes, and flags for any live mark in class 25 or 16. $0.001 per phrase. Pricing: $0.00005 per run + $0.001 per phrase.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/uspto-trademark-screener"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "phrases": {
+                    "type": "array",
+                    "description": "Phrases or design names to screen, one per line, e.g. plant mom, just one more chapter."
+                  },
+                  "maxMarksPerPhrase": {
+                    "type": "integer",
+                    "description": "How many exact and close wordmarks to list. Counts and the live class 25/16 flags still use the full hit set.",
+                    "default": 200
+                  },
+                  "includeDead": {
+                    "type": "boolean",
+                    "description": "If false, listed marks are live only. Dead counts are still reported.",
+                    "default": true
+                  }
+                }
+              },
+              "example": {
+                "phrases": [
+                  "plant mom",
+                  "just one more chapter"
+                ],
+                "maxMarksPerPhrase": 50,
+                "includeDead": false
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "phrase": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "exactLiveCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "exactDeadCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "closeLiveCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "closeDeadCount": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "liveClass25": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "liveClass16": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "marksListed": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "truncated": {
+                        "type": "",
+                        "description": ""
+                      },
+                      "error": {
+                        "type": "",
+                        "description": ""
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/acts/gouda_studios~youtube-video-channel-scraper/run-sync-get-dataset-items": {
+      "post": {
+        "operationId": "run_youtube_video_channel_scraper",
+        "summary": "Run YouTube Video, Channel, Search and Comments Scraper and return dataset items",
+        "description": "YouTube data in one actor: video details, channel videos, shorts, keyword search, channel search by keyword, playlists and comments. Views, likes, publish date, tags, subscribers, channel video counts. $0.30/1K videos, $2/1K channels. No API key, no proxy. Pricing: $0.00005 per run + $0.0003 per video.",
+        "externalDocs": {
+          "url": "https://apify.com/gouda_studios/youtube-video-channel-scraper"
+        },
+        "parameters": [
+          {
+            "name": "timeout",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "description": "Run timeout in seconds"
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "default": "json"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "videoUrls": {
+                    "type": "array",
+                    "description": "YouTube video links (watch, youtu.be, shorts, live) or 11-character video ids. Returns full details for each."
+                  },
+                  "channels": {
+                    "type": "array",
+                    "description": "Channel @handles, channel URLs or UC... channel ids. Lists the latest videos from each channel."
+                  },
+                  "channelTabs": {
+                    "type": "array",
+                    "description": "Which channel tabs to list.",
+                    "default": [
+                      "videos"
+                    ]
+                  },
+                  "maxVideosPerChannel": {
+                    "type": "integer",
+                    "description": "Newest first.",
+                    "default": 30
+                  },
+                  "searchQueries": {
+                    "type": "array",
+                    "description": "Keywords to search on YouTube."
+                  },
+                  "maxResultsPerQuery": {
+                    "type": "integer",
+                    "description": "Top results per query, in YouTube order.",
+                    "default": 30
+                  },
+                  "sortBy": {
+                    "type": "string",
+                    "description": "Relevance or most viewed first.",
+                    "default": "relevance",
+                    "enum": [
+                      "relevance",
+                      "views"
+                    ]
+                  },
+                  "uploadedWithin": {
+                    "type": "string",
+                    "description": "Only videos uploaded within this window.",
+                    "default": "any",
+                    "enum": [
+                      "any",
+                      "hour",
+                      "day",
+                      "week",
+                      "month",
+                      "year"
+                    ]
+                  },
+                  "playlistUrls": {
+                    "type": "array",
+                    "description": "Public playlist links or playlist ids."
+                  },
+                  "maxVideosPerPlaylist": {
+                    "type": "integer",
+                    "description": "Videos taken from each playlist.",
+                    "default": 100
+                  },
+                  "fullDetails": {
+                    "type": "boolean",
+                    "description": "For channel, search and playlist results, also fetch likes, comment count, exact publish date, tags, category, description and chapters. Turn off for faster, lighter rows. Same price either way.",
+                    "default": true
+                  },
+                  "maxTotalResults": {
+                    "type": "integer",
+                    "description": "Hard cap on charged rows for the whole run.",
+                    "default": 0
+                  },
+                  "channelSearchQueries": {
+                    "type": "array",
+                    "description": "Keywords to find matching YouTube channels (like YouTube search filtered to Channels). Each result is one channel row with channel id, name, @handle, URL, subscriber count, video count, description, avatar, verified flag and external links."
+                  },
+                  "maxChannelsPerQuery": {
+                    "type": "integer",
+                    "description": "Channels returned per keyword, in YouTube order.",
+                    "default": 20
+                  },
+                  "channelSearchDetails": {
+                    "type": "boolean",
+                    "description": "Also open each found channel to add its video count, full description and keywords. Same price either way.",
+                    "default": true
+                  },
+                  "channelSearchAbout": {
+                    "type": "boolean",
+                    "description": "Also read each found channel's About panel to add external links (website, Instagram, X and others), country, joined date and total channel views. Same price either way. Needs Channel details on.",
+                    "default": true
+                  },
+                  "commentVideoUrls": {
+                    "type": "array",
+                    "description": "YouTube video or Shorts URLs (or 11-character ids). Returns top comments with text, author, likes, reply count, hearted flag and comment link."
+                  },
+                  "maxCommentsPerVideo": {
+                    "type": "integer",
+                    "description": "Comments are returned in YouTube top-comments order.",
+                    "default": 100
+                  },
+                  "maxRepliesPerComment": {
+                    "type": "integer",
+                    "description": "0 skips replies. Replies are returned as rows with type reply and parentCommentId.",
+                    "default": 0
+                  }
+                }
+              },
+              "example": {
+                "searchQueries": [
+                  "home workout"
+                ],
+                "maxResultsPerQuery": 30,
+                "sortBy": "views",
+                "uploadedWithin": "month"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Dataset items",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "title": {
+                        "type": "",
+                        "description": "Title"
+                      },
+                      "channelName": {
+                        "type": "",
+                        "description": "ChannelName"
+                      },
+                      "viewCount": {
+                        "type": "",
+                        "description": "ViewCount"
+                      },
+                      "likeCount": {
+                        "type": "",
+                        "description": "LikeCount"
+                      },
+                      "commentCount": {
+                        "type": "",
+                        "description": "CommentCount"
+                      },
+                      "durationSeconds": {
+                        "type": "",
+                        "description": "DurationSeconds"
+                      },
+                      "publishedAt": {
+                        "type": "",
+                        "description": "PublishedAt"
+                      },
+                      "channelSubscribers": {
+                        "type": "",
+                        "description": "ChannelSubscribers"
+                      },
+                      "source": {
+                        "type": "",
+                        "description": "Source"
+                      },
+                      "url": {
+                        "type": "",
+                        "description": "Url"
                       }
                     }
                   }

@@ -2,8 +2,8 @@
   "schema_version": "v1",
   "name_for_human": "Gouda Studios Agent Tools",
   "name_for_model": "gouda_studios_agent_tools",
-  "description_for_human": "Data tools: SAM.gov, SEC EDGAR, USAspending, GLEIF, website contact extraction, YouTube transcripts.",
-  "description_for_model": "Use to fetch federal contract opportunities (SAM.gov), SEC filings, federal awards (USAspending) and company LEI records (GLEIF) website contact details (emails, phones, social links) and YouTube video transcripts as JSON via Apify actors. Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com. One-URL MCP endpoint for all tools: https://gouda-studios-agent-tools.vercel.app/mcp (Streamable HTTP, Apify OAuth or Bearer Apify token).",
+  "description_for_human": "Data tools: public records, website contacts, app reviews, jobs, YouTube, TikTok, Instagram, Telegram, Spotify, Google Trends, trademark and merch research.",
+  "description_for_model": "Use to fetch federal contract opportunities (SAM.gov), SEC filings, federal awards (USAspending), company LEI records (GLEIF), website contact details, app and extension reviews (App Store, Google Play, Chrome Web Store, Shopify), job listings from ATS career sites, YouTube videos, channels, comments and transcripts, Instagram Reels, TikTok and podcast transcripts, Telegram channel posts, Spotify play counts, Google Trends data, USPTO trademark screens, merch marketplace counts and Adobe Stock keyword data as JSON via Apify actors. Pay per event, with no platform usage fee added. AI agents can pay per run through Apify agentic payments (x402, Skyfire) with no Apify account, or call the tools with an Apify API token, or through the Apify MCP server at https://mcp.apify.com. One-URL MCP endpoint for all tools: https://gouda-studios-agent-tools.vercel.app/mcp (Streamable HTTP, Apify OAuth or Bearer Apify token).",
   "auth": {
     "type": "user_http",
     "authorization_type": "bearer"

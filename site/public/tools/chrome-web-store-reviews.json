@@ -1,0 +1,250 @@
+{
+  "slug": "chrome-web-store-reviews",
+  "name": "Chrome Web Store Reviews",
+  "title": "Chrome Web Store Reviews Scraper",
+  "actor": "gouda_studios/chrome-web-store-reviews",
+  "apify": "https://apify.com/gouda_studios/chrome-web-store-reviews",
+  "cat": "App reviews",
+  "uses": [
+    "Extension developers reading every review past the 500 review cap",
+    "Competitor research on low-star reviews to find what users want fixed",
+    "Tracking user count, rating and version changes for a list of extensions",
+    "AI agents summarizing complaints and feature requests for a Chrome extension"
+  ],
+  "inputs": [
+    {
+      "name": "extensionIds",
+      "type": "array",
+      "title": "Extension IDs or Chrome Web Store URLs",
+      "description": "One extension per line: a 32-character ID (e.g. cjpalhdlnbpafiamejdnhcphjbkeiagm) or a chromewebstore.google.com / chrome.google.com/webstore URL.",
+      "default": null
+    },
+    {
+      "name": "maxReviewsPerExtension",
+      "type": "integer",
+      "title": "Max reviews per extension",
+      "description": "How many reviews to return per extension. 0 means all public reviews (paginated past 500). Default 200.",
+      "default": 200
+    },
+    {
+      "name": "starFilter",
+      "type": "array",
+      "title": "Star filter",
+      "description": "Optional list of star ratings to keep, e.g. [1, 2] for one- and two-star reviews only. Leave empty for all ratings.",
+      "default": null
+    },
+    {
+      "name": "phrases",
+      "type": "array",
+      "title": "Phrases to count in low-star reviews",
+      "description": "Optional phrases. Adds one free keywordSummary row per extension with case-insensitive counts over reviews at or below Low-star max. Counts cover only the reviews returned in this run, not estimates.",
+      "default": null
+    },
+    {
+      "name": "lowStarMax",
+      "type": "integer",
+      "title": "Low-star max (for phrase counts)",
+      "description": "Phrase counts use reviews with this rating or lower. Ignored if Phrases is empty.",
+      "default": 3
+    },
+    {
+      "name": "includeSummary",
+      "type": "boolean",
+      "title": "Add a free summary row per extension",
+      "description": "Adds one uncharged row with the Store user count, average rating, rating count, current version, and the rating distribution of the reviews returned.",
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "type",
+      "type": "string",
+      "description": "Type"
+    },
+    {
+      "name": "extensionId",
+      "type": "",
+      "description": "ExtensionId"
+    },
+    {
+      "name": "extensionName",
+      "type": "",
+      "description": "ExtensionName"
+    },
+    {
+      "name": "rating",
+      "type": "",
+      "description": "Rating"
+    },
+    {
+      "name": "date",
+      "type": "",
+      "description": "Date"
+    },
+    {
+      "name": "text",
+      "type": "",
+      "description": "Text"
+    },
+    {
+      "name": "language",
+      "type": "",
+      "description": "Language"
+    },
+    {
+      "name": "author",
+      "type": "",
+      "description": "Author"
+    },
+    {
+      "name": "version",
+      "type": "",
+      "description": "Version"
+    },
+    {
+      "name": "helpfulCount",
+      "type": "",
+      "description": "HelpfulCount"
+    },
+    {
+      "name": "userCount",
+      "type": "",
+      "description": "UserCount"
+    },
+    {
+      "name": "averageRating",
+      "type": "",
+      "description": "AverageRating"
+    },
+    {
+      "name": "ratingCount",
+      "type": "",
+      "description": "RatingCount"
+    }
+  ],
+  "description": "Scrape Chrome Web Store reviews past the 500-review cap. Give extension IDs and optional star filters; get rating, date, text, language, version and helpful votes, plus user count, average rating and current version. Free low-star phrase counts. No login or proxy. $0.0001/review.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/chrome-web-store-reviews/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 5e-05
+      },
+      {
+        "name": "review",
+        "price": 0.0001,
+        "per": "review"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~chrome-web-store-reviews/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/chrome-web-store-reviews"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "extensionIds": [
+      "ddkjiahejlhfcafbddmgiahcphecmpfh"
+    ],
+    "maxReviewsPerExtension": 200,
+    "starFilter": [
+      1,
+      2
+    ],
+    "phrases": [
+      "slow",
+      "crash"
+    ]
+  },
+  "sampleOutput": {
+    "type": "review",
+    "extensionId": "ddkjiahejlhfcafbddmgiahcphecmpfh",
+    "extensionName": "uBlock Origin Lite",
+    "reviewId": "688f9562-4e3c-413f-b641-97e772e4a12e",
+    "author": "Nitin",
+    "rating": 5,
+    "text": "Works fine",
+    "date": "2026-11-10T15:32:22+00:00",
+    "updatedAt": "2026-11-10T15:32:22+00:00",
+    "language": "en",
+    "version": "2026.1103.1743",
+    "helpfulCount": null,
+    "notHelpfulCount": null,
+    "developerReply": null,
+    "url": "https://chromewebstore.google.com/detail/ddkjiahejlhfcafbddmgiahcphecmpfh/reviews",
+    "scrapedAt": "2026-11-11T00:07:47+00:00"
+  },
+  "inputSchema": {
+    "title": "Chrome Web Store Reviews Scraper",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "extensionIds": {
+        "title": "Extension IDs or Chrome Web Store URLs",
+        "type": "array",
+        "editor": "stringList",
+        "description": "One extension per line: a 32-character ID (e.g. cjpalhdlnbpafiamejdnhcphjbkeiagm) or a chromewebstore.google.com / chrome.google.com/webstore URL.",
+        "prefill": [
+          "ddkjiahejlhfcafbddmgiahcphecmpfh"
+        ]
+      },
+      "maxReviewsPerExtension": {
+        "title": "Max reviews per extension",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 50000,
+        "default": 200,
+        "description": "How many reviews to return per extension. 0 means all public reviews (paginated past 500). Default 200."
+      },
+      "starFilter": {
+        "title": "Star filter",
+        "type": "array",
+        "editor": "json",
+        "description": "Optional list of star ratings to keep, e.g. [1, 2] for one- and two-star reviews only. Leave empty for all ratings.",
+        "items": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      },
+      "phrases": {
+        "title": "Phrases to count in low-star reviews",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Optional phrases. Adds one free keywordSummary row per extension with case-insensitive counts over reviews at or below Low-star max. Counts cover only the reviews returned in this run, not estimates."
+      },
+      "lowStarMax": {
+        "title": "Low-star max (for phrase counts)",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5,
+        "default": 3,
+        "description": "Phrase counts use reviews with this rating or lower. Ignored if Phrases is empty."
+      },
+      "includeSummary": {
+        "title": "Add a free summary row per extension",
+        "type": "boolean",
+        "default": true,
+        "description": "Adds one uncharged row with the Store user count, average rating, rating count, current version, and the rating distribution of the reviews returned."
+      }
+    },
+    "required": [
+      "extensionIds"
+    ]
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

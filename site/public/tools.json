@@ -228,7 +228,7 @@
           },
           {
             "name": "transcript",
-            "price": 0.004,
+            "price": 0.0025,
             "per": "transcript"
           }
         ]
@@ -254,9 +254,9 @@
     {
       "slug": "google-trends-explorer",
       "name": "Google Trends Scraper",
-      "description": "Bulk Google Trends data for any keyword: interest over time, interest by region, top and rising related queries, plus today's trending searches. Any country, time range, category, or YouTube/News/Shopping search. Pay only per successful keyword; blocked terms are free.",
-      "actor": "gouda_studios/google-trends-explorer",
-      "apify": "https://apify.com/gouda_studios/google-trends-explorer",
+      "description": "Google Trends Scraper & API: interest over time, interest by region, top and rising related queries and topics, keyword comparison (up to 5) and trending searches, for any country, time range, category or YouTube/News/Shopping search. Fast, reliable, $4 per 1,000 keywords; failed terms are free.",
+      "actor": "gouda_studios/google-trends-scraper",
+      "apify": "https://apify.com/gouda_studios/google-trends-scraper",
       "page": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer/",
       "pricing": {
         "model": "pay-per-event",
@@ -277,13 +277,13 @@
       "call": {
         "apifyApi": {
           "method": "POST",
-          "url": "https://api.apify.com/v2/acts/gouda_studios~google-trends-explorer/run-sync-get-dataset-items",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~google-trends-scraper/run-sync-get-dataset-items",
           "auth": "Bearer APIFY_TOKEN or ?token=",
           "body": "input JSON"
         },
         "mcp": {
           "server": "https://mcp.apify.com",
-          "actor": "gouda_studios/google-trends-explorer"
+          "actor": "gouda_studios/google-trends-scraper"
         },
         "agenticPayments": [
           "x402",
@@ -291,6 +291,497 @@
         ]
       },
       "json": "https://gouda-studios-agent-tools.vercel.app/tools/google-trends-explorer.json"
+    },
+    {
+      "slug": "merch-marketplace-counts",
+      "name": "Merch Marketplace Counts",
+      "description": "For each merch keyword, return result counts and the top 20 listing titles and URLs from Redbubble, plus TeePublic, Etsy and Amazon Merch shirt counts when those sites allow datacenter access. Blocked marketplaces are flagged, never guessed. $0.002 per keyword.",
+      "actor": "gouda_studios/merch-marketplace-counts",
+      "apify": "https://apify.com/gouda_studios/merch-marketplace-counts",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/merch-marketplace-counts/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 5e-05
+          },
+          {
+            "name": "keyword",
+            "price": 0.002,
+            "per": "keyword"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~merch-marketplace-counts/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/merch-marketplace-counts"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/merch-marketplace-counts.json"
+    },
+    {
+      "slug": "adobe-stock-keyword-gap-scanner",
+      "name": "Adobe Stock Keyword Gap Scanner",
+      "description": "Scan Adobe Stock keyword saturation (total, photo, video, generative-AI share) and expand seeds into Adobe related searches plus Google autocomplete. No login. About $0.002 per keyword. 30/90-day new-upload counts are not publicly available.",
+      "actor": "gouda_studios/adobe-stock-keyword-gap-scanner",
+      "apify": "https://apify.com/gouda_studios/adobe-stock-keyword-gap-scanner",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/adobe-stock-keyword-gap-scanner/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 5e-05
+          },
+          {
+            "name": "keyword",
+            "price": 0.002,
+            "per": "keyword"
+          },
+          {
+            "name": "suggestion batch",
+            "price": 0.0005,
+            "per": "suggestion batch"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~adobe-stock-keyword-gap-scanner/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/adobe-stock-keyword-gap-scanner"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/adobe-stock-keyword-gap-scanner.json"
+    },
+    {
+      "slug": "app-store-google-play-reviews",
+      "name": "App Store and Google Play Reviews",
+      "description": "Scrape app reviews from the Apple App Store and Google Play in one run. Give an app name, URL, ID or package and get ratings, review text, dates, versions and developer replies from both stores in one clean JSON schema. No login, no proxy.",
+      "actor": "gouda_studios/app-store-google-play-reviews",
+      "apify": "https://apify.com/gouda_studios/app-store-google-play-reviews",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/app-store-google-play-reviews/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 0
+          },
+          {
+            "name": "review",
+            "price": 0.0001,
+            "per": "review"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~app-store-google-play-reviews/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/app-store-google-play-reviews"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/app-store-google-play-reviews.json"
+    },
+    {
+      "slug": "ats-jobs-scraper",
+      "name": "ATS Jobs Scraper",
+      "description": "Get every open job from company career sites on Greenhouse, Lever, Ashby, Workable, SmartRecruiters and Workday in one clean JSON schema. Give a company name, careers URL or website and the ATS is detected for you. Salaries, remote type, departments, full descriptions. $1 per 1,000 jobs, no proxy.",
+      "actor": "gouda_studios/ats-jobs-scraper",
+      "apify": "https://apify.com/gouda_studios/ats-jobs-scraper",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/ats-jobs-scraper/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 5e-05
+          },
+          {
+            "name": "job",
+            "price": 0.001,
+            "per": "job"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~ats-jobs-scraper/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/ats-jobs-scraper"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/ats-jobs-scraper.json"
+    },
+    {
+      "slug": "chrome-web-store-reviews",
+      "name": "Chrome Web Store Reviews",
+      "description": "Scrape Chrome Web Store reviews past the 500-review cap. Give extension IDs and optional star filters; get rating, date, text, language, version and helpful votes, plus user count, average rating and current version. Free low-star phrase counts. No login or proxy. $0.0001/review.",
+      "actor": "gouda_studios/chrome-web-store-reviews",
+      "apify": "https://apify.com/gouda_studios/chrome-web-store-reviews",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/chrome-web-store-reviews/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 5e-05
+          },
+          {
+            "name": "review",
+            "price": 0.0001,
+            "per": "review"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~chrome-web-store-reviews/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/chrome-web-store-reviews"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/chrome-web-store-reviews.json"
+    },
+    {
+      "slug": "instagram-tiktok-transcript-scraper",
+      "name": "Instagram Reels, TikTok and Podcast Transcripts",
+      "description": "Transcripts with timestamps for Instagram Reels, TikTok, podcast RSS feeds and any audio/video file URL (mp3, m4a, mp4, wav). Native TikTok captions first, built-in Whisper speech-to-text for the rest. Optional speaker labels (who said what). No login, no API key.",
+      "actor": "gouda_studios/instagram-tiktok-transcript-scraper",
+      "apify": "https://apify.com/gouda_studios/instagram-tiktok-transcript-scraper",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/instagram-tiktok-transcript-scraper/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 0.0005
+          },
+          {
+            "name": "caption transcript",
+            "price": 0.002,
+            "per": "caption transcript"
+          },
+          {
+            "name": "AI speech-to-text transcript",
+            "price": 0.006,
+            "per": "AI speech-to-text transcript"
+          },
+          {
+            "name": "extra speech-to-text minute",
+            "price": 0.003,
+            "per": "extra speech-to-text minute"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~instagram-tiktok-transcript-scraper/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/instagram-tiktok-transcript-scraper"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/instagram-tiktok-transcript-scraper.json"
+    },
+    {
+      "slug": "shopify-app-store-reviews",
+      "name": "Shopify App Store Reviews",
+      "description": "Scrape Shopify App Store reviews by handle, with the ratings[] filter, store name, country, time using the app and developer replies. Also returns listing rating, review count, pricing plans and launch date, plus a category listing mode. No login or proxy. $0.00002/review.",
+      "actor": "gouda_studios/shopify-app-store-reviews",
+      "apify": "https://apify.com/gouda_studios/shopify-app-store-reviews",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/shopify-app-store-reviews/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 5e-05
+          },
+          {
+            "name": "review",
+            "price": 2e-05,
+            "per": "review"
+          },
+          {
+            "name": "category app listing",
+            "price": 0.0002,
+            "per": "category app listing"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~shopify-app-store-reviews/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/shopify-app-store-reviews"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/shopify-app-store-reviews.json"
+    },
+    {
+      "slug": "spotify-play-count-scraper",
+      "name": "Spotify Play Count Scraper",
+      "description": "Get exact Spotify play counts for any track, album, artist or playlist. Returns stream counts per track, album totals, artist monthly listeners, followers, world rank, top cities and top tracks. No login, no proxy, $0.001 per track.",
+      "actor": "gouda_studios/spotify-play-count-scraper",
+      "apify": "https://apify.com/gouda_studios/spotify-play-count-scraper",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/spotify-play-count-scraper/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 5e-05
+          },
+          {
+            "name": "track play count",
+            "price": 0.001,
+            "per": "track play count"
+          },
+          {
+            "name": "artist profile",
+            "price": 0.002,
+            "per": "artist profile"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~spotify-play-count-scraper/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/spotify-play-count-scraper"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/spotify-play-count-scraper.json"
+    },
+    {
+      "slug": "telegram-channel-scraper",
+      "name": "Telegram Channel Scraper",
+      "description": "Scrape public Telegram channels without login or API keys. Get posts with text, date, views, reactions, links, photos, videos and forwards, plus subscriber counts. Date filter, keyword search, full history paging. $0.0003 per post.",
+      "actor": "gouda_studios/telegram-channel-scraper",
+      "apify": "https://apify.com/gouda_studios/telegram-channel-scraper",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/telegram-channel-scraper/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 5e-05
+          },
+          {
+            "name": "post",
+            "price": 0.0003,
+            "per": "post"
+          },
+          {
+            "name": "channel info",
+            "price": 0.001,
+            "per": "channel info"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~telegram-channel-scraper/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/telegram-channel-scraper"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/telegram-channel-scraper.json"
+    },
+    {
+      "slug": "uspto-trademark-screener",
+      "name": "USPTO Trademark Phrase Screener",
+      "description": "Screen a list of phrases against the public USPTO trademark search (no login, no API key). Returns exact and close wordmarks with serial number, live/dead status, international classes, and flags for any live mark in class 25 or 16. $0.001 per phrase.",
+      "actor": "gouda_studios/uspto-trademark-screener",
+      "apify": "https://apify.com/gouda_studios/uspto-trademark-screener",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/uspto-trademark-screener/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 5e-05
+          },
+          {
+            "name": "phrase",
+            "price": 0.001,
+            "per": "phrase"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~uspto-trademark-screener/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/uspto-trademark-screener"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/uspto-trademark-screener.json"
+    },
+    {
+      "slug": "youtube-video-channel-scraper",
+      "name": "YouTube Video, Channel, Search and Comments Scraper",
+      "description": "YouTube data in one actor: video details, channel videos, shorts, keyword search, channel search by keyword, playlists and comments. Views, likes, publish date, tags, subscribers, channel video counts. $0.30/1K videos, $2/1K channels. No API key, no proxy.",
+      "actor": "gouda_studios/youtube-video-channel-scraper",
+      "apify": "https://apify.com/gouda_studios/youtube-video-channel-scraper",
+      "page": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-video-channel-scraper/",
+      "pricing": {
+        "model": "pay-per-event",
+        "currency": "USD",
+        "platformUsageFee": false,
+        "events": [
+          {
+            "name": "apify-actor-start",
+            "price": 5e-05
+          },
+          {
+            "name": "video",
+            "price": 0.0003,
+            "per": "video"
+          },
+          {
+            "name": "comment",
+            "price": 0.0003,
+            "per": "comment"
+          },
+          {
+            "name": "channel",
+            "price": 0.002,
+            "per": "channel"
+          }
+        ]
+      },
+      "call": {
+        "apifyApi": {
+          "method": "POST",
+          "url": "https://api.apify.com/v2/acts/gouda_studios~youtube-video-channel-scraper/run-sync-get-dataset-items",
+          "auth": "Bearer APIFY_TOKEN or ?token=",
+          "body": "input JSON"
+        },
+        "mcp": {
+          "server": "https://mcp.apify.com",
+          "actor": "gouda_studios/youtube-video-channel-scraper"
+        },
+        "agenticPayments": [
+          "x402",
+          "Skyfire"
+        ]
+      },
+      "json": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-video-channel-scraper.json"
     }
   ]
 }

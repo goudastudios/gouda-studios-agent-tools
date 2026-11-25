@@ -1,0 +1,487 @@
+{
+  "slug": "youtube-video-channel-scraper",
+  "name": "YouTube Video, Channel, Search and Comments Scraper",
+  "title": "YouTube Video, Channel, Search & Comments Scraper",
+  "actor": "gouda_studios/youtube-video-channel-scraper",
+  "apify": "https://apify.com/gouda_studios/youtube-video-channel-scraper",
+  "cat": "Video data",
+  "uses": [
+    "Creators and agencies researching top videos, views and likes for a topic",
+    "Finding YouTube channels by keyword with subscribers, video counts and external links",
+    "Pulling comments and replies for sentiment and audience research",
+    "AI agents that need YouTube video, channel or comment data as JSON without an API key"
+  ],
+  "inputs": [
+    {
+      "name": "videoUrls",
+      "type": "array",
+      "title": "Video URLs or IDs",
+      "description": "YouTube video links (watch, youtu.be, shorts, live) or 11-character video ids. Returns full details for each.",
+      "default": null
+    },
+    {
+      "name": "channels",
+      "type": "array",
+      "title": "Channels",
+      "description": "Channel @handles, channel URLs or UC... channel ids. Lists the latest videos from each channel.",
+      "default": null
+    },
+    {
+      "name": "channelTabs",
+      "type": "array",
+      "title": "Channel tabs",
+      "description": "Which channel tabs to list.",
+      "default": [
+        "videos"
+      ]
+    },
+    {
+      "name": "maxVideosPerChannel",
+      "type": "integer",
+      "title": "Max videos per channel tab",
+      "description": "Newest first.",
+      "default": 30
+    },
+    {
+      "name": "searchQueries",
+      "type": "array",
+      "title": "Search queries",
+      "description": "Keywords to search on YouTube.",
+      "default": null
+    },
+    {
+      "name": "maxResultsPerQuery",
+      "type": "integer",
+      "title": "Max results per search query",
+      "description": "Top results per query, in YouTube order.",
+      "default": 30
+    },
+    {
+      "name": "sortBy",
+      "type": "string",
+      "title": "Search sort",
+      "description": "Relevance or most viewed first.",
+      "default": "relevance",
+      "enum": [
+        "relevance",
+        "views"
+      ]
+    },
+    {
+      "name": "uploadedWithin",
+      "type": "string",
+      "title": "Search: uploaded within",
+      "description": "Only videos uploaded within this window.",
+      "default": "any",
+      "enum": [
+        "any",
+        "hour",
+        "day",
+        "week",
+        "month",
+        "year"
+      ]
+    },
+    {
+      "name": "playlistUrls",
+      "type": "array",
+      "title": "Playlist URLs",
+      "description": "Public playlist links or playlist ids.",
+      "default": null
+    },
+    {
+      "name": "maxVideosPerPlaylist",
+      "type": "integer",
+      "title": "Max videos per playlist",
+      "description": "Videos taken from each playlist.",
+      "default": 100
+    },
+    {
+      "name": "fullDetails",
+      "type": "boolean",
+      "title": "Full details for listed videos",
+      "description": "For channel, search and playlist results, also fetch likes, comment count, exact publish date, tags, category, description and chapters. Turn off for faster, lighter rows. Same price either way.",
+      "default": true
+    },
+    {
+      "name": "maxTotalResults",
+      "type": "integer",
+      "title": "Max total videos (0 = no limit)",
+      "description": "Hard cap on charged rows for the whole run.",
+      "default": 0
+    },
+    {
+      "name": "channelSearchQueries",
+      "type": "array",
+      "title": "Channel search keywords",
+      "description": "Keywords to find matching YouTube channels (like YouTube search filtered to Channels). Each result is one channel row with channel id, name, @handle, URL, subscriber count, video count, description, avatar, verified flag and external links.",
+      "default": null
+    },
+    {
+      "name": "maxChannelsPerQuery",
+      "type": "integer",
+      "title": "Max channels per keyword",
+      "description": "Channels returned per keyword, in YouTube order.",
+      "default": 20
+    },
+    {
+      "name": "channelSearchDetails",
+      "type": "boolean",
+      "title": "Channel details (video count, full description)",
+      "description": "Also open each found channel to add its video count, full description and keywords. Same price either way.",
+      "default": true
+    },
+    {
+      "name": "channelSearchAbout",
+      "type": "boolean",
+      "title": "Channel About page (links, country, total views)",
+      "description": "Also read each found channel's About panel to add external links (website, Instagram, X and others), country, joined date and total channel views. Same price either way. Needs Channel details on.",
+      "default": true
+    },
+    {
+      "name": "commentVideoUrls",
+      "type": "array",
+      "title": "Videos to scrape comments from",
+      "description": "YouTube video or Shorts URLs (or 11-character ids). Returns top comments with text, author, likes, reply count, hearted flag and comment link.",
+      "default": null
+    },
+    {
+      "name": "maxCommentsPerVideo",
+      "type": "integer",
+      "title": "Max top-level comments per video",
+      "description": "Comments are returned in YouTube top-comments order.",
+      "default": 100
+    },
+    {
+      "name": "maxRepliesPerComment",
+      "type": "integer",
+      "title": "Max replies per comment",
+      "description": "0 skips replies. Replies are returned as rows with type reply and parentCommentId.",
+      "default": 0
+    }
+  ],
+  "outputs": [
+    {
+      "name": "title",
+      "type": "",
+      "description": "Title"
+    },
+    {
+      "name": "channelName",
+      "type": "",
+      "description": "ChannelName"
+    },
+    {
+      "name": "viewCount",
+      "type": "",
+      "description": "ViewCount"
+    },
+    {
+      "name": "likeCount",
+      "type": "",
+      "description": "LikeCount"
+    },
+    {
+      "name": "commentCount",
+      "type": "",
+      "description": "CommentCount"
+    },
+    {
+      "name": "durationSeconds",
+      "type": "",
+      "description": "DurationSeconds"
+    },
+    {
+      "name": "publishedAt",
+      "type": "",
+      "description": "PublishedAt"
+    },
+    {
+      "name": "channelSubscribers",
+      "type": "",
+      "description": "ChannelSubscribers"
+    },
+    {
+      "name": "source",
+      "type": "",
+      "description": "Source"
+    },
+    {
+      "name": "url",
+      "type": "",
+      "description": "Url"
+    }
+  ],
+  "description": "YouTube data in one actor: video details, channel videos, shorts, keyword search, channel search by keyword, playlists and comments. Views, likes, publish date, tags, subscribers, channel video counts. $0.30/1K videos, $2/1K channels. No API key, no proxy.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/youtube-video-channel-scraper/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 5e-05
+      },
+      {
+        "name": "video",
+        "price": 0.0003,
+        "per": "video"
+      },
+      {
+        "name": "comment",
+        "price": 0.0003,
+        "per": "comment"
+      },
+      {
+        "name": "channel",
+        "price": 0.002,
+        "per": "channel"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~youtube-video-channel-scraper/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/youtube-video-channel-scraper"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "searchQueries": [
+      "home workout"
+    ],
+    "maxResultsPerQuery": 30,
+    "sortBy": "views",
+    "uploadedWithin": "month"
+  },
+  "sampleOutput": {
+    "videoId": "dQw4w9WgXcQ",
+    "url": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+    "title": "Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)",
+    "description": "The official video for \u201cNever Gonna Give You Up\u201d by Rick Astley. \n\nNever: The Autobiography \ud83d\udcda OUT NOW! \nFollow this link to get your copy and listen to Rick\u2019s \u2018Never\u2019 playlist \u2764\ufe0f #RickAstleyNever\nhttps://linktr.ee/rickastleynever\n\n\u201cNever Gonna Give You Up\u201d was a global smash on its release in July 1...",
+    "channelName": "Rick Astley",
+    "channelId": "UCuAXFkgsw1L7xaCfnd5JJOw",
+    "channelHandle": null,
+    "channelUrl": "https://www.youtube.com/channel/UCuAXFkgsw1L7xaCfnd5JJOw",
+    "channelSubscribers": 4560000,
+    "viewCount": 1840766931,
+    "likeCount": 19518393,
+    "commentCount": 2400000,
+    "durationSeconds": 213,
+    "publishedAt": "2009-10-24T23:57:33-07:00",
+    "uploadedAt": "2009-10-24T23:57:33-07:00",
+    "category": "Music",
+    "tags": [
+      "rick astley",
+      "Never Gonna Give You Up",
+      "nggyu",
+      "never gonna give you up lyrics",
+      "rick rolled"
+    ],
+    "isLive": false,
+    "isFamilySafe": true,
+    "availableCountriesCount": 249,
+    "thumbnailUrl": "https://i.ytimg.com/vi_webp/dQw4w9WgXcQ/maxresdefault.webp",
+    "chapters": null,
+    "hasCaptions": false,
+    "source": "video",
+    "sourceInput": "dQw4w9WgXcQ",
+    "type": "video",
+    "scrapedAt": "2026-11-25T12:56:34+00:00"
+  },
+  "inputSchema": {
+    "title": "YouTube Video, Channel, Search & Comments Scraper",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "videoUrls": {
+        "title": "Video URLs or IDs",
+        "type": "array",
+        "editor": "stringList",
+        "description": "YouTube video links (watch, youtu.be, shorts, live) or 11-character video ids. Returns full details for each.",
+        "prefill": [
+          "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+        ]
+      },
+      "channels": {
+        "title": "Channels",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Channel @handles, channel URLs or UC... channel ids. Lists the latest videos from each channel.",
+        "prefill": [
+          "@mkbhd"
+        ]
+      },
+      "channelTabs": {
+        "title": "Channel tabs",
+        "type": "array",
+        "editor": "select",
+        "items": {
+          "type": "string",
+          "enum": [
+            "videos",
+            "shorts",
+            "streams"
+          ],
+          "enumTitles": [
+            "Videos",
+            "Shorts",
+            "Live streams"
+          ]
+        },
+        "description": "Which channel tabs to list.",
+        "default": [
+          "videos"
+        ]
+      },
+      "maxVideosPerChannel": {
+        "title": "Max videos per channel tab",
+        "type": "integer",
+        "minimum": 1,
+        "default": 30,
+        "description": "Newest first."
+      },
+      "searchQueries": {
+        "title": "Search queries",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Keywords to search on YouTube."
+      },
+      "maxResultsPerQuery": {
+        "title": "Max results per search query",
+        "type": "integer",
+        "minimum": 1,
+        "default": 30,
+        "description": "Top results per query, in YouTube order."
+      },
+      "sortBy": {
+        "title": "Search sort",
+        "type": "string",
+        "editor": "select",
+        "enum": [
+          "relevance",
+          "views"
+        ],
+        "enumTitles": [
+          "Relevance",
+          "View count"
+        ],
+        "default": "relevance",
+        "description": "Relevance or most viewed first."
+      },
+      "uploadedWithin": {
+        "title": "Search: uploaded within",
+        "type": "string",
+        "editor": "select",
+        "enum": [
+          "any",
+          "hour",
+          "day",
+          "week",
+          "month",
+          "year"
+        ],
+        "enumTitles": [
+          "Any time",
+          "Last hour",
+          "Today",
+          "This week",
+          "This month",
+          "This year"
+        ],
+        "default": "any",
+        "description": "Only videos uploaded within this window."
+      },
+      "playlistUrls": {
+        "title": "Playlist URLs",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Public playlist links or playlist ids."
+      },
+      "maxVideosPerPlaylist": {
+        "title": "Max videos per playlist",
+        "type": "integer",
+        "minimum": 1,
+        "default": 100,
+        "description": "Videos taken from each playlist."
+      },
+      "fullDetails": {
+        "title": "Full details for listed videos",
+        "type": "boolean",
+        "default": true,
+        "description": "For channel, search and playlist results, also fetch likes, comment count, exact publish date, tags, category, description and chapters. Turn off for faster, lighter rows. Same price either way."
+      },
+      "maxTotalResults": {
+        "title": "Max total videos (0 = no limit)",
+        "type": "integer",
+        "minimum": 0,
+        "default": 0,
+        "description": "Hard cap on charged rows for the whole run."
+      },
+      "channelSearchQueries": {
+        "title": "Channel search keywords",
+        "type": "array",
+        "editor": "stringList",
+        "sectionCaption": "Channel search",
+        "description": "Keywords to find matching YouTube channels (like YouTube search filtered to Channels). Each result is one channel row with channel id, name, @handle, URL, subscriber count, video count, description, avatar, verified flag and external links.",
+        "prefill": [
+          "home workout"
+        ]
+      },
+      "maxChannelsPerQuery": {
+        "title": "Max channels per keyword",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 500,
+        "default": 20,
+        "description": "Channels returned per keyword, in YouTube order."
+      },
+      "channelSearchDetails": {
+        "title": "Channel details (video count, full description)",
+        "type": "boolean",
+        "default": true,
+        "description": "Also open each found channel to add its video count, full description and keywords. Same price either way."
+      },
+      "channelSearchAbout": {
+        "title": "Channel About page (links, country, total views)",
+        "type": "boolean",
+        "default": true,
+        "description": "Also read each found channel's About panel to add external links (website, Instagram, X and others), country, joined date and total channel views. Same price either way. Needs Channel details on."
+      },
+      "commentVideoUrls": {
+        "title": "Videos to scrape comments from",
+        "type": "array",
+        "editor": "stringList",
+        "sectionCaption": "Comments",
+        "description": "YouTube video or Shorts URLs (or 11-character ids). Returns top comments with text, author, likes, reply count, hearted flag and comment link."
+      },
+      "maxCommentsPerVideo": {
+        "title": "Max top-level comments per video",
+        "type": "integer",
+        "default": 100,
+        "minimum": 1,
+        "maximum": 20000,
+        "description": "Comments are returned in YouTube top-comments order."
+      },
+      "maxRepliesPerComment": {
+        "title": "Max replies per comment",
+        "type": "integer",
+        "default": 0,
+        "minimum": 0,
+        "maximum": 1000,
+        "description": "0 skips replies. Replies are returned as rows with type reply and parentCommentId."
+      }
+    }
+  },
+  "contact": "m0f@mail.grokbot.com"
+}

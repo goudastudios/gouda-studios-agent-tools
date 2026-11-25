@@ -1,0 +1,310 @@
+{
+  "slug": "ats-jobs-scraper",
+  "name": "ATS Jobs Scraper",
+  "title": "ATS Jobs Scraper: Greenhouse, Lever, Ashby, Workday & More",
+  "actor": "gouda_studios/ats-jobs-scraper",
+  "apify": "https://apify.com/gouda_studios/ats-jobs-scraper",
+  "cat": "Jobs and hiring data",
+  "uses": [
+    "Job boards and newsletters pulling fresh openings from Greenhouse, Lever, Ashby, Workable, SmartRecruiters and Workday",
+    "Sales teams using hiring as a buying signal for target accounts",
+    "Recruiters and job seekers monitoring new roles at a company list every day",
+    "AI agents answering who is hiring for a role, with salaries and remote type"
+  ],
+  "inputs": [
+    {
+      "name": "companies",
+      "type": "array",
+      "title": "Companies",
+      "description": "One per line: a company board name (stripe, openai), a careers page URL (https://jobs.lever.co/palantir, https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite) or a company website (figma.com). The ATS is detected automatically.",
+      "default": null
+    },
+    {
+      "name": "keywords",
+      "type": "array",
+      "title": "Keywords (title or description)",
+      "description": "Keep only jobs whose title or description contains any of these words. Leave empty for all jobs.",
+      "default": null
+    },
+    {
+      "name": "titleKeywords",
+      "type": "array",
+      "title": "Title keywords",
+      "description": "Keep only jobs whose title contains any of these words, e.g. engineer, sales.",
+      "default": null
+    },
+    {
+      "name": "locations",
+      "type": "array",
+      "title": "Locations",
+      "description": "Keep only jobs whose location contains any of these, e.g. New York, Remote, Germany.",
+      "default": null
+    },
+    {
+      "name": "remoteOnly",
+      "type": "boolean",
+      "title": "Remote jobs only",
+      "description": "Keep only jobs marked remote.",
+      "default": false
+    },
+    {
+      "name": "postedWithinDays",
+      "type": "integer",
+      "title": "Posted within (days)",
+      "description": "Keep only jobs posted in the last N days. Great for daily new-job monitoring. Jobs without a date are kept.",
+      "default": null
+    },
+    {
+      "name": "withSalaryOnly",
+      "type": "boolean",
+      "title": "Only jobs with a salary",
+      "description": "Keep only jobs where a salary range was published or found in the description.",
+      "default": false
+    },
+    {
+      "name": "atsPlatforms",
+      "type": "array",
+      "title": "Limit to ATS platforms",
+      "description": "Optional. Only look on these platforms.",
+      "default": null
+    },
+    {
+      "name": "includeDescription",
+      "type": "boolean",
+      "title": "Include full job description",
+      "description": "Adds plain-text and HTML descriptions. Turn off for faster, smaller runs.",
+      "default": true
+    },
+    {
+      "name": "maxJobsPerCompany",
+      "type": "integer",
+      "title": "Max jobs per company",
+      "description": "Cap on jobs returned per company.",
+      "default": 1000
+    },
+    {
+      "name": "maxJobsTotal",
+      "type": "integer",
+      "title": "Max jobs total",
+      "description": "Stop after this many jobs across all companies. 0 means no limit.",
+      "default": 0
+    },
+    {
+      "name": "includeSummary",
+      "type": "boolean",
+      "title": "Add a free summary row per company",
+      "description": "One uncharged row per company with the detected ATS, board name and job count.",
+      "default": true
+    }
+  ],
+  "outputs": [
+    {
+      "name": "company",
+      "type": "",
+      "description": "Company"
+    },
+    {
+      "name": "title",
+      "type": "",
+      "description": "Title"
+    },
+    {
+      "name": "department",
+      "type": "",
+      "description": "Department"
+    },
+    {
+      "name": "location",
+      "type": "",
+      "description": "Location"
+    },
+    {
+      "name": "workplaceType",
+      "type": "",
+      "description": "WorkplaceType"
+    },
+    {
+      "name": "employmentType",
+      "type": "",
+      "description": "EmploymentType"
+    },
+    {
+      "name": "salaryMin",
+      "type": "",
+      "description": "SalaryMin"
+    },
+    {
+      "name": "salaryMax",
+      "type": "",
+      "description": "SalaryMax"
+    },
+    {
+      "name": "salaryCurrency",
+      "type": "",
+      "description": "SalaryCurrency"
+    },
+    {
+      "name": "postedAt",
+      "type": "",
+      "description": "PostedAt"
+    },
+    {
+      "name": "ats",
+      "type": "",
+      "description": "Ats"
+    },
+    {
+      "name": "url",
+      "type": "",
+      "description": "Url"
+    }
+  ],
+  "description": "Get every open job from company career sites on Greenhouse, Lever, Ashby, Workable, SmartRecruiters and Workday in one clean JSON schema. Give a company name, careers URL or website and the ATS is detected for you. Salaries, remote type, departments, full descriptions. $1 per 1,000 jobs, no proxy.",
+  "page": "https://gouda-studios-agent-tools.vercel.app/tools/ats-jobs-scraper/",
+  "pricing": {
+    "model": "pay-per-event",
+    "currency": "USD",
+    "platformUsageFee": false,
+    "events": [
+      {
+        "name": "apify-actor-start",
+        "price": 5e-05
+      },
+      {
+        "name": "job",
+        "price": 0.001,
+        "per": "job"
+      }
+    ]
+  },
+  "call": {
+    "apifyApi": {
+      "method": "POST",
+      "url": "https://api.apify.com/v2/acts/gouda_studios~ats-jobs-scraper/run-sync-get-dataset-items",
+      "auth": "Bearer APIFY_TOKEN or ?token=",
+      "body": "input JSON"
+    },
+    "mcp": {
+      "server": "https://mcp.apify.com",
+      "actor": "gouda_studios/ats-jobs-scraper"
+    },
+    "agenticPayments": [
+      "x402",
+      "Skyfire"
+    ]
+  },
+  "exampleInput": {
+    "companies": [
+      "stripe",
+      "openai"
+    ],
+    "titleKeywords": [
+      "engineer"
+    ],
+    "postedWithinDays": 30,
+    "maxJobsPerCompany": 200
+  },
+  "sampleOutput": {},
+  "inputSchema": {
+    "title": "ATS Jobs Scraper",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+      "companies": {
+        "title": "Companies",
+        "type": "array",
+        "editor": "stringList",
+        "description": "One per line: a company board name (stripe, openai), a careers page URL (https://jobs.lever.co/palantir, https://nvidia.wd5.myworkdayjobs.com/NVIDIAExternalCareerSite) or a company website (figma.com). The ATS is detected automatically.",
+        "prefill": [
+          "openai",
+          "stripe",
+          "https://jobs.lever.co/palantir"
+        ]
+      },
+      "keywords": {
+        "title": "Keywords (title or description)",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Keep only jobs whose title or description contains any of these words. Leave empty for all jobs."
+      },
+      "titleKeywords": {
+        "title": "Title keywords",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Keep only jobs whose title contains any of these words, e.g. engineer, sales."
+      },
+      "locations": {
+        "title": "Locations",
+        "type": "array",
+        "editor": "stringList",
+        "description": "Keep only jobs whose location contains any of these, e.g. New York, Remote, Germany."
+      },
+      "remoteOnly": {
+        "title": "Remote jobs only",
+        "type": "boolean",
+        "default": false,
+        "description": "Keep only jobs marked remote."
+      },
+      "postedWithinDays": {
+        "title": "Posted within (days)",
+        "type": "integer",
+        "minimum": 1,
+        "description": "Keep only jobs posted in the last N days. Great for daily new-job monitoring. Jobs without a date are kept."
+      },
+      "withSalaryOnly": {
+        "title": "Only jobs with a salary",
+        "type": "boolean",
+        "default": false,
+        "description": "Keep only jobs where a salary range was published or found in the description."
+      },
+      "atsPlatforms": {
+        "title": "Limit to ATS platforms",
+        "type": "array",
+        "editor": "select",
+        "items": {
+          "type": "string",
+          "enum": [
+            "greenhouse",
+            "lever",
+            "ashby",
+            "workable",
+            "smartrecruiters",
+            "workday"
+          ]
+        },
+        "description": "Optional. Only look on these platforms."
+      },
+      "includeDescription": {
+        "title": "Include full job description",
+        "type": "boolean",
+        "default": true,
+        "description": "Adds plain-text and HTML descriptions. Turn off for faster, smaller runs."
+      },
+      "maxJobsPerCompany": {
+        "title": "Max jobs per company",
+        "type": "integer",
+        "minimum": 1,
+        "maximum": 5000,
+        "default": 1000,
+        "description": "Cap on jobs returned per company."
+      },
+      "maxJobsTotal": {
+        "title": "Max jobs total",
+        "type": "integer",
+        "minimum": 0,
+        "default": 0,
+        "description": "Stop after this many jobs across all companies. 0 means no limit."
+      },
+      "includeSummary": {
+        "title": "Add a free summary row per company",
+        "type": "boolean",
+        "default": true,
+        "description": "One uncharged row per company with the detected ATS, board name and job count."
+      }
+    },
+    "required": [
+      "companies"
+    ]
+  },
+  "contact": "m0f@mail.grokbot.com"
+}
